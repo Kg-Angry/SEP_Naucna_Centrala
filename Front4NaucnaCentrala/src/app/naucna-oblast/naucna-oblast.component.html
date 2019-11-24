@@ -1,0 +1,25 @@
+<section id="reviews" class="reviews">
+  <div class="container">
+    <div class="row">
+      <div class="col-sm-6 text-left">
+        <h2 class="heading">Naucne oblasti</h2>
+      </div>
+    </div>
+<table class="table">
+  <thead>
+    <tr>
+      <th scope="col">#</th>
+      <th scope="col">Naziv</th>
+      <th scope="col">Opis</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr *ngFor="let oblast of Naucna_oblast" >
+      <th scope="row">{{oblast.id}}</th>
+      <td>{{oblast.naziv}}</td>
+      <td>{{oblast.opis}}</td>
+    </tr>
+  </tbody>
+</table>
+</div>
+</section>

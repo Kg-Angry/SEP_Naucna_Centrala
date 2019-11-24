@@ -1,0 +1,603 @@
+<div class="container">
+  <div class="row my-2">
+      <div class="col-lg-8 order-lg-2">
+          <ul class="nav nav-tabs">
+              <li class="nav-item">
+                  <a href="" data-target="#casopisi" data-toggle="tab" class="nav-link active">Naucni casopis</a>
+              </li>
+              <li class="nav-item">
+                  <a href="" data-target="#oblast" data-toggle="tab" class="nav-link">Naucna oblast</a>
+              </li>
+              <li class="nav-item">
+                <a href="" data-target="#radovi" data-toggle="tab" class="nav-link">Naucni radovi</a>
+              </li>
+              <li class="nav-item">
+                  <a href="" data-target="#edit" data-toggle="tab" class="nav-link">Izmena podataka</a>
+              </li>
+              <li class="nav-item">
+                <a href="" data-target="#korisnici" data-toggle="tab" class="nav-link">Svi korisnici</a>
+              </li>
+          </ul>
+          <div class="tab-content py-4">
+              <div class="tab-pane active" id="casopisi">
+                    <p>
+                      <button class="btn1 btn-green" data-toggle="collapse" data-target="#collapseExample" aria-expanded="false" aria-controls="collapseExample">
+                        Dodaj casopis
+                      </button>
+                    </p>
+                    <div class="collapse" id="collapseExample">
+                      <form (submit)="KreirajCasopis($event)">
+                        <div class="form-group">
+                          <label for="exampleInputEmail1">Naziv</label>
+                          <input type="text" class="form-control" name="naziv">
+                        </div>
+                        <div class="form-group">
+                          <label for="exampleInputEmail1">ISSN</label>
+                          <input type="text" class="form-control" name="issn">
+                        </div>
+                        <div class="form-group">
+                          <label for="exampleInputEmail1">Tip Casopisa: </label>
+                          <mat-form-field>
+                            <mat-label>Tip Casopisa: </mat-label>
+                            <mat-select [(ngModel)]="tipCasopisa" [ngModelOptions]="{standalone: true}">
+                              <mat-option value="SA_PRETPLATOM">SA_PRETPLATOM</mat-option>
+                              <mat-option value="OPEN_ACCESS">OPEN_ACCESS</mat-option>
+                            </mat-select>
+                          </mat-form-field>
+                        </div>
+                        <div class="form-group">
+                          <label for="exampleInputEmail1">Urednici: </label>
+                          <mat-form-field>
+                            <mat-label>Urednici: </mat-label>
+                            <mat-select [(ngModel)]="IzabraniUrednici" [ngModelOptions]="{standalone: true}" multiple>
+                              <mat-option *ngFor="let u of urednici" [value]="u">{{u.korisnicko_ime}}</mat-option>
+                            </mat-select>
+                          </mat-form-field>
+                        </div>
+                        <div class="form-group">
+                          <label for="exampleInputEmail1">Recenzenti: </label>
+                          <mat-form-field>
+                            <mat-label>Recenzenti: </mat-label>
+                            <mat-select [(ngModel)]="IzabraniRecenzenti" [ngModelOptions]="{standalone: true}" multiple>
+                              <mat-option *ngFor="let r of recenzenti" [value]="r">{{r.korisnicko_ime}}</mat-option>
+                            </mat-select>
+                          </mat-form-field>
+                        </div>
+                        <div class="form-group">
+                            <label for="exampleInputEmail1">Tipovi Placanja: </label>
+                            <mat-form-field>
+                              <mat-label>Tipovi placanja: </mat-label>
+                              <mat-select [(ngModel)]="IzabaniTipoviPlacanja" [ngModelOptions]="{standalone: true}" multiple>
+                                <mat-option value="PAYPAL">PAYPAL</mat-option>
+                                <mat-option value="BITCOIN">BITCOIN</mat-option>
+                                <mat-option value="BANKA">BANKA</mat-option>
+                              </mat-select>
+                            </mat-form-field>
+                          </div>
+                        <div class="form-group">
+                          <label for="exampleInputEmail1">Naucna Oblast: </label>
+                          <mat-form-field>
+                            <mat-label>Naucna Oblast: </mat-label>
+                            <mat-select [(ngModel)]="IzabranaNaucnaOblast" [ngModelOptions]="{standalone: true}" multiple>
+                              <mat-option *ngFor="let o of oblasti" [value]="o">{{o.naziv}}</mat-option>
+                            </mat-select>
+                          </mat-form-field>
+                        </div>
+                        <button type="submit" class="btn1 btn-green">Submit</button>
+                      </form>
+                    </div>
+                    <div class="collapse" id="collapseExample4">
+                      <form (submit)="IzmenaSelektovanogCasopisa($event)">
+                        <div class="form-group">
+                          <label for="exampleInputEmail1">Naziv</label>
+                          <input type="text" class="form-control" value="{{casopis_za_izmenu.naziv}}" name="IzmeniNaziv" disabled>
+                        </div>
+                        <div class="form-group">
+                          <label for="exampleInputEmail1">ISSN</label>
+                          <input type="text" class="form-control" value="{{casopis_za_izmenu.issn}}" name="IzmeniISSN">
+                        </div>
+                        <div class="form-group">
+                          <label for="exampleInputEmail1">Tip Casopisa: </label>
+                          <mat-form-field>
+                            <mat-label>Tip Casopisa: </mat-label>
+                            <mat-select [(ngModel)]="tipCasopisaIzmena" [ngModelOptions]="{standalone: true}">
+                              <mat-option value="SA_PRETPLATOM">SA_PRETPLATOM</mat-option>
+                              <mat-option value="OPEN_ACCESS">OPEN_ACCESS</mat-option>
+                            </mat-select>
+                          </mat-form-field>
+                        </div>
+                        <div class="form-group">
+                          <label for="exampleInputEmail1">Urednici: </label>
+                          <mat-form-field>
+                            <mat-label>Urednici: </mat-label>
+                            <mat-select [(ngModel)]="IzabraniUredniciIzmena" [ngModelOptions]="{standalone: true}" multiple>
+                              <mat-option *ngFor="let u1 of urednici" [value]="u1">{{u1.korisnicko_ime}}</mat-option>
+                            </mat-select>
+                          </mat-form-field>
+                        </div>
+                        <div class="form-group">
+                          <label for="exampleInputEmail1">Recenzenti: </label>
+                          <mat-form-field>
+                            <mat-label>Recenzenti: </mat-label>
+                            <mat-select [(ngModel)]="IzabraniRecenzentiIzmena" [ngModelOptions]="{standalone: true}" multiple>
+                              <mat-option *ngFor="let r of recenzenti" [value]="r">{{r.korisnicko_ime}}</mat-option>
+                            </mat-select>
+                          </mat-form-field>
+                        </div>
+                        <div class="form-group">
+                          <label for="exampleInputEmail1">Naucna Oblast: </label>
+                          <mat-form-field>
+                            <mat-label>Naucna Oblast: </mat-label>
+                            <mat-select [(ngModel)]="IzabranaNaucnaOblastIzmena" [ngModelOptions]="{standalone: true}" multiple>
+                              <mat-option *ngFor="let o1 of oblasti" [value]="o1">{{o1.naziv}}</mat-option>
+                            </mat-select>
+                          </mat-form-field>
+                        </div>
+                        <button type="submit" class="btn1 btn-green">Submit</button>
+                      </form>
+                    </div>
+                  <h5 class="mb-3">Naucni casopisi</h5>
+                  <table class="table">
+                    <thead>
+                      <tr>
+                        <th scope="col">#</th>
+                        <th scope="col">Naziv</th>
+                        <th scope="col">ISSN broj</th>
+                        <th scope="col">Tip casopisa</th>
+                        <th scope="col">Glavni urednik</th>
+                        <th scope="col">Naucna oblast</th>
+                        <th scope="col">Status</th>
+                        <th scope="col">Izmena</th>
+                        <th scope="col">Brisanje</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      <tr *ngFor="let c of casopisi" >
+                        <th scope="row">{{c.id}}</th>
+                        <td>{{c.naziv}}</td>
+                        <td>{{c.issn}}</td>
+                        <td>{{c.tipCasopisa}}</td>
+                        <td>{{c.glavni_urednik.korisnicko_ime}}</td>
+                        <td><tr *ngFor="let n of c.naucna_oblast"><td>{{n.naziv}}</td></tr></td>
+                        <td>{{c.status}}</td>
+                        <td><button class="btn1 btn-orange" data-toggle="collapse" data-target="#collapseExample4" aria-expanded="false" aria-controls="collapseExample" (click)="IzmeniCasopis(c)">Izmeni</button></td>
+                        <td><button class="btn1 btn-red" (click)="ObrisiCasopis(c.naziv)">Obrisi</button></td>
+                      </tr>
+                    </tbody>
+                  </table>
+              </div>
+              <div class="tab-pane" id="oblast">
+                  <p>
+                    <button class="btn1 btn-green" data-toggle="collapse" data-target="#collapseExample1" aria-expanded="false" aria-controls="collapseExample">
+                      Dodaj oblast
+                    </button>
+                  </p>
+                  <div class="collapse" id="collapseExample1">
+                    <form (submit)="KreirajOblast($event)">
+                      <div class="form-group">
+                        <label for="exampleInputEmail1">Naziv</label>
+                        <input type="email" class="form-control" name="naziv">
+                      </div>
+                      <div class="form-group">
+                        <label for="exampleInputPassword1">Opis</label>
+                        <textarea type="text" rows="3" class="form-control" name="opis"></textarea>
+                      </div>
+                      <button type="submit" class="btn1 btn-green">Submit</button>
+                    </form>
+                  </div>
+                  <h5 class="mb-3">Naucne oblasti</h5>
+                <table class="table">
+                  <thead>
+                    <tr>
+                      <th scope="col">#</th>
+                      <th scope="col">Naziv</th>
+                      <th scope="col">Opis</th>
+                      <th scope="col">Izmena</th>
+                      <th scope="col">Brisanje</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <tr *ngFor="let o of oblasti" >
+                      <th scope="row">{{o.id}}</th>
+                      <td>{{o.naziv}}</td>
+                      <td>{{o.opis}}</td>
+                      <td><button class="btn1 btn-orange" data-toggle="modal" data-target="#exampleModal" (click)="IzmeniOblast(o)">Izmeni</button></td>
+                      <td><button class="btn1 btn-red" (click)="ObrisiOblast(o.naziv)">Obrisi</button></td>
+                    </tr>
+                  </tbody>
+                </table>
+              </div>
+              <div class="tab-pane" id="radovi">
+                  <p>
+                      <button class="btn1 btn-green" data-toggle="collapse" data-target="#collapseExample2" aria-expanded="false" aria-controls="collapseExample">
+                        Dodaj rad
+                      </button>
+                    </p>
+                    <div class="collapse" id="collapseExample2">
+                      <form (submit)="KreirajRad($event)" enctype="multipart/form-data">
+                        <div class="form-group">
+                          <label for="exampleInputEmail1">Naziv</label>
+                          <input type="text" class="form-control" name="nazivRada">
+                        </div>
+                        <div class="form-group">
+                          <label for="exampleInputEmail1">Koautori: </label>
+                          <mat-form-field>
+                            <mat-label>Koautori: </mat-label>
+                            <mat-select [(ngModel)]="koAutori" [ngModelOptions]="{standalone: true}">
+                              <mat-option value="SA_PRETPLATOM">SA_PRETPLATOM</mat-option>
+                              <mat-option value="OPEN_ACCESS">OPEN_ACCESS</mat-option>
+                            </mat-select>
+                          </mat-form-field>
+                        </div>
+                        <div class="form-group">
+                          <label for="exampleInputEmail1">Kljucni pojmovi</label>
+                          <input type="text" class="form-control" name="kljucni_pojmovi">
+                        </div>
+                        <div class="form-group">
+                          <label for="exampleInputEmail1">Apstrakt</label>
+                          <textarea type="text" row="2" class="form-control" name="apstrakt"></textarea>
+                        </div>
+                        <div class="form-group">
+                          <label for="exampleInputEmail1">Naucna Oblast: </label>
+                          <mat-form-field>
+                            <mat-label>Naucna Oblast: </mat-label>
+                            <mat-select [(ngModel)]="IzabranaNaucnaOblastRada" [ngModelOptions]="{standalone: true}">
+                              <mat-option *ngFor="let o of oblasti" [value]="o">{{o.naziv}}</mat-option>
+                            </mat-select>
+                          </mat-form-field>
+                        </div>
+                        <div class="form-group">
+                          <label for="exampleInputEmail1">Naucni casopisi: </label>
+                          <mat-form-field>
+                            <mat-label>Naucni casopisi: </mat-label>
+                            <mat-select [(ngModel)]="IzabraniNaucniCasopis" [ngModelOptions]="{standalone: true}">
+                              <mat-option *ngFor="let c of casopisi" [value]="c">{{c.naziv}}</mat-option>
+                            </mat-select>
+                          </mat-form-field>
+                        </div>
+                        <div class="form-group">
+                          <label for="exampleInputEmail1">Upload fajl</label>
+                          <input type="file" class="form-control" (change)="SelectFile($event)">
+                        </div>
+                        <button type="submit" class="btn1 btn-green">Submit</button>
+                      </form>
+                    </div>
+                    <!--IZMENA RADA-->
+                    <div class="collapse" id="collapseExample5">
+                      <form (submit)="IzmeniPostojeciRad($event)">
+                        <div class="form-group">
+                          <label for="exampleInputEmail1">Naziv</label>
+                          <input type="text" class="form-control" name="nazivRadaIzmena" value="{{rad_za_izmenu.naslov}}" disabled>
+                        </div>
+                        <div class="form-group">
+                          <label for="exampleInputEmail1">Koautori: </label>
+                          <mat-form-field>
+                            <mat-label>Koautori: </mat-label>
+                            <mat-select [(ngModel)]="IzmenjeniKoAutori" [ngModelOptions]="{standalone: true}">
+                              <mat-option value="SA_PRETPLATOM">SA_PRETPLATOM</mat-option>
+                              <mat-option value="OPEN_ACCESS">OPEN_ACCESS</mat-option>
+                            </mat-select>
+                          </mat-form-field>
+                        </div>
+                        <div class="form-group">
+                          <label for="exampleInputEmail1">Kljucni pojmovi</label>
+                          <input type="text" class="form-control" value="{{rad_za_izmenu.kljucni_pojmovi}}" name="kljucni_pojmoviIzmena">
+                        </div>
+                        <div class="form-group">
+                          <label for="exampleInputEmail1">Apstrakt</label>
+                          <textarea type="text" row="2" class="form-control" value="{{rad_za_izmenu.apstrakt}}" name="apstraktIzmena"></textarea>
+                        </div>
+                        <div class="form-group">
+                          <label for="exampleInputEmail1">Naucna Oblast: </label>
+                          <mat-form-field>
+                            <mat-label>Naucna Oblast: </mat-label>
+                            <mat-select [(ngModel)]="IzmenjenaNaucnaOblastRada" [ngModelOptions]="{standalone: true}">
+                              <mat-option *ngFor="let o of oblasti" [value]="o">{{o.naziv}}</mat-option>
+                            </mat-select>
+                          </mat-form-field>
+                        </div>
+                        <div class="form-group">
+                          <label for="exampleInputEmail1">Upload fajl</label>
+                          <input type="file" class="form-control" name="fajl_upload">
+                        </div>
+                        <button type="submit" class="btn1 btn-green">Submit</button>
+                      </form>
+                    </div>
+                  <h5 class="mb-3">Naucni radovi</h5>
+                  <table class="table">
+                    <thead>
+                      <tr>
+                        <th scope="col">#</th>
+                        <th scope="col">Naslov</th>
+                        <th scope="col">KoAutori</th>
+                        <th scope="col">Kljucni pojmovi</th>
+                        <th scope="col">Apstrakt</th>
+                        <th scope="col">Oblast pripadanja</th>
+                        <th scope="col">Izmena</th>
+                        <th scope="col">Brisanje</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      <tr *ngFor="let r of radovi" >
+                        <th scope="row">{{r.id}}</th>
+                        <td>{{r.naslov}}</td>
+                        <td><tr *ngFor="let ko of r.koautor"><td>{{ko.ime}}</td></tr></td>
+                        <td>{{r.kljucni_pojmovi}}</td>
+                        <td>{{r.apstrakt}}</td>
+                        <td>{{r.oblast_pripadanja.naziv}}</td>
+                        <td><button class="btn1 btn-orange" data-toggle="collapse" data-target="#collapseExample5" aria-expanded="false" aria-controls="collapseExample" (click)="IzmeniRad(r)">Izmeni</button></td>
+                        <td><button class="btn1 btn-red" (click)="ObrisiRad(r.naslov)">Obrisi</button></td>
+                      </tr>
+                    </tbody>
+                  </table>
+                </div>
+              <div class="tab-pane" id="edit">
+                  <form (submit)="IzmenaPodataka($event)">
+                      <div class="form-group row">
+                          <label class="col-lg-3 col-form-label form-control-label">Ime</label>
+                          <div class="col-lg-9">
+                              <input class="form-control" type="text" name="IzmeniIme" value="{{korisnik.ime}}">
+                          </div>
+                      </div>
+                      <div class="form-group row">
+                          <label class="col-lg-3 col-form-label form-control-label">Prezime</label>
+                          <div class="col-lg-9">
+                              <input class="form-control" type="text" name="IzmeniPrezime" value="{{korisnik.prezime}}">
+                          </div>
+                      </div>
+                      <div class="form-group row">
+                        <label class="col-lg-3 col-form-label form-control-label">Grad</label>
+                        <div class="col-lg-9">
+                            <input class="form-control" type="text" name="IzmeniGrad" value="{{korisnik.grad}}">
+                        </div>
+                      </div>
+                      <div class="form-group row">
+                        <label class="col-lg-3 col-form-label form-control-label">Drzava</label>
+                        <div class="col-lg-9">
+                            <input class="form-control" type="text" name="IzmeniDrzavu" value="{{korisnik.drzava}}">
+                        </div>
+                      </div>
+                      <div class="form-group row">
+                        <label class="col-lg-3 col-form-label form-control-label">Titula</label>
+                        <div class="col-lg-9">
+                            <input class="form-control" type="text" name="IzmeniTitulu" value="{{korisnik.titula}}">
+                        </div>
+                      </div>
+                      <div class="form-group row">
+                          <label class="col-lg-3 col-form-label form-control-label">Email</label>
+                          <div class="col-lg-9">
+                              <input class="form-control" type="email" name="IzmeniEmail" value="{{korisnik.email}}">
+                          </div>
+                      </div>
+                      <div class="form-group row">
+                          <label class="col-lg-3 col-form-label form-control-label">Korisnicko ime</label>
+                          <div class="col-lg-9">
+                              <input class="form-control" type="text" name="korisnicko_ime_Izmeni" value="{{korisnik.korisnicko_ime}}" disabled>
+                          </div>
+                      </div>
+                      <div class="form-group row">
+                          <label class="col-lg-3 col-form-label form-control-label">Lozinka</label>
+                          <div class="col-lg-9">
+                              <input class="form-control" type="password" value="{{korisnik.lozinka}}" disabled>
+                          </div>
+                      </div>
+                      <div class="form-group row">
+                        <label class="col-lg-3 col-form-label form-control-label"></label>
+                        <div class="col-lg-9">
+                            <input type="button" class="btn1 btn-orange" data-toggle="modal" data-target="#exampleModal2" value="Promena lozinke">
+                        </div>
+                    </div>
+                      <div class="form-group row">
+                          <label class="col-lg-3 col-form-label form-control-label">Uloga</label>
+                          <div class="col-lg-9">
+                             <input class="form-control" type="text" value="{{korisnik.tipKorisnika}}" disabled>
+                          </div>
+                      </div>
+                      <div class="form-group row">
+                          <label class="col-lg-3 col-form-label form-control-label"></label>
+                          <div class="col-lg-9">
+                              <input type="reset" class="btn btn-secondary" value="Cancel">
+                              <input type="submit" class="btn btn-primary" value="Save Changes">
+                          </div>
+                      </div>
+                  </form>
+              </div>
+          <div class="tab-pane" id="korisnici">
+            <p>
+              <button class="btn1 btn-green" data-toggle="collapse" data-target="#collapseExample3" aria-expanded="false" aria-controls="collapseExample">
+                Dodaj korisnika
+              </button>
+            </p>
+            <div class="collapse" id="collapseExample3">
+              <form (submit)="DodavanjeKorisnikaAdmin($event)">
+                  <div class="form-group row">
+                    <label class="col-lg-3 col-form-label form-control-label">Ime</label>
+                    <div class="col-lg-9">
+                        <input class="form-control" type="text" name="ime">
+                    </div>
+                  </div>
+                  <div class="form-group row">
+                      <label class="col-lg-3 col-form-label form-control-label">Prezime</label>
+                      <div class="col-lg-9">
+                          <input class="form-control" type="text" name="prezime">
+                      </div>
+                  </div>
+                  <div class="form-group row">
+                    <label class="col-lg-3 col-form-label form-control-label">Grad</label>
+                    <div class="col-lg-9">
+                        <input class="form-control" type="text" name="grad">
+                    </div>
+                  </div>
+                  <div class="form-group row">
+                    <label class="col-lg-3 col-form-label form-control-label">Drzava</label>
+                    <div class="col-lg-9">
+                        <input class="form-control" type="text" name="drzava">
+                    </div>
+                  </div>
+                  <div class="form-group row">
+                    <label class="col-lg-3 col-form-label form-control-label">Titula</label>
+                    <div class="col-lg-9">
+                        <input class="form-control" type="text" name="titula">
+                    </div>
+                  </div>
+                  <div class="form-group row">
+                      <label class="col-lg-3 col-form-label form-control-label">Email</label>
+                      <div class="col-lg-9">
+                          <input class="form-control" type="email" name="email">
+                      </div>
+                  </div>
+                  <div class="form-group row">
+                      <label class="col-lg-3 col-form-label form-control-label">Korisnicko ime</label>
+                      <div class="col-lg-9">
+                          <input class="form-control" type="text" name="korisnicko_ime">
+                      </div>
+                  </div>
+                  <div class="form-group row">
+                      <label class="col-lg-3 col-form-label form-control-label">Lozinka</label>
+                      <div class="col-lg-9">
+                          <input class="form-control" type="password" name="lozinka">
+                      </div>
+                  </div>
+                  <div class="form-group row">
+                      <label class="col-lg-3 col-form-label form-control-label"></label>
+                      <div class="col-lg-9">
+                          <input type="submit" class="btn1 btn-green" value="Save Changes">
+                      </div>
+                  </div>
+              </form>
+            </div>
+          <h5 class="mb-3">Registrovani korisnici</h5>
+          <table class="table">
+            <thead>
+              <tr>
+                <th scope="col">#</th>
+                <th scope="col">Ime</th>
+                <th scope="col">Prezime</th>
+                <th scope="col">Grad</th>
+                <th scope="col">Drzava</th>
+                <th scope="col">Titula</th>
+                <th scope="col">Korisnicko ime</th>
+                <th scope="col">Uloga</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr *ngFor="let k of sviKorisnici">
+                <td>{{k.id}}</td>
+                <td>{{k.ime}}</td>
+                <td>{{k.prezime}}</td>
+                <td>{{k.grad}}</td>
+                <td>{{k.drzava}}</td>
+                <td>{{k.titula}}</td>
+                <td>{{k.korisnicko_ime}}</td>
+                <td>{{k.tipKorisnika}}</td>
+                <td><button class="btn1 btn-orange" data-toggle="modal" data-target="#exampleModal1" (click)="IzmeniKorisnika(k)">Izmeni</button></td>
+                <td><button class="btn1 btn-red" (click)="Obrisi(k.korisnicko_ime)">Obrisi</button></td>
+              </tr>
+            </tbody>
+          </table>
+          </div>
+      </div>
+      </div>
+      <div class="col-lg-4 order-lg-1 text-center">
+          <img src="/src/assets/img/avatar-01.jpg" class="mx-auto img-fluid img-circle d-block" alt="avatar">
+      </div>
+      <div class="col-lg-4 order-lg-1 text-center">
+        <button (click)="SignOut()" class="btn btn-green">SignOut</button>
+    </div>
+  </div>
+</div>
+<!-- Modal za izmenu naucne oblasti -->
+<div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLabel">Izmena naucne oblasti</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <form (submit)="IzmenaPodatakaOblasti($event)">
+          <div class="form-group">
+            <label for="exampleInputEmail1">Naziv</label>
+            <input type="text" class="form-control" name="naziv" value="{{oblast.naziv}}" disabled>
+          </div>
+          <div class="form-group">
+            <label for="exampleInputPassword1">Opis</label>
+            <textarea type="text" rows="2" class="form-control" name="opis" value="{{oblast.opis}}"></textarea>
+          </div>
+      <div class="modal-footer">
+        <button type="button" class="btn1 btn-orange" data-dismiss="modal">Close</button>
+        <button type="submit" class="btn1 btn-green">Submit</button>
+      </div>
+    </form>
+  </div>
+    </div>
+  </div>
+</div>
+<!-- Modal za izmenu uloge-->
+<div class="modal fade" id="exampleModal1" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLabel">Promena uloge korisnika</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <form (submit)="IzmenaUlogeKorisnika($event)">
+          <div class="form-group">
+            <label for="exampleInputEmail1">Korisnicko ime</label>
+            <input type="text" class="form-control" name="korisnicko_ime" value="{{kor.korisnicko_ime}}" disabled>
+          </div>
+          <div class="form-group">
+            <label for="exampleInputPassword1">Uloga</label>
+            <select [(ngModel)]="tipKorisnika" [ngModelOptions]="{standalone: true}">
+              <option value="UREDNIK">UREDNIK</option>
+              <option value="GLAVNI_UREDNIK">GLAVNI_UREDNIK</option>
+              <option value="RECENZENT">RECENZENT</option>
+              <option value="AUTOR">AUTOR</option>
+              <option value="KOAUTOR">KOAUTOR</option>
+              <option value="ADMINISTRATOR">ADMINISTRATOR</option>
+              <option value="OBICAN">OBICAN</option>
+            </select>
+          </div>
+      <div class="modal-footer">
+        <button type="button" class="btn1 btn-orange" data-dismiss="modal">Close</button>
+        <button type="submit" class="btn1 btn-green">Submit</button>
+      </div>
+    </form>
+  </div>
+    </div>
+  </div>
+</div>
+<!-- Modal za izmenu uloge-->
+<div class="modal fade" id="exampleModal2" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLabel">Promena uloge korisnika</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <form (submit)="PromenaLozinke($event)">
+          <div class="form-group">
+            <label for="exampleInputEmail1">Stara Lozinka</label>
+            <input type="password" class="form-control" name="stara_lozinka">
+          </div>
+          <div class="form-group">
+            <label for="exampleInputEmail1">Nova Lozinka</label>
+            <input type="password" class="form-control" name="nova_lozinka">
+          </div>
+      <div class="modal-footer">
+        <button type="button" class="btn1 btn-orange" data-dismiss="modal">Close</button>
+        <button type="submit" class="btn1 btn-green">Submit</button>
+      </div>
+    </form>
+  </div>
+    </div>
+  </div>
+</div>

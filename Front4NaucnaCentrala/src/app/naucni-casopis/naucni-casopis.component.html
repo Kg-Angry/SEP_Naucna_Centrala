@@ -1,0 +1,147 @@
+<div class="col-md-9 col-sm-9 col-xs-12">
+    <div class="shop-tab-area">
+      <div class="shop-tab-list">
+        <div class="shop-tab-pill pull-left">
+          <ul>
+            <li class="active" id="left"><a data-toggle="pill" href="#home"><i class="fa fa-th"></i><span>Grid</span></a>
+            </li>
+            <li><a data-toggle="pill" href="#menu1"><i class="fa fa-th-list"></i><span>List</span></a></li>
+          </ul>
+        </div>
+        <div class="shop-tab-pill pull-right">
+          <ul>
+            <li class="product-size-deatils">
+              <div class="show-label">
+                <label><i class="fa fa-sort-amount-asc"></i>Sort by : </label>
+                <select>
+                  <option value="position" selected="selected">Position</option>
+                  <option value="Name">Name</option>
+                  <option value="Price">Price</option>
+                </select>
+              </div>
+            </li>
+          </ul>
+        </div>
+      </div>
+      <div class="tab-content">
+        <div class="row tab-pane fade in active" id="home">
+          <div class="shop-single-product-area">
+            <div class="col-md-4 col-sm-6" *ngFor="let c of casopisi" >
+              <div class="single-banner">
+                <div class="product-wrapper">
+                  <a href="#" class="single-banner-image-wrapper">
+                    <img alt="" width="200px" height="200px" src="/src/assets/img/avatar-01.jpg">
+                  </a>
+                  <div class="product-description">
+                    <div class="functional-buttons">
+                      <a data-toggle="modal" data-target="#exampleModal" (click)="PlatiCasopis(c)" title="Add to Cart">
+                        <i class="fa fa-shopping-cart"></i>
+                      </a>
+                    </div>
+                  </div>
+                </div>
+                <div class="banner-bottom text-center">
+                  <div class="banner-bottom-title">
+                      <div class="banner-bottom-title">{{c.naziv}}</div>
+                    <a data-toggle="collapse" href="#collapseExample" aria-expanded="false" aria-controls="collapseExample">Lista naucnih radova</a>
+                  </div>
+                </div>
+                <div class="collapse" id="collapseExample">
+                    <table class="table">
+                        <thead>
+                          <tr>
+                            <th scope="col">#</th>
+                            <th scope="col">Naslov</th>
+                            <th scope="col">KoAutori</th>
+                            <th scope="col">Kljucni pojmovi</th>
+                            <th scope="col">Apstrakt</th>
+                            <th scope="col">Oblast pripadanja</th>
+                          </tr>
+                        </thead>
+                        <tbody>
+                          <tr *ngFor="let r of radovi">
+                            <th scope="row" *ngIf="c.id === r.naucni_casopis.id" >{{r.id}}</th>
+                            <td *ngIf="c.id === r.naucni_casopis.id">{{r.naslov}}</td>
+                            <td *ngIf="c.id === r.naucni_casopis.id"><tr *ngFor="let ko of r.koautor"><td>{{ko.ime}}</td></tr></td>
+                            <td *ngIf="c.id === r.naucni_casopis.id">{{r.kljucni_pojmovi}}</td>
+                            <td *ngIf="c.id === r.naucni_casopis.id">{{r.apstrakt}}</td>
+                            <td *ngIf="c.id === r.naucni_casopis.id">{{r.oblast_pripadanja.naziv}}</td>
+                          </tr>
+                        </tbody>
+                      </table>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div id="menu1" class="tab-pane fade">
+          <div class="row">
+            <div class="single-shop-product">
+              <div class="col-xs-12 col-sm-5 col-md-4">
+                <div class="left-item">
+                  <a href="single-product.html" title="East of eden">
+                    <img alt="" width="autp" height="auto" src="/src/assets/img/avatar-01.jpg">
+                  </a>
+                </div>
+              </div>
+              <div class="col-xs-12 col-sm-7 col-md-8">
+                <div class="deal-product-content">
+                  <h4>
+                    <a href="single-product.html" title="East of eden">East of eden</a>
+                  </h4>
+                  <p>Faded short sleeves t-shirt with high neckline. Soft and stretchy material for a comfortable fit.
+                    Accessorize with a straw hat and you're ready for summer!</p>
+                  <div class="availability">
+                    <span><a href="/">Add to cart</a></span>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="single-shop-product">
+              <div class="col-xs-12 col-sm-5 col-md-4">
+                <div class="left-item">
+                  <a href="single-product.html" title="People of the book">
+                    <img alt="" width="auto" height="auto" src="/src/assets/img/avatar-01.jpg">
+                  </a>
+                </div>
+              </div>
+              <div class="col-xs-12 col-sm-7 col-md-8">
+                <div class="deal-product-content">
+                  <h4>
+                    <a href="single-product.html" title="People of the book">People of the book</a>
+                  </h4>
+                  <p>Faded short sleeves t-shirt with high neckline. Soft and stretchy material for a comfortable fit.
+                    Accessorize with a straw hat and you're ready for summer!</p>
+                  <div class="availability">
+                    <span><a href="/">Add to cart</a></span>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <!-- Modal za placanje-->
+<div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="exampleModalLabel">Izaberite nacin placanja: </h5>
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+        <div class="modal-body">
+            <div class="form-group">
+              <label for="exampleInputEmail1"></label>
+              <input type="button" *ngFor="let t of CasopisPlati.tipoviPlacanja" (click)="IzabraoPlacanje(t)"  class="form-control" value="{{t}}" name="tip">
+            </div>
+        <div class="modal-footer">
+          <button type="button" class="btn1 btn-orange" data-dismiss="modal">Close</button>
+        </div>
+    </div>
+      </div>
+    </div>
+  </div>

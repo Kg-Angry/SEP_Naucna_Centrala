@@ -1,0 +1,77 @@
+<div id="wrapper" class="behind">
+  <header>
+    <div class="container">
+        <div class="col-md-6 col-sm-12 wow animated fadeInUp">
+          <div class="intro-book">
+            <img src="/src/assets/img/book1.png" alt="">
+          </div>
+        </div>
+        <div class="col-md-6 intro-text hidden-sm hidden-xs wow animated fadeInUp">
+          <h2 class="heading">Swiss Typography</h2>
+          <h4 class="subheading">Review of typefaces with examples.</h4>
+          <p>Our all time best selling book is now available in a revised and expanded second edition. Swiss Typography is the definitive guide to using type in visual communication, from the printed page to PC screen.</p>
+          <a href="#book" class="scrollto btn btn-white">About The Book</a>
+          <a href="#" class="btn btn-green">Purchase eBook <span class="price">$11.99</span></a>
+        </div>
+    </div>
+  </header>
+
+  <nav class="navbar navbar-default">
+    <div class="container">
+      <!-- Brand and toggle get grouped for better mobile display -->
+      <div class="navbar-header">
+        <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1">
+          <span class="sr-only">Toggle navigation</span>
+          <span class="icon-bar"></span>
+          <span class="icon-bar"></span>
+          <span class="icon-bar"></span>
+        </button>
+        <a class="navbar-brand" href="#"><img src="/src/assets/img/MyLogo.png" alt=""></a>
+      </div>
+
+      <!-- Collect the nav links, forms, and other content for toggling -->
+      <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+        <ul class="nav navbar-nav navbar-right main-nav">
+          <li><a href="/home" class="scrollto">Pocetna</a></li>
+          <li><a href="/scientific_journal" class="scrollto">Naucni casopis</a></li>
+          <li><a href="/scientific_area" class="scrollto">Naucna oblast</a></li>
+          <li><a href="/scientific_papers" class="scrollto">Naucni radovi</a></li>
+          <li><a href="/search" class="scrollto"><i class="fa fa-search"></i></a></li>
+          <li *ngIf="korisnik == null"><a href="/login" class="scrollto">Logovanje</a></li>
+          <li *ngIf="korisnik != null"><a href="/userProfile" class="scrollto">{{korisnik.korisnicko_ime}}</a></li>
+        </ul>
+      </div><!-- /.navbar-collapse -->
+    </div><!-- /.container-fluid -->
+  </nav>
+
+  <router-outlet></router-outlet>
+
+  <footer>
+    <div class="container">
+      <div class="row">
+        <div class="col-sm-6 text-left text-center-mobile">
+          <p class="copyright small muted"></p>
+        </div>
+        <div class="col-sm-6 text-right text-center-mobile">
+          <div class="social">
+            <a href="#" class="facebook"><i class="fa fa-facebook"></i></a>
+            <a href="#" class="twitter"><i class="fa fa-twitter"></i></a>
+            <a href="#" class="dribbble"><i class="fa fa-dribbble"></i></a>
+            <a href="#" class="vine"><i class="fa fa-vine"></i></a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </footer>
+
+  </div>
+
+  <div class="notification-box"><span>Sending...</span></div>
+  <div class="mobile-nav">
+    <ul class="menu">
+
+    </ul>
+  </div>
+
+
+
