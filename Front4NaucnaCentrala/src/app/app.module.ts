@@ -15,6 +15,8 @@ import {FormsModule} from '@angular/forms';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import {MatSelectModule} from '@angular/material/select';
 import { PretragaElasticComponent } from './pretraga-elastic/pretraga-elastic.component';
+import { UspesnoPlacanjeComponent } from './uspesno-placanje/uspesno-placanje.component';
+import { PaypalComponent } from './paypal/paypal.component';
 
 @NgModule({
   declarations: [
@@ -26,7 +28,9 @@ import { PretragaElasticComponent } from './pretraga-elastic/pretraga-elastic.co
     NaucnaOblastComponent,
     NaucniRadoviComponent,
     UserProfileComponent,
-    PretragaElasticComponent
+    PretragaElasticComponent,
+    UspesnoPlacanjeComponent,
+    PaypalComponent
   ],
   imports: [
     BrowserModule,

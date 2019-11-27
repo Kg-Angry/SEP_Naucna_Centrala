@@ -30,7 +30,8 @@
               <div class="single-banner">
                 <div class="product-wrapper">
                   <a href="#" class="single-banner-image-wrapper">
-                    <img alt="" width="200px" height="200px" src="/src/assets/img/avatar-01.jpg">
+                    <img alt="" width="200px" height="200px" src="/src/assets/img/casopis.png">
+                    <div class="price"><span>$</span>{{c.cena}}</div>
                   </a>
                   <div class="product-description">
                     <div class="functional-buttons">
@@ -43,10 +44,10 @@
                 <div class="banner-bottom text-center">
                   <div class="banner-bottom-title">
                       <div class="banner-bottom-title">{{c.naziv}}</div>
-                    <a data-toggle="collapse" href="#collapseExample" aria-expanded="false" aria-controls="collapseExample">Lista naucnih radova</a>
+                    <a data-toggle="collapse" href="#collapseExample{{c.id}}" aria-expanded="false" aria-controls="collapseExample">Lista naucnih radova</a>
                   </div>
                 </div>
-                <div class="collapse" id="collapseExample">
+                <div class="collapse" id="collapseExample{{c.id}}">
                     <table class="table">
                         <thead>
                           <tr>
@@ -76,45 +77,33 @@
         </div>
         <div id="menu1" class="tab-pane fade">
           <div class="row">
-            <div class="single-shop-product">
+            <div class="single-shop-product" *ngFor="let c of casopisi">
               <div class="col-xs-12 col-sm-5 col-md-4">
                 <div class="left-item">
                   <a href="single-product.html" title="East of eden">
-                    <img alt="" width="autp" height="auto" src="/src/assets/img/avatar-01.jpg">
+                    <img alt="" width="autp" height="auto" src="/src/assets/img/casopis.png">
                   </a>
                 </div>
               </div>
               <div class="col-xs-12 col-sm-7 col-md-8">
                 <div class="deal-product-content">
                   <h4>
-                    <a href="single-product.html" title="East of eden">East of eden</a>
+                    <a href="single-product.html" title="{{c.naziv}}">{{c.naziv}}</a>
                   </h4>
-                  <p>Faded short sleeves t-shirt with high neckline. Soft and stretchy material for a comfortable fit.
-                    Accessorize with a straw hat and you're ready for summer!</p>
-                  <div class="availability">
-                    <span><a href="/">Add to cart</a></span>
-                  </div>
-                </div>
-              </div>
-            </div>
-            <div class="single-shop-product">
-              <div class="col-xs-12 col-sm-5 col-md-4">
-                <div class="left-item">
-                  <a href="single-product.html" title="People of the book">
-                    <img alt="" width="auto" height="auto" src="/src/assets/img/avatar-01.jpg">
-                  </a>
-                </div>
-              </div>
-              <div class="col-xs-12 col-sm-7 col-md-8">
-                <div class="deal-product-content">
-                  <h4>
-                    <a href="single-product.html" title="People of the book">People of the book</a>
-                  </h4>
-                  <p>Faded short sleeves t-shirt with high neckline. Soft and stretchy material for a comfortable fit.
-                    Accessorize with a straw hat and you're ready for summer!</p>
-                  <div class="availability">
-                    <span><a href="/">Add to cart</a></span>
-                  </div>
+                  <h5>Naziv: {{c.naziv}}</h5>
+                  <h5>------------------</h5>
+                  <h5>ISSN: {{c.issn}}</h5>
+                  <h5>------------------</h5>
+                  <h5>Tip Casopisa: {{c.tipCasopisa}}</h5>
+                  <h5>------------------</h5>
+                  <h5>Glavni urednik: {{c.glavni_urednik.ime}}</h5>
+                  <h5>------------------</h5>
+                  <h5>Naucna oblast: <h6 *ngFor="let o of c.naucna_oblast">{{o.naziv}}</h6></h5>
+                  <h5>------------------</h5>
+                  <h5>Cena: {{c.cena}}$</h5>
+                  <h5>------------------</h5>
+                  <h5>Tip placanja: <h6 *ngFor="let tip of c.tipoviPlacanja">{{tip}}</h6></h5>
+                  <h5>------------------</h5>
                 </div>
               </div>
             </div>

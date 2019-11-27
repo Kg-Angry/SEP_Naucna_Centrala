@@ -16,13 +16,14 @@ public class Naucni_casopisDTO {
     private Set<KorisnikDTO> recenzent = new HashSet<>();
     private Set<Naucna_oblastDTO> naucna_oblast = new HashSet<>();
     private boolean status;
+    private Double cena;
 
     public Naucni_casopisDTO()
     {
 
     }
 
-    public Naucni_casopisDTO(Long id, String naziv, int issn, TipCasopisa tipCasopisa, Korisnik glavni_urednik, Set<Korisnik> urednici, Set<Korisnik> recenzent, Set<Naucna_oblast> naucna_oblast, boolean status, List<TipPlacanja> tipoviPlacanja) {
+    public Naucni_casopisDTO(Long id, String naziv, int issn, TipCasopisa tipCasopisa, Korisnik glavni_urednik, Set<Korisnik> urednici, Set<Korisnik> recenzent, Set<Naucna_oblast> naucna_oblast, boolean status, List<TipPlacanja> tipoviPlacanja, double cena) {
         this.id = id;
         this.naziv = naziv;
         this.issn = issn;
@@ -40,18 +41,18 @@ public class Naucni_casopisDTO {
         {
             this.naucna_oblast.add(new Naucna_oblastDTO(n));
         }
-       // System.out.println("Tipovi placanja: ");
+
         for(TipPlacanja p : tipoviPlacanja) {
-         //   System.out.println("Tip: "+ p.toString());
             this.tipoviPlacanja.add(p);
-           // System.out.println(this.tipoviPlacanja.size());
+
         }
         this.status = status;
+        this.cena=cena;
     }
 
     public Naucni_casopisDTO(Naucni_casopis nc)
     {
-        this(nc.getId(),nc.getNaziv(),nc.getIssn(),nc.getTipCasopisa(),nc.getGlavni_urednik(),nc.getUrednici(),nc.getRecenzent(),nc.getNaucna_oblast(),nc.isStatus(),nc.getTipoviPlacanja());
+        this(nc.getId(),nc.getNaziv(),nc.getIssn(),nc.getTipCasopisa(),nc.getGlavni_urednik(),nc.getUrednici(),nc.getRecenzent(),nc.getNaucna_oblast(),nc.isStatus(),nc.getTipoviPlacanja(),nc.getCena());
     }
 
     public Long getId() {
@@ -132,5 +133,13 @@ public class Naucni_casopisDTO {
 
     public void setTipoviPlacanja(List<TipPlacanja> tipoviPlacanja) {
         this.tipoviPlacanja = tipoviPlacanja;
+    }
+
+    public Double getCena() {
+        return cena;
+    }
+
+    public void setCena(Double cena) {
+        this.cena = cena;
     }
 }

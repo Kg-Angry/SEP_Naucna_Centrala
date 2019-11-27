@@ -12,4 +12,5 @@ export class NaucniCasopis {
   naucna_oblast: NaucnaOblast[];
   tipoviPlacanja: TipPlacanja[];
   status: boolean;
+  cena: number;
 }

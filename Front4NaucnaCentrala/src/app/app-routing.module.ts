@@ -1,3 +1,4 @@
+import { UspesnoPlacanjeComponent } from './uspesno-placanje/uspesno-placanje.component';
 import { PretragaElasticComponent } from './pretraga-elastic/pretraga-elastic.component';
 import { UserProfileComponent } from './user-profile/user-profile.component';
 import { NaucniRadoviComponent } from './naucni-radovi/naucni-radovi.component';
@@ -9,6 +10,7 @@ import { HomeComponent } from './home/home.component';
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { RouterModule, Routes } from '@angular/router';
+import { PaypalComponent } from './paypal/paypal.component';
 
 const appRoutes: Routes = [
   {path: '', redirectTo: '/home', pathMatch: 'full'},
@@ -20,6 +22,8 @@ const appRoutes: Routes = [
   {path: 'scientific_papers', component: NaucniRadoviComponent},
   {path: 'userProfile', component: UserProfileComponent},
   {path: 'search', component: PretragaElasticComponent},
+  {path: 'uspesnoPlacanje', component: UspesnoPlacanjeComponent},
+  {path: 'paypal', component: PaypalComponent},
 ];
 
 @NgModule({

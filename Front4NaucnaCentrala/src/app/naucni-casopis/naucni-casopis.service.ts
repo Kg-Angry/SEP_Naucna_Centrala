@@ -15,10 +15,23 @@ export class NaucniCasopisService {
   {
     const naziv = target.querySelector('input[name=\'naziv\']').value;
     const issn = target.querySelector('input[name=\'issn\']').value;
+    const cena = target.querySelector('input[name=\'cena\']').value;
+    if( cena < 0)
+    {
+      Swal.fire({
+        position: 'top-end',
+        icon: 'error',
+        title: 'Cena za casopis ne sme biti negativna',
+        showConfirmButton: false,
+        timer: 2500
+      });
+        this.homeService.getNaucniCasopisi();
+        timer(2500).subscribe(t => location.href = '/userProfile');
+    } else{
     console.log(IzabaniTipoviPlacanja);
     return this.http.post('api/naucni_casopis/kreirajCasopis', {naziv: naziv, issn: issn, tipCasopisa: tipCasopisa,
        tipoviPlacanja: IzabaniTipoviPlacanja,
-        glavni_urednik: Glavni_Korisnik, urednici: Urednici, recenzent: Recenzenti, naucna_oblast: IzabranaNaucnaOblast,}).
+        glavni_urednik: Glavni_Korisnik, urednici: Urednici, recenzent: Recenzenti, naucna_oblast: IzabranaNaucnaOblast, cena: cena}).
     subscribe(data => {
       Swal.fire({
         position: 'top-end',
@@ -31,6 +44,7 @@ export class NaucniCasopisService {
         timer(2500).subscribe(t => location.href = '/userProfile');
     });
   }
+}
 
   izmeniCasopis(target, tipCasopisa, Urednici, Recenzenti, Glavni_Korisnik, IzabranaNaucnaOblast) {
 
@@ -72,11 +86,19 @@ export class NaucniCasopisService {
   }
   preusmeriPayPal()
   {
-    location.href = "/paypal";
+    Swal.fire({
+      position: 'top-end',
+      icon: 'info',
+      title: 'Bicete preusmereni na stranicu za PayPal',
+      showConfirmButton: false,
+      timer: 2500
+    });
+      timer(2500).subscribe(t => location.href = '/paypal');
   }
-  preusmeriBitcoin()
+  preusmeriBitcoin(casopis, korisnik)
   {
-    return this.http.get('api1/bitcoin/startPayment', {responseType: 'text'})
+    return this.http.post('api1/bitcoin/startPayment',{cena: casopis.cena, korisnicko_ime_platioca: korisnik.korisnicko_ime
+    , lozinka_platioca: korisnik.lozinka, id_porudzbine: casopis.id, naziv_casopisa: casopis.naziv}, {responseType: 'text'})
     .subscribe((data: string) => {location.href = data});
   }
 }

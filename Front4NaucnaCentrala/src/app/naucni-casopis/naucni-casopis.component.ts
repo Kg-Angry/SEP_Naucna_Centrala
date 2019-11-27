@@ -3,6 +3,7 @@ import { TipPlacanja } from './../class/tip-placanja.enum';
 import { NaucniRad } from './../class/naucni-rad';
 import { NaucniCasopis } from './../class/naucni-casopis';
 import { Component, OnInit } from '@angular/core';
+import {Korisnik} from './../class/korisnik';
 
 @Component({
   selector: 'app-naucni-casopis',
@@ -14,6 +15,8 @@ export class NaucniCasopisComponent implements OnInit {
   casopisi: NaucniCasopis[] = JSON.parse(localStorage.getItem('casopisi'));
   radovi: NaucniRad[] = JSON.parse(localStorage.getItem('radovi'));
   CasopisPlati: NaucniCasopis = new NaucniCasopis();
+  korisnik: Korisnik = JSON.parse(localStorage.getItem('korisnik'));
+  tipCasopisa = TipPlacanja;
 
   constructor( private casopisService: NaucniCasopisService) { }
 
@@ -34,7 +37,7 @@ export class NaucniCasopisComponent implements OnInit {
       this.casopisService.preusmeriPayPal();
     } else if(t === 'BITCOIN')
     {
-      this.casopisService.preusmeriBitcoin();
+      this.casopisService.preusmeriBitcoin(this.CasopisPlati,this.korisnik);
     }
   }
 

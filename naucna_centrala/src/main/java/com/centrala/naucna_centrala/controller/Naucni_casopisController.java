@@ -43,7 +43,7 @@ public class Naucni_casopisController {
                 ncDTO.add(new Naucni_casopisDTO(n));
             } else {
 
-                System.out.println("GRESKA!!!");
+                return new ResponseEntity<>(HttpStatus.NOT_FOUND);
             }
         }
 
@@ -101,17 +101,14 @@ public class Naucni_casopisController {
             naucni_casopis.setNaucna_oblast(naucna_oblast);
             if(ncDTO.getTipoviPlacanja() != null) {
                 for (TipPlacanja tip : ncDTO.getTipoviPlacanja()) {
-                    System.out.println("Placanja" + tip);
                     t.add(tip);
                 }
             }
             naucni_casopis.setTipoviPlacanja(t);
-
+            naucni_casopis.setCena(ncDTO.getCena());
             naucni_casopis.setStatus(false);
 
             naucni_casopis = ncs.save(naucni_casopis);
-
-            System.out.println("AAAAAA" + naucni_casopis.getTipoviPlacanja());
 
             return new ResponseEntity<>(HttpStatus.OK);
         }else
@@ -157,11 +154,8 @@ public class Naucni_casopisController {
             }
             nc.setNaucna_oblast(naucna_oblast);
 
-            for(TipPlacanja p  : ncDTO.getTipoviPlacanja())
-                System.out.println("Placanje: " + p.toString());
-
-
-                nc.setTipoviPlacanja(ncDTO.getTipoviPlacanja());
+            nc.setTipoviPlacanja(ncDTO.getTipoviPlacanja());
+            nc.setCena(ncDTO.getCena());
             ncs.save(nc);
             return new ResponseEntity<>(HttpStatus.OK);
         }else

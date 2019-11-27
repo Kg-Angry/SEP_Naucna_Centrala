@@ -1,4 +1,11 @@
 {
+  "/api2/*":
+  {
+    "target":"http://localhost:8082",
+    "secure": false,
+    "logLevel": "debug",
+    "changeOrigin": true
+  },
   "/api1/*":
   {
     "target":"http://localhost:8081",

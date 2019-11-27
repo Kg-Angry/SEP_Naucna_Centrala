@@ -60,10 +60,13 @@ public class Naucni_casopis {
     @Column(name = "status",nullable = false, length = 255)
     private boolean status;
 
+    @Column(name="cena",nullable = false,length = 255)
+    private Double cena;
+
     public Naucni_casopis() {
     }
 
-    public Naucni_casopis(String naziv, int issn, TipCasopisa tipCasopisa, List<TipPlacanja> tipoviPlacanja, Korisnik glavni_urednik, Set<Korisnik> urednici, Set<Korisnik> recenzent, Set<Naucna_oblast> naucna_oblast, boolean status) {
+    public Naucni_casopis(String naziv, int issn, TipCasopisa tipCasopisa, List<TipPlacanja> tipoviPlacanja, Korisnik glavni_urednik, Set<Korisnik> urednici, Set<Korisnik> recenzent, Set<Naucna_oblast> naucna_oblast, boolean status, double cena) {
         this.naziv = naziv;
         this.issn = issn;
         this.tipCasopisa = tipCasopisa;
@@ -73,6 +76,7 @@ public class Naucni_casopis {
         this.recenzent = recenzent;
         this.naucna_oblast = naucna_oblast;
         this.status = status;
+        this.cena = cena;
     }
 
     public Long getId() {
@@ -153,5 +157,13 @@ public class Naucni_casopis {
 
     public void setStatus(boolean status) {
         this.status = status;
+    }
+
+    public Double getCena() {
+        return cena;
+    }
+
+    public void setCena(Double cena) {
+        this.cena = cena;
     }
 }
