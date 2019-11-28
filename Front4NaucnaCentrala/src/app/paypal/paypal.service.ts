@@ -14,6 +14,6 @@ export class PaypalService {
     const client_id = target.querySelector('input[name=\'client_id\']').value;
 
     console.log('Client secret ' + client_secret + 'client_id ' + client_id);
-    //return this.http.post('',{}).subscribe();
+    return this.http.post('api2/',{}).subscribe();
   }
 }

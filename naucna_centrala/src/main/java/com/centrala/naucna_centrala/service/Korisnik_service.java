@@ -7,6 +7,7 @@ import org.springframework.transaction.annotation.Transactional;
 import com.centrala.naucna_centrala.repository.Korisnik_repository;
 
 import java.util.List;
+import java.util.Optional;
 
 @Service
 @Transactional
@@ -15,7 +16,7 @@ public class Korisnik_service {
     @Autowired
     private Korisnik_repository kr;
 
-    public Korisnik findOne(Long id)
+    public Korisnik findId(Long id)
     {
         return kr.getOne(id);
     }

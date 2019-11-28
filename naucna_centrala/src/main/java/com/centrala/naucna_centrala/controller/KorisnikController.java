@@ -6,11 +6,12 @@ import com.centrala.naucna_centrala.service.Korisnik_service;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.web.bind.annotation.*;
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
-
+import com.centrala.naucna_centrala.Security.AES256bit;
 
 @RestController
 @RequestMapping(value = "api/korisnik")
@@ -22,7 +23,8 @@ public class KorisnikController {
     @RequestMapping(method = RequestMethod.POST, consumes = "application/json", value = "/registracijaKorisnika")
     public ResponseEntity<Void> registracijaKorisnika(@RequestBody KorisnikDTO korisnik)
     {
-
+        //BCrypt passworda korisnika - problem nije moguce obrnuto enkodovanje
+        BCryptPasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
         Korisnik k = new Korisnik();
         k.setIme(korisnik.getIme());
         k.setPrezime(korisnik.getPrezime());
@@ -30,7 +32,8 @@ public class KorisnikController {
         k.setDrzava(korisnik.getDrzava());
         k.setTitula(korisnik.getTitula());
         k.setEmail(korisnik.getEmail());
-        k.setKorisnickoIme(korisnik.getKorisnicko_ime());
+        k.setKorisnickoIme(AES256bit.encrypt(korisnik.getKorisnicko_ime(),AES256bit.secretKey));
+        //k.setLozinka(passwordEncoder.encode(korisnik.getLozinka()));
         k.setLozinka(korisnik.getLozinka());
         k.setTipKorisnika(korisnik.getTipKorisnika());
         k.setAktiviran_nalog(false);
@@ -46,13 +49,16 @@ public class KorisnikController {
     public ResponseEntity<?> logovanjeKorisnika(@RequestBody KorisnikDTO k)
     {
         List<Korisnik> nadjen = korisnik_service.findAll();
-
+        BCryptPasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
         //obratiti paznju da se nalog mora aktivirati
         for(Korisnik kor : nadjen)
         {
             if(kor.getKorisnickoIme().equals(k.getKorisnicko_ime()) && kor.getLozinka().equals(k.getLozinka())) {
                 return new ResponseEntity<>(new KorisnikDTO(kor),HttpStatus.OK);
             }
+            /*if(AES256bit.encrypt(kor.getKorisnickoIme(),AES256bit.secretKey).equals(k.getKorisnicko_ime()) && kor.getLozinka().equals(k.getLozinka())) {
+                return new ResponseEntity<>(new KorisnikDTO(kor),HttpStatus.OK);
+            }*/
         }
 
         return new ResponseEntity<>(HttpStatus.UNAUTHORIZED);
