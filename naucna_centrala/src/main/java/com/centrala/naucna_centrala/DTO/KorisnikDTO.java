@@ -1,8 +1,10 @@
 package com.centrala.naucna_centrala.DTO;
 
+import com.centrala.naucna_centrala.Security.AES256bit;
 import com.centrala.naucna_centrala.model.Korisnik;
 import com.centrala.naucna_centrala.model.Naucni_casopis;
 import com.centrala.naucna_centrala.model.TipKorisnika;
+import sun.security.krb5.internal.crypto.Aes256;
 
 import java.util.HashSet;
 import java.util.Set;

@@ -14,6 +14,7 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
 import org.springframework.http.client.HttpComponentsClientHttpRequestFactory;
 import org.springframework.orm.jpa.support.OpenEntityManagerInViewFilter;
+import org.springframework.scheduling.annotation.AsyncConfigurer;
 import org.springframework.scheduling.annotation.EnableAsync;
 import org.springframework.security.config.annotation.method.configuration.EnableGlobalMethodSecurity;
 import org.springframework.transaction.annotation.EnableTransactionManagement;
@@ -30,8 +31,8 @@ import java.security.cert.X509Certificate;
 @SpringBootApplication
 @EnableAsync
 @EnableTransactionManagement
-@EnableGlobalMethodSecurity(securedEnabled = true, prePostEnabled = true, jsr250Enabled = true)
-public class NaucnaCentralaApplication {
+//@EnableGlobalMethodSecurity(securedEnabled = true, prePostEnabled = true, jsr250Enabled = true)
+public class NaucnaCentralaApplication implements AsyncConfigurer {
 
     @Bean
     public RestTemplate restTemplate()

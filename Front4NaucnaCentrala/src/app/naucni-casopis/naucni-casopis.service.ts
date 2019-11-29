@@ -97,7 +97,7 @@ export class NaucniCasopisService {
   }
   preusmeriBitcoin(casopis, korisnik)
   {
-    return this.http.post('api1/bitcoin/startPayment',{cena: casopis.cena, korisnicko_ime_platioca: korisnik.korisnicko_ime
+    return this.http.post('api1/kp/bitcoin-api', {cena: casopis.cena, korisnicko_ime_platioca: korisnik.korisnicko_ime
     , lozinka_platioca: korisnik.lozinka, id_porudzbine: casopis.id, naziv_casopisa: casopis.naziv}, {responseType: 'text'})
     .subscribe((data: string) => {location.href = data});
   }

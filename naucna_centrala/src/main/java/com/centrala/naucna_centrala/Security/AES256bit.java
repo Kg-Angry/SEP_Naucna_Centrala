@@ -1,11 +1,14 @@
 package com.centrala.naucna_centrala.Security;
 
-import javax.crypto.Cipher;
-import javax.crypto.SecretKey;
-import javax.crypto.SecretKeyFactory;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+
+import javax.crypto.*;
 import javax.crypto.spec.IvParameterSpec;
 import javax.crypto.spec.PBEKeySpec;
 import javax.crypto.spec.SecretKeySpec;
+import java.io.UnsupportedEncodingException;
+import java.security.InvalidAlgorithmParameterException;
+import java.security.NoSuchAlgorithmException;
 import java.security.spec.KeySpec;
 import java.util.Base64;
 
@@ -57,4 +60,23 @@ public class AES256bit {
         }
         return null;
     }
+
+    //kriptovanje korisnickog imena
+    /*public static void main(String[] args) throws NoSuchPaddingException, NoSuchAlgorithmException, InvalidAlgorithmParameterException, BadPaddingException, IllegalBlockSizeException, UnsupportedEncodingException {
+		String email = "admin";
+		String encryptedString = AES256bit.encrypt(email, secretKey);
+		System.out.println("kriptovan string:\t" + encryptedString);
+        String decryptedString = AES256bit.decrypt(encryptedString, secretKey);
+        System.out.println("Dekriptovan string:\t" + decryptedString);
+    }*/
+
+    //hesiranje lozinke
+    /*public static void main(String[] args) throws NoSuchPaddingException, NoSuchAlgorithmException, InvalidAlgorithmParameterException, BadPaddingException, IllegalBlockSizeException, UnsupportedEncodingException {
+        String lozinka = "admin";
+        System.out.println("Lozinka:\t" + lozinka);
+        BCryptPasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
+        String hash = passwordEncoder.encode(lozinka);
+        System.out.println("Hesirana lozinka:\t" + hash);
+
+    }*/
 }

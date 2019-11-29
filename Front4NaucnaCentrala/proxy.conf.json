@@ -8,7 +8,7 @@
   },
   "/api1/*":
   {
-    "target":"http://localhost:8081",
+    "target":"https://localhost:8762/koncentrator-placanja",
     "secure": false,
     "logLevel": "debug",
     "changeOrigin": true
