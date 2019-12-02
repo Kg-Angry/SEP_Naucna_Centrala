@@ -3,6 +3,7 @@ package com.centrala.naucna_centrala.controller;
 import com.centrala.naucna_centrala.DTO.KorisnikDTO;
 import com.centrala.naucna_centrala.DTO.Naucna_oblastDTO;
 import com.centrala.naucna_centrala.DTO.Naucni_casopisDTO;
+import com.centrala.naucna_centrala.Security.AES256bit;
 import com.centrala.naucna_centrala.model.Korisnik;
 import com.centrala.naucna_centrala.model.Naucna_oblast;
 import com.centrala.naucna_centrala.model.Naucni_casopis;
@@ -40,6 +41,7 @@ public class Naucni_casopisController {
         for(Naucni_casopis n : nc)
         {
             if(n != null) {
+                n.getGlavni_urednik().setKorisnickoIme(AES256bit.decrypt(n.getGlavni_urednik().getKorisnickoIme(),AES256bit.secretKey));
                 ncDTO.add(new Naucni_casopisDTO(n));
             } else {
 
@@ -65,7 +67,8 @@ public class Naucni_casopisController {
             naucni_casopis.setNaziv(ncDTO.getNaziv());
             naucni_casopis.setIssn(ncDTO.getIssn());
             naucni_casopis.setTipCasopisa(ncDTO.getTipCasopisa());
-            Korisnik k = ks.findByKorisnicko_ime(ncDTO.getGlavni_urednik().getKorisnicko_ime());
+            //System.out.println("Korisnik ime: " + ncDTO.getGlavni_urednik().getKorisnicko_ime());
+            Korisnik k = ks.findByKorisnicko_ime(AES256bit.encrypt(ncDTO.getGlavni_urednik().getKorisnicko_ime(),AES256bit.secretKey));
 
             if(k != null)
             {
@@ -75,7 +78,7 @@ public class Naucni_casopisController {
             for(KorisnikDTO k1 : ncDTO.getUrednici())
             {
 
-                Korisnik k2 = ks.findByKorisnicko_ime(k1.getKorisnicko_ime());
+                Korisnik k2 = ks.findByKorisnicko_ime(AES256bit.encrypt(k1.getKorisnicko_ime(),AES256bit.secretKey));
 
                 if( k2 != null)
                     urednici.add(k2);
@@ -84,7 +87,7 @@ public class Naucni_casopisController {
 
             for(KorisnikDTO k1 : ncDTO.getRecenzent())
             {
-                Korisnik k2 = ks.findByKorisnicko_ime(k1.getKorisnicko_ime());
+                Korisnik k2 = ks.findByKorisnicko_ime(AES256bit.encrypt(k1.getKorisnicko_ime(),AES256bit.secretKey));
                 if( k2 != null)
                     recenzenti.add(k2);
             }
@@ -129,7 +132,7 @@ public class Naucni_casopisController {
 
             for(KorisnikDTO korisnikDTO : ncDTO.getUrednici())
             {
-                Korisnik kor = ks.findByKorisnicko_ime(korisnikDTO.getKorisnicko_ime());
+                Korisnik kor = ks.findByKorisnicko_ime(AES256bit.encrypt(korisnikDTO.getKorisnicko_ime(),AES256bit.secretKey));
                 if( kor != null)
                     urednici.add(kor);
 
@@ -138,7 +141,7 @@ public class Naucni_casopisController {
 
             for(KorisnikDTO k1 : ncDTO.getRecenzent())
             {
-                Korisnik k2 = ks.findByKorisnicko_ime(k1.getKorisnicko_ime());
+                Korisnik k2 = ks.findByKorisnicko_ime(AES256bit.encrypt(k1.getKorisnicko_ime(),AES256bit.secretKey));
                 if( k2 != null)
                     recenzenti.add(k2);
             }

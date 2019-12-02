@@ -84,16 +84,17 @@ export class NaucniCasopisService {
   {
     location.href = "/banka";
   }
-  preusmeriPayPal()
-  {
-    Swal.fire({
+  preusmeriPayPal() {
+    return this.http.post('api3/paypal/startPayment', {}, {responseType: 'text'})
+    .subscribe((data: string) => { Swal.fire({
       position: 'top-end',
       icon: 'info',
       title: 'Bicete preusmereni na stranicu za PayPal',
       showConfirmButton: false,
       timer: 2500
     });
-      timer(2500).subscribe(t => location.href = '/paypal');
+      timer(2500).subscribe(t => location.href = data);
+    });
   }
   preusmeriBitcoin(casopis, korisnik)
   {

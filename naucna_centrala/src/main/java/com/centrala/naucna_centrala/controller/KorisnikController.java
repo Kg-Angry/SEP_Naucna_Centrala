@@ -4,6 +4,8 @@ import com.centrala.naucna_centrala.DTO.KorisnikDTO;
 import com.centrala.naucna_centrala.model.Korisnik;
 import com.centrala.naucna_centrala.service.EmailService;
 import com.centrala.naucna_centrala.service.Korisnik_service;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
@@ -34,6 +36,8 @@ public class KorisnikController {
     @Autowired
     private EmailService emailService;
 
+    private static final Logger logger = LoggerFactory.getLogger(KorisnikController.class);
+
     @RequestMapping(method = RequestMethod.POST, consumes = "application/json", value = "/registracijaKorisnika")
     public ResponseEntity<Void> registracijaKorisnika(@RequestBody KorisnikDTO korisnik){// throws InvalidAlgorithmParameterException, InterruptedException, UnsupportedEncodingException, IllegalBlockSizeException, BadPaddingException, NoSuchAlgorithmException, NoSuchPaddingException, InvalidKeyException {
         int broj = proveraCestihLozinki(korisnik.getLozinka());
@@ -58,7 +62,7 @@ public class KorisnikController {
             k.setRecenzenti(new HashSet<>());
             emailService.sendMailAktivacijaKorisnickogNaloga(k);
             korisnik_service.save(k);
-
+            logger.info("\n\t\tKorisnik " + korisnik.getKorisnicko_ime() + " se registrovao na sistem naucne centrale.\n");
             return new ResponseEntity<>(HttpStatus.CREATED);
         }
             return new ResponseEntity<>(HttpStatus.ALREADY_REPORTED);
@@ -75,10 +79,11 @@ public class KorisnikController {
         //obratiti paznju da se nalog mora aktivirati
             if(AES256bit.decrypt(kor.getKorisnickoIme(),AES256bit.secretKey).equals(k.getKorisnicko_ime()) && passwordEncoder.matches(k.getLozinka(), kor.getLozinka()) && kor.isAktiviran_nalog()) {
                 kor.setKorisnickoIme(AES256bit.decrypt(kor.getKorisnickoIme(),AES256bit.secretKey));
+                logger.info("\n\t\tKorisnik " + kor.getEmail() + " se upravo ulogovao na sistem naucne centrale.\n");
                 return new ResponseEntity<>(new KorisnikDTO(kor),HttpStatus.OK);
             }
         }
-
+        logger.info("\n\t\tNeuspesno logovanje na sistem naucne centrale.\n");
         return new ResponseEntity<>(HttpStatus.UNAUTHORIZED);
 
     }
@@ -92,6 +97,7 @@ public class KorisnikController {
 
         for(Korisnik k : korisnici)
         {
+            k.setKorisnickoIme(AES256bit.decrypt(k.getKorisnickoIme(),AES256bit.secretKey));
             korisniciDTO.add(new KorisnikDTO(k));
         }
         if(!korisniciDTO.isEmpty())
@@ -110,20 +116,22 @@ public class KorisnikController {
         k.setTipKorisnika(korisnik.getTipKorisnika());
 
         korisnik_service.save(k);
-
+        logger.info("\n\t\tKorisniku " + korisnik.getKorisnicko_ime() + " je promenjena uloga na sistemu naucne centrale.\n");
         return new ResponseEntity<>(HttpStatus.OK);
     }
 
     @RequestMapping(value="/brisanjeKorisnika/{username}", method = RequestMethod.DELETE)
     public ResponseEntity<Void> obrisiKorisnika(@PathVariable String username)
     {
-        Korisnik k = korisnik_service.findByKorisnicko_ime(username);
+        Korisnik k = korisnik_service.findByKorisnicko_ime(AES256bit.encrypt(username,AES256bit.secretKey));
 
-        System.out.println("Username: " + k.getKorisnickoIme());
+        //System.out.println("Username: " + k.getKorisnickoIme());
         if(k != null) {
             korisnik_service.remove(username);
+            logger.info("\n\t\tKorisnik " + username + " je obrisan sa sistema naucne centrale.\n");
             return new ResponseEntity<>(HttpStatus.OK);
         }else
+            logger.info("\n\t\tNeuspelo brisanje korisnika sa sistema naucne centrale.\n");
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
 
     }
@@ -131,7 +139,7 @@ public class KorisnikController {
     @RequestMapping(method = RequestMethod.PUT, value="/izmeniPodatkeOKorisniku")
     public ResponseEntity<?> izmeniPodatkeOKorisniku(@RequestBody KorisnikDTO kDTO)
     {
-        Korisnik k = korisnik_service.findByKorisnicko_ime(kDTO.getKorisnicko_ime());
+        Korisnik k = korisnik_service.findByKorisnicko_ime(AES256bit.encrypt(kDTO.getKorisnicko_ime(),AES256bit.secretKey));
 
         if(k != null)
         {
@@ -143,7 +151,8 @@ public class KorisnikController {
             k.setEmail(kDTO.getEmail());
 
             korisnik_service.save(k);
-
+            k.setKorisnickoIme(AES256bit.decrypt(k.getKorisnickoIme(),AES256bit.secretKey));
+            logger.info("\n\t\tKorisnik " + k.getKorisnickoIme() + " je upravo izmenio podatke o profilu na sistem naucne centrale.\n");
             return new ResponseEntity<>(new KorisnikDTO(k),HttpStatus.ACCEPTED);
         }else
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
@@ -152,19 +161,22 @@ public class KorisnikController {
     @RequestMapping(method = RequestMethod.PUT, value = "/promenaLozinke")
     public ResponseEntity<?> promeniLozinku(@RequestBody KorisnikDTO k)
     {
-        Korisnik korisnik = korisnik_service.findByKorisnicko_ime(k.getKorisnicko_ime());
+        Korisnik korisnik = korisnik_service.findByKorisnicko_ime(AES256bit.encrypt(k.getKorisnicko_ime(),AES256bit.secretKey));
+        BCryptPasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
 
         if(korisnik != null)
         {
             System.out.println("Lozinka");
-            if(korisnik.getLozinka().equals(k.getLozinka()))
+            if(passwordEncoder.matches(k.getLozinka(), korisnik.getLozinka()))
             {
                 //ovde sam setovao novi password kroz EMAIL sam ga provukao
-                korisnik.setLozinka(k.getEmail());
+                korisnik.setLozinka(passwordEncoder.encode(k.getEmail()));
                 korisnik_service.save(korisnik);
+                logger.info("\n\t\tKorisnik " + k.getKorisnicko_ime() + " je uspesno promenio lozinku na svom nalogu.\n");
                 return new ResponseEntity<>(HttpStatus.OK);
             }
         }
+        logger.info("\n\t\tNeuspesna promena lozinke u sistemu naucne centrale.\n");
         return new ResponseEntity<>(HttpStatus.NOT_FOUND);
     }
 
@@ -207,8 +219,10 @@ public class KorisnikController {
         {
             korisnik.setAktiviran_nalog(true);
             korisnik_service.save(korisnik);
+            logger.info("\n\t\tKorisnik " + korisnicko_ime + " je potvrdio aktivaciju svog naloga.\n");
             return new ResponseEntity<>(HttpStatus.OK);
         }
+        logger.info("\n\t\tKorisnik nije potvrdio aktivaciju svog naloga.\n");
         return new ResponseEntity<>(HttpStatus.NOT_FOUND);
     }
 }

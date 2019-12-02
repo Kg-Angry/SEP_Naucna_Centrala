@@ -1,5 +1,7 @@
-import { HttpClient } from '@angular/common/http';
+import Swal from 'sweetalert2';
+import { HttpClient, HttpParams } from '@angular/common/http';
 import { Injectable } from '@angular/core';
+import { timer } from 'rxjs';
 
 @Injectable({
   providedIn: 'root'
@@ -8,12 +10,16 @@ export class PaypalService {
 
   constructor(private http: HttpClient) { }
 
-  slanjePodataka(target)
-  {
-    const client_secret = target.querySelector('input[name=\'client_secret\']').value;
-    const client_id = target.querySelector('input[name=\'client_id\']').value;
-
-    console.log('Client secret ' + client_secret + 'client_id ' + client_id);
-    return this.http.post('api2/',{}).subscribe();
+  slanjePodataka(target, payID, token, payerID) {
+    return this.http.post('api3/paypal/completePayment', {paymentId: payID, payerID: payerID})
+    .subscribe(data => { Swal.fire({
+      position: 'top-end',
+      icon: 'success',
+      title: 'Uspesno ste platili za PayPal',
+      showConfirmButton: false,
+      timer: 2500
+    });
+      timer(2500).subscribe(t => location.href = '/home');
+    });
   }
 }
