@@ -7,7 +7,6 @@ import com.centrala.naucna_centrala.Security.AES256bit;
 import com.centrala.naucna_centrala.model.Korisnik;
 import com.centrala.naucna_centrala.model.Naucna_oblast;
 import com.centrala.naucna_centrala.model.Naucni_casopis;
-import com.centrala.naucna_centrala.model.TipPlacanja;
 import com.centrala.naucna_centrala.service.Korisnik_service;
 import com.centrala.naucna_centrala.service.Naucna_oblast_service;
 import com.centrala.naucna_centrala.service.Naucni_casopis_service;
@@ -59,7 +58,7 @@ public class Naucni_casopisController {
         Set<Korisnik> urednici = new HashSet<>();
         Set<Korisnik> recenzenti = new HashSet<>();
         Set<Naucna_oblast> naucna_oblast = new HashSet<>();
-        List<TipPlacanja> t = new ArrayList<>();
+
 
         if(nc == null)
         {
@@ -67,7 +66,7 @@ public class Naucni_casopisController {
             naucni_casopis.setNaziv(ncDTO.getNaziv());
             naucni_casopis.setIssn(ncDTO.getIssn());
             naucni_casopis.setTipCasopisa(ncDTO.getTipCasopisa());
-            //System.out.println("Korisnik ime: " + ncDTO.getGlavni_urednik().getKorisnicko_ime());
+            System.out.println("Korisnik ime: " + ncDTO.getGlavni_urednik().getKorisnicko_ime());
             Korisnik k = ks.findByKorisnicko_ime(AES256bit.encrypt(ncDTO.getGlavni_urednik().getKorisnicko_ime(),AES256bit.secretKey));
 
             if(k != null)
@@ -102,12 +101,7 @@ public class Naucni_casopisController {
 
             }
             naucni_casopis.setNaucna_oblast(naucna_oblast);
-            if(ncDTO.getTipoviPlacanja() != null) {
-                for (TipPlacanja tip : ncDTO.getTipoviPlacanja()) {
-                    t.add(tip);
-                }
-            }
-            naucni_casopis.setTipoviPlacanja(t);
+
             naucni_casopis.setCena(ncDTO.getCena());
             naucni_casopis.setStatus(false);
 
@@ -157,7 +151,6 @@ public class Naucni_casopisController {
             }
             nc.setNaucna_oblast(naucna_oblast);
 
-            nc.setTipoviPlacanja(ncDTO.getTipoviPlacanja());
             nc.setCena(ncDTO.getCena());
             ncs.save(nc);
             return new ResponseEntity<>(HttpStatus.OK);

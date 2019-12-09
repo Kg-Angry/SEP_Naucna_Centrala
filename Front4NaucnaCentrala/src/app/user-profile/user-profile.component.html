@@ -72,9 +72,7 @@
                             <mat-form-field>
                               <mat-label>Tipovi placanja: </mat-label>
                               <mat-select [(ngModel)]="IzabaniTipoviPlacanja" [ngModelOptions]="{standalone: true}" multiple>
-                                <mat-option value="PAYPAL">PAYPAL</mat-option>
-                                <mat-option value="BITCOIN">BITCOIN</mat-option>
-                                <mat-option value="BANKA">BANKA</mat-option>
+                                <mat-option *ngFor="let tip of TipoviPlacanja" value="{{tip.naziv}}">{{tip.naziv}}</mat-option>
                               </mat-select>
                             </mat-form-field>
                           </div>

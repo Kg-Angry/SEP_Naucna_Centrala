@@ -16,7 +16,7 @@ export class NaucniCasopisService {
     const naziv = target.querySelector('input[name=\'naziv\']').value;
     const issn = target.querySelector('input[name=\'issn\']').value;
     const cena = target.querySelector('input[name=\'cena\']').value;
-    if( cena < 0)
+    if(cena < 0)
     {
       Swal.fire({
         position: 'top-end',
@@ -42,6 +42,8 @@ export class NaucniCasopisService {
       });
         this.homeService.getNaucniCasopisi();
         timer(2500).subscribe(t => location.href = '/userProfile');
+        return this.http.post('api1/tipPlacanja/tip', {naziv: naziv, tipoviPlacanja: IzabaniTipoviPlacanja})
+        .subscribe(data1 => {this.getTipoviPlacanjaZaSveCasopise();});
     });
   }
 }
@@ -101,5 +103,15 @@ export class NaucniCasopisService {
     return this.http.post('api1/kp/bitcoin-api', {cena: casopis.cena, korisnicko_ime_platioca: korisnik.korisnicko_ime
     , lozinka_platioca: korisnik.lozinka, id_porudzbine: casopis.id, naziv_casopisa: casopis.naziv}, {responseType: 'text'})
     .subscribe((data: string) => {location.href = data});
+  }
+
+  getTipoviPlacanja()
+  {
+    return this.http.get('api1/tipPlacanja/sviTipovi').subscribe(data => localStorage.setItem('tipoviPlacanja', JSON.stringify(data)));
+  }
+
+  getTipoviPlacanjaZaSveCasopise() {
+    return this.http.get('api1/tipPlacanja/tipoviPlacanjaZaSveCasopise').subscribe(
+      data2 => localStorage.setItem('tipoviPlacanjaCasopisa', JSON.stringify(data2)));
   }
 }

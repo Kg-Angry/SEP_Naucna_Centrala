@@ -1,4 +1,4 @@
-import { TipPlacanja } from './tip-placanja.enum';
+import { Placanje } from './placanje.enum';
 import { NaucnaOblast } from './naucna-oblast';
 import { Korisnik } from './korisnik';
 export class NaucniCasopis {
@@ -10,7 +10,8 @@ export class NaucniCasopis {
   urednici: Korisnik[];
   recenzenti: Korisnik[];
   naucna_oblast: NaucnaOblast[];
-  tipoviPlacanja: TipPlacanja[];
+  tipPlacanja: String[] = [];
+  tipoviPlacanja: Placanje[];
   status: boolean;
   cena: number;
 }

@@ -1,4 +1,5 @@
-import { TipPlacanja } from './../class/tip-placanja.enum';
+import { Placanje } from './../class/placanje.enum';
+import { TipPlacanja } from 'src/app/class/tip-placanja';
 import { RegistrationService } from './../registration/registration.service';
 import { NaucniRadoviService } from './../naucni-radovi/naucni-radovi.service';
 import { NaucniCasopisService } from './../naucni-casopis/naucni-casopis.service';
@@ -51,12 +52,15 @@ export class UserProfileComponent implements OnInit {
   rad_za_izmenu: NaucniRad = new NaucniRad();
   selectUploadFile: File = null;
   IzabraniNaucniCasopis: NaucniCasopis = new NaucniCasopis();
-  IzabaniTipoviPlacanja: TipPlacanja[] = [];
+  IzabaniTipoviPlacanja: Placanje[] = [];
+  TipoviPlacanja: TipPlacanja[] = JSON.parse(localStorage.getItem('tipoviPlacanja'));
+
 
   constructor(private userService: UserProfileService, private noService: NaucnaOblastService, private ncService: NaucniCasopisService
     , private nrService: NaucniRadoviService, private regService: RegistrationService) { }
 
   ngOnInit() {
+    this.korisnik = JSON.parse(localStorage.getItem('korisnik'));
     this.userService.getAllUsers();
 
     for (let i = 0; i < this.sviKorisnici.length; i++)   {
@@ -171,7 +175,7 @@ export class UserProfileComponent implements OnInit {
   {
     event.preventDefault();
     const target = event.target;
-
+    console.log('Korisnicko Ime: ' + this.korisnik.korisnicko_ime);
     this.ncService.kreirajCasopis(target, this.tipCasopisa, this.IzabraniUrednici,
        this.IzabraniRecenzenti, this.korisnik, this.IzabranaNaucnaOblast, this.IzabaniTipoviPlacanja);
   }
