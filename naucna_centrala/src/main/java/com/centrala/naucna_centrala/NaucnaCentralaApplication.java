@@ -31,7 +31,7 @@ import java.security.cert.X509Certificate;
 @SpringBootApplication
 @EnableAsync
 @EnableTransactionManagement
-//@EnableGlobalMethodSecurity(securedEnabled = true, prePostEnabled = true, jsr250Enabled = true)
+@EnableGlobalMethodSecurity(securedEnabled = true, prePostEnabled = true, jsr250Enabled = true)
 public class NaucnaCentralaApplication implements AsyncConfigurer {
 
     @Bean

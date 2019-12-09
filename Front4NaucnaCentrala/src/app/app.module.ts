@@ -17,6 +17,7 @@ import {MatSelectModule} from '@angular/material/select';
 import { PretragaElasticComponent } from './pretraga-elastic/pretraga-elastic.component';
 import { UspesnoPlacanjeComponent } from './uspesno-placanje/uspesno-placanje.component';
 import { PaypalComponent } from './paypal/paypal.component';
+import { NeuspesnoPlacanjeComponent } from './neuspesno-placanje/neuspesno-placanje.component';
 
 @NgModule({
   declarations: [
@@ -30,7 +31,8 @@ import { PaypalComponent } from './paypal/paypal.component';
     UserProfileComponent,
     PretragaElasticComponent,
     UspesnoPlacanjeComponent,
-    PaypalComponent
+    PaypalComponent,
+    NeuspesnoPlacanjeComponent
   ],
   imports: [
     BrowserModule,

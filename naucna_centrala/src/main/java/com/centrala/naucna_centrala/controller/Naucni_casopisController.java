@@ -10,6 +10,8 @@ import com.centrala.naucna_centrala.model.Naucni_casopis;
 import com.centrala.naucna_centrala.service.Korisnik_service;
 import com.centrala.naucna_centrala.service.Naucna_oblast_service;
 import com.centrala.naucna_centrala.service.Naucni_casopis_service;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -31,6 +33,8 @@ public class Naucni_casopisController {
     @Autowired
     private Korisnik_service ks;
 
+    private static final Logger logger = LoggerFactory.getLogger(Naucni_casopisController.class);
+
     @RequestMapping(method = RequestMethod.GET, value = "/sviCasopisi")
     public ResponseEntity<List<Naucni_casopisDTO>> svi_casopisi()
     {
@@ -43,7 +47,6 @@ public class Naucni_casopisController {
                 n.getGlavni_urednik().setKorisnickoIme(AES256bit.decrypt(n.getGlavni_urednik().getKorisnickoIme(),AES256bit.secretKey));
                 ncDTO.add(new Naucni_casopisDTO(n));
             } else {
-
                 return new ResponseEntity<>(HttpStatus.NOT_FOUND);
             }
         }
@@ -106,10 +109,11 @@ public class Naucni_casopisController {
             naucni_casopis.setStatus(false);
 
             naucni_casopis = ncs.save(naucni_casopis);
-
+            logger.info("\n\t\tKreiran je casopis "+ naucni_casopis.getNaziv()+", a kreirao ga je "+ naucni_casopis.getGlavni_urednik().getKorisnickoIme() +" na sistem naucne centrale.\n");
             return new ResponseEntity<>(HttpStatus.OK);
         }else
-            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        {logger.info("\n\t\tCasopis nije uspesno kreiran ili vec postoji u bazi!!!.\n");
+        return new ResponseEntity<>(HttpStatus.NOT_FOUND);}
     }
 
     @RequestMapping(method = RequestMethod.PUT, value="/izmeniCasopis")
@@ -153,9 +157,11 @@ public class Naucni_casopisController {
 
             nc.setCena(ncDTO.getCena());
             ncs.save(nc);
+            logger.info("\n\t\tCasopis "+ nc.getNaziv() +", izmenjen od strane "+ nc.getGlavni_urednik().getKorisnickoIme()+".\n");
             return new ResponseEntity<>(HttpStatus.OK);
         }else
-            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        {logger.info("\n\t\tCasopis nije uspesno izmenjen.\n");
+        return new ResponseEntity<>(HttpStatus.NOT_FOUND);}
     }
 
     @RequestMapping(method = RequestMethod.DELETE, value = "/obrisiCasopis/{naziv}")
@@ -166,8 +172,10 @@ public class Naucni_casopisController {
         if(nc != null)
         {
             ncs.remove(naziv);
+            logger.info("\n\t\tCasopis "+ nc.getNaziv() +" je uspesno obrisan.\n");
             return new ResponseEntity<>(HttpStatus.OK);
         }else
-            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        {logger.info("\n\t\tCasopis nije uspesno obrisan.\n");
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);}
     }
 }

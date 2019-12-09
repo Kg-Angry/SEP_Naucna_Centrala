@@ -86,8 +86,9 @@ export class NaucniCasopisService {
   {
     location.href = "/banka";
   }
-  preusmeriPayPal() {
-    return this.http.post('api3/paypal/startPayment', {}, {responseType: 'text'})
+  preusmeriPayPal(casopis, korisnik) {
+    return this.http.post('api1/kp/paypal-api', {cena: casopis.cena, korisnicko_ime_platioca: korisnik.korisnicko_ime
+      , lozinka_platioca: korisnik.lozinka, id_porudzbine: casopis.id, naziv_casopisa: casopis.naziv}, {responseType: 'text'})
     .subscribe((data: string) => { Swal.fire({
       position: 'top-end',
       icon: 'info',
@@ -102,11 +103,18 @@ export class NaucniCasopisService {
   {
     return this.http.post('api1/kp/bitcoin-api', {cena: casopis.cena, korisnicko_ime_platioca: korisnik.korisnicko_ime
     , lozinka_platioca: korisnik.lozinka, id_porudzbine: casopis.id, naziv_casopisa: casopis.naziv}, {responseType: 'text'})
-    .subscribe((data: string) => {location.href = data});
+    .subscribe((data: string) => { Swal.fire({
+      position: 'top-end',
+      icon: 'info',
+      title: 'Bicete preusmereni na stranicu za Bitcoin',
+      showConfirmButton: false,
+      timer: 2500
+    });
+      timer(2500).subscribe(t => location.href = data);
+    });
   }
 
-  getTipoviPlacanja()
-  {
+  getTipoviPlacanja() {
     return this.http.get('api1/tipPlacanja/sviTipovi').subscribe(data => localStorage.setItem('tipoviPlacanja', JSON.stringify(data)));
   }
 

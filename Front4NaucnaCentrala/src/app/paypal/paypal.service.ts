@@ -11,7 +11,7 @@ export class PaypalService {
   constructor(private http: HttpClient) { }
 
   slanjePodataka(target, payID, token, payerID) {
-    return this.http.post('api3/paypal/completePayment', {paymentId: payID, payerID: payerID})
+    return this.http.post('api1/kp/paypal-api', {paymentId: payID, payerID: payerID})
     .subscribe(data => { Swal.fire({
       position: 'top-end',
       icon: 'success',

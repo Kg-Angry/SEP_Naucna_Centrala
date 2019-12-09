@@ -1,3 +1,4 @@
+import { NeuspesnoPlacanjeComponent } from './neuspesno-placanje/neuspesno-placanje.component';
 import { UspesnoPlacanjeComponent } from './uspesno-placanje/uspesno-placanje.component';
 import { PretragaElasticComponent } from './pretraga-elastic/pretraga-elastic.component';
 import { UserProfileComponent } from './user-profile/user-profile.component';
@@ -23,6 +24,7 @@ const appRoutes: Routes = [
   {path: 'userProfile', component: UserProfileComponent},
   {path: 'search', component: PretragaElasticComponent},
   {path: 'uspesnoPlacanje', component: UspesnoPlacanjeComponent},
+  {path: 'neuspesnoPlacanje', component: NeuspesnoPlacanjeComponent},
   {path: 'paypal', component: PaypalComponent},
 ];
 

@@ -7,6 +7,7 @@ import com.centrala.naucna_centrala.service.Korisnik_service;
 import com.centrala.naucna_centrala.service.Naucna_oblast_service;
 import com.centrala.naucna_centrala.service.Naucni_casopis_service;
 import com.centrala.naucna_centrala.service.Naucni_rad_service;
+import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -21,7 +22,6 @@ import java.io.IOException;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.*;
-import java.util.logging.Logger;
 
 @RestController
 @RequestMapping(value = "api/naucni_rad")
@@ -38,6 +38,7 @@ public class Naucni_radController {
     @Autowired
     ServletContext context;
 
+    private static final Logger logger = LoggerFactory.getLogger(Naucni_radController.class);
 
     @RequestMapping(method = RequestMethod.POST, value="/kreiraj")
     public ResponseEntity<?> kreirajRad(@RequestBody Naucni_radDTO rad)
@@ -67,10 +68,12 @@ public class Naucni_radController {
             naucni_rad.setPutanja_upload_fajla(rad.getPutanja_upload_fajla());
 
             nrs.save(naucni_rad);
-
+            logger.info("\n\t\tKreiran je naucni rad "+ naucni_rad.getNaslov()+" u sistem naucne centrale.\n");
             return new ResponseEntity<>(HttpStatus.CREATED);
-        }else
+        }else {
+            logger.info("\n\t\tNije uspesno kreiran rad.\n");
             return new ResponseEntity<>(HttpStatus.FOUND);
+        }
     }
 
     @RequestMapping(method = RequestMethod.POST, value="/uploadFile/{naslov}")
@@ -92,13 +95,15 @@ public class Naucni_radController {
                 File dest = new File(filePath);
                 file.transferTo(dest);
                 nrs.save(nr);
+                logger.info("\n\t\tUspesno je upload-ovan PDF fajl "+ orgName +" u naucni rad u sistem naucne centrale.\n");
                 return new ResponseEntity<>(HttpStatus.CREATED);
             }catch (IOException e)
-            {
+            { logger.info("\n\t\tProblem sa upload pdf fajla.\n");
                 System.out.println(e.getMessage());
             }
 
     }
+        logger.info("\n\t\tNije moguce dodati pdf fajl u naucni casopis.\n");
         return new ResponseEntity<>(HttpStatus.FOUND);
     }
 
@@ -136,9 +141,10 @@ public class Naucni_radController {
             nr.setPutanja_upload_fajla(nrDTO.getPutanja_upload_fajla());
 
             nrs.save(nr);
+            logger.info("\n\t\tNaucni rad"+nr.getNaslov()+" je uspesno izmenjen.\n");
             return new ResponseEntity<>(HttpStatus.OK);
         }
-
+        logger.info("\n\t\tNaucni rad nije uspesno izmenjen!\n");
         return new ResponseEntity<>(HttpStatus.NOT_FOUND);
     }
 
@@ -149,8 +155,10 @@ public class Naucni_radController {
         if(nr != null)
         {
             nrs.remove(naziv);
+            logger.info("\n\t\tUspesno je obrisan "+ nr.getNaslov() +" naucni rad.\n");
             return new ResponseEntity<>(HttpStatus.OK);
         }
+        logger.info("\n\t\tNije uspesno obrisan"+ naziv +" naucni rad.\n");
         return new ResponseEntity<>(HttpStatus.NOT_FOUND);
     }
 }

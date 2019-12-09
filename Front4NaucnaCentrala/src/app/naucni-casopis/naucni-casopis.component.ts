@@ -37,15 +37,12 @@ export class NaucniCasopisComponent implements OnInit {
 
   }
   IzabraoPlacanje(t) {
-    if(t === 'BANKA')
-    {
+    if(t === 'BANKA') {
       this.casopisService.preusmeriBanka();
-    } else if(t === 'PAYPAL')
-    {
-      this.casopisService.preusmeriPayPal();
-    } else if(t === 'BITCOIN')
-    {
-      this.casopisService.preusmeriBitcoin(this.CasopisPlati,this.korisnik);
+    } else if(t === 'PAYPAL') {
+      this.casopisService.preusmeriPayPal(this.CasopisPlati, this.korisnik);
+    } else if(t === 'BITCOIN') {
+      this.casopisService.preusmeriBitcoin(this.CasopisPlati, this.korisnik);
     }
   }
 
