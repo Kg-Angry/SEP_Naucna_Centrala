@@ -1,6 +1,7 @@
+import { UspesnoPlacanjeService } from './../uspesno-placanje/uspesno-placanje.service';
 import { PaypalService } from './paypal.service';
 import { Component, OnInit } from '@angular/core';
-import { Router } from '@angular/router';
+import { Router, ActivatedRoute } from '@angular/router';
 
 @Component({
   selector: 'app-paypal',
@@ -9,17 +10,18 @@ import { Router } from '@angular/router';
 })
 export class PaypalComponent implements OnInit {
 
+  orderId: String;
   request: String[] = [];
   payID: String;
   token: String;
   payerID: String;
 
-  constructor(private paypalService: PaypalService, private router: Router) { }
+  constructor(private paypalService: PaypalService, private router: Router,
+         private route: ActivatedRoute,private uspesnoService: UspesnoPlacanjeService) { }
 
   ngOnInit() {
-    //console.log("Trenutna putanja: " + this.router.url);
+
     let args = this.router.url.split('?');
-    //console.log("Argument: " + args[1]);
     let splitovanje = args[1].split('&');
     for(let i=0;i<splitovanje.length;i++)
     {
@@ -38,6 +40,8 @@ export class PaypalComponent implements OnInit {
     const target = event.target;
 
     this.paypalService.slanjePodataka(target, this.payID, this.token, this.payerID);
+    this.orderId = this.route.snapshot.paramMap.get('orderId');
+      this.uspesnoService.izmenaStatusa(this.orderId);
   }
 
 }

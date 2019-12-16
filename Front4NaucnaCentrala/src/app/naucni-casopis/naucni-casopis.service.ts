@@ -84,7 +84,7 @@ export class NaucniCasopisService {
 
   preusmeriBanka()
   {
-    location.href = "/banka";
+    location.href = '/banka';
   }
   preusmeriPayPal(casopis, korisnik) {
     return this.http.post('api1/kp/paypal-api', {cena: casopis.cena, korisnicko_ime_platioca: korisnik.korisnicko_ime
@@ -99,8 +99,7 @@ export class NaucniCasopisService {
       timer(2500).subscribe(t => location.href = data);
     });
   }
-  preusmeriBitcoin(casopis, korisnik)
-  {
+  preusmeriBitcoin(casopis, korisnik){
     return this.http.post('api1/kp/bitcoin-api', {cena: casopis.cena, korisnicko_ime_platioca: korisnik.korisnicko_ime
     , lozinka_platioca: korisnik.lozinka, id_porudzbine: casopis.id, naziv_casopisa: casopis.naziv}, {responseType: 'text'})
     .subscribe((data: string) => { Swal.fire({

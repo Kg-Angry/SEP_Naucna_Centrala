@@ -10,6 +10,11 @@ export class PaypalService {
 
   constructor(private http: HttpClient) { }
 
+  izmenaPodataka()
+  {
+    return this.http.post('api1/kp/izmenjenStatusTransakcije', {}).subscribe(data => {});
+  }
+
   slanjePodataka(target, payID, token, payerID) {
     return this.http.post('api1/kp/paypal-api', {paymentId: payID, payerID: payerID})
     .subscribe(data => { Swal.fire({
@@ -19,6 +24,7 @@ export class PaypalService {
       showConfirmButton: false,
       timer: 2500
     });
+
       timer(2500).subscribe(t => location.href = '/home');
     });
   }

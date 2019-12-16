@@ -1,4 +1,6 @@
+import { NeuspesnoPlacanjeService } from './neuspesno-placanje.service';
 import { timer } from 'rxjs';
+import { ActivatedRoute } from '@angular/router';
 import { Component, OnInit } from '@angular/core';
 import Swal from 'sweetalert2';
 
@@ -9,9 +11,12 @@ import Swal from 'sweetalert2';
 })
 export class NeuspesnoPlacanjeComponent implements OnInit {
 
-  constructor() { }
+  orderId: String;
+  constructor(private route: ActivatedRoute, private neuspesnoService: NeuspesnoPlacanjeService) { }
 
   ngOnInit() {
+    this.orderId = this.route.snapshot.paramMap.get('orderId');
+    this.neuspesnoService.izmenaStatusa(this.orderId);
     Swal.fire({
       position: 'top-end',
       icon: 'error',

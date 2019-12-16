@@ -23,9 +23,9 @@ const appRoutes: Routes = [
   {path: 'scientific_papers', component: NaucniRadoviComponent},
   {path: 'userProfile', component: UserProfileComponent},
   {path: 'search', component: PretragaElasticComponent},
-  {path: 'uspesnoPlacanje', component: UspesnoPlacanjeComponent},
-  {path: 'neuspesnoPlacanje', component: NeuspesnoPlacanjeComponent},
-  {path: 'paypal', component: PaypalComponent},
+  {path: 'uspesnoPlacanje/:orderId', component: UspesnoPlacanjeComponent},
+  {path: 'neuspesnoPlacanje/:orderId', component: NeuspesnoPlacanjeComponent},
+  {path: 'paypal/:orderId', component: PaypalComponent},
 ];
 
 @NgModule({
