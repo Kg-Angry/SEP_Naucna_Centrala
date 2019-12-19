@@ -2,6 +2,7 @@ package com.centrala.naucna_centrala.controller;
 
 import com.centrala.naucna_centrala.DTO.KorisnikDTO;
 import com.centrala.naucna_centrala.DTO.Naucni_radDTO;
+import com.centrala.naucna_centrala.Security.AES256bit;
 import com.centrala.naucna_centrala.model.*;
 import com.centrala.naucna_centrala.service.Korisnik_service;
 import com.centrala.naucna_centrala.service.Naucna_oblast_service;
@@ -46,7 +47,6 @@ public class Naucni_radController {
 
         Naucni_rad nr = nrs.findByNaslov(rad.getNaslov());
         Set<Korisnik> Koautori = new HashSet<>();
-
         if(nr == null)
         {
             Naucni_rad naucni_rad = new Naucni_rad();
@@ -66,7 +66,8 @@ public class Naucni_radController {
             Naucna_oblast no = nos.getByNaziv(rad.getOblast_pripadanja().getNaziv());
             naucni_rad.setOblast_pripadanja(no);
             naucni_rad.setPutanja_upload_fajla(rad.getPutanja_upload_fajla());
-
+            Korisnik k = korisnikService.findByKorisnicko_ime(AES256bit.encrypt(rad.getAutor().getKorisnicko_ime(),AES256bit.secretKey));
+            naucni_rad.setAutor(k);
             nrs.save(naucni_rad);
             logger.info("\n\t\tKreiran je naucni rad "+ naucni_rad.getNaslov()+" u sistem naucne centrale.\n");
             return new ResponseEntity<>(HttpStatus.CREATED);

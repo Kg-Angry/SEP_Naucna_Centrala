@@ -147,7 +147,8 @@ export class UserProfileComponent implements OnInit {
     event.preventDefault();
     const target = event.target;
 
-    this.nrService.kreirajRad(target, this.koAutori, this.IzabranaNaucnaOblastRada, this.selectUploadFile,this.IzabraniNaucniCasopis);
+    this.nrService.kreirajRad(target, this.koAutori, this.IzabranaNaucnaOblastRada,
+       this.selectUploadFile,this.IzabraniNaucniCasopis, this.korisnik);
   }
   SelectFile(event) {
     this.selectUploadFile = event.target.files[0];
