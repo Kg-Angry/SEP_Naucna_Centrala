@@ -1,3 +1,4 @@
+import { TokenService } from './../token.service';
 import { Placanje } from './../class/placanje.enum';
 import { TipPlacanja } from 'src/app/class/tip-placanja';
 import { RegistrationService } from './../registration/registration.service';
@@ -57,7 +58,7 @@ export class UserProfileComponent implements OnInit {
 
 
   constructor(private userService: UserProfileService, private noService: NaucnaOblastService, private ncService: NaucniCasopisService
-    , private nrService: NaucniRadoviService, private regService: RegistrationService) { }
+    , private nrService: NaucniRadoviService, private regService: RegistrationService, private token: TokenService) { }
 
   ngOnInit() {
     this.korisnik = JSON.parse(localStorage.getItem('korisnik'));
@@ -83,6 +84,7 @@ export class UserProfileComponent implements OnInit {
 
   SignOut()  {
     localStorage.removeItem('korisnik');
+    this.token.removeToken();
     Swal.fire({
       position: 'top-end',
       icon: 'success',

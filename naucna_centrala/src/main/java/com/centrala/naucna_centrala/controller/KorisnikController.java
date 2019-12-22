@@ -1,9 +1,13 @@
 package com.centrala.naucna_centrala.controller;
 
 import com.centrala.naucna_centrala.DTO.KorisnikDTO;
+import com.centrala.naucna_centrala.Security.JwtAuthenticationRequest;
+import com.centrala.naucna_centrala.Security.TokenUtils;
 import com.centrala.naucna_centrala.model.Korisnik;
+import com.centrala.naucna_centrala.model.TipKorisnika;
 import com.centrala.naucna_centrala.service.EmailService;
 import com.centrala.naucna_centrala.service.Korisnik_service;
+import org.apache.http.protocol.HTTP;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -25,6 +29,7 @@ import com.centrala.naucna_centrala.Security.AES256bit;
 import javax.crypto.BadPaddingException;
 import javax.crypto.IllegalBlockSizeException;
 import javax.crypto.NoSuchPaddingException;
+import javax.servlet.http.HttpServletRequest;
 
 @RestController
 @RequestMapping(value = "api/korisnik")
@@ -35,13 +40,14 @@ public class KorisnikController {
 
     @Autowired
     private EmailService emailService;
+    @Autowired
+    private TokenUtils tokenUtils;
 
     private static final Logger logger = LoggerFactory.getLogger(KorisnikController.class);
 
     @RequestMapping(method = RequestMethod.POST, consumes = "application/json", value = "/registracijaKorisnika")
     public ResponseEntity<Void> registracijaKorisnika(@RequestBody KorisnikDTO korisnik){// throws InvalidAlgorithmParameterException, InterruptedException, UnsupportedEncodingException, IllegalBlockSizeException, BadPaddingException, NoSuchAlgorithmException, NoSuchPaddingException, InvalidKeyException {
         int broj = proveraCestihLozinki(korisnik.getLozinka());
-        System.out.println("Broj: " + broj);
 
         //BCrypt passworda korisnika - problem nije moguce obrnuto enkodovanje
         BCryptPasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
@@ -69,24 +75,38 @@ public class KorisnikController {
     }
 
     @RequestMapping(method = RequestMethod.POST, value = "/logovanje")
-    public ResponseEntity<?> logovanjeKorisnika(@RequestBody KorisnikDTO k)
+    public ResponseEntity<?> logovanjeKorisnika(@RequestBody JwtAuthenticationRequest auth)
     {
-        //System.out.println("Korisnicko ime: " + k.getKorisnicko_ime());
-        Korisnik kor = korisnik_service.findByKorisnicko_ime(AES256bit.encrypt(k.getKorisnicko_ime(),AES256bit.secretKey));
-        BCryptPasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
-        if(kor != null)
-        {
-        //obratiti paznju da se nalog mora aktivirati
-            if(AES256bit.decrypt(kor.getKorisnickoIme(),AES256bit.secretKey).equals(k.getKorisnicko_ime()) && passwordEncoder.matches(k.getLozinka(), kor.getLozinka()) && kor.isAktiviran_nalog()) {
-                kor.setKorisnickoIme(AES256bit.decrypt(kor.getKorisnickoIme(),AES256bit.secretKey));
-                logger.info("\n\t\tKorisnik " + kor.getEmail() + " se upravo ulogovao na sistem naucne centrale.\n");
-                return new ResponseEntity<>(new KorisnikDTO(kor),HttpStatus.OK);
-            }
-        }
-        logger.info("\n\t\tNeuspesno logovanje na sistem naucne centrale.\n");
-        return new ResponseEntity<>(HttpStatus.UNAUTHORIZED);
+        String jwt = korisnik_service.login(auth.getKorisnickoIme(), auth.getLozinka(), TipKorisnika.ADMINISTRATOR);
 
+        if (jwt == "") {
+            logger.info("\n\t\tNeuspesno kreiranje JWT tokena za korisnicko ime"+ auth.getKorisnickoIme() +" na sistem naucne centrale.\n");
+            return new ResponseEntity<>(HttpStatus.UNAUTHORIZED); // 401
+        }else {
+            logger.info("\n\t\tKorisnik "+auth.getKorisnickoIme() +" je uspesno dobio JWT token.\n");
+            return ResponseEntity.ok(jwt);
+        }
     }
+
+    @RequestMapping(value = "/ulogovan", method = RequestMethod.GET, consumes = "application/json", produces = "application/json")
+    public ResponseEntity<KorisnikDTO> getKorisnik(HttpServletRequest request) {
+        try {
+
+            String token = tokenUtils.getToken(request);
+
+            Korisnik k = korisnik_service.findByKorisnicko_ime(tokenUtils.getUsernameFromToken(token));
+
+            k.setKorisnickoIme(AES256bit.decrypt(tokenUtils.getUsernameFromToken(token),AES256bit.secretKey));
+
+            logger.info("\n\t\tKorisnik sa email adresom " + k.getEmail() + " se upravo ulogovao na sistem naucne centrale.\n");
+            return new ResponseEntity<>(new KorisnikDTO(k),HttpStatus.OK);
+        } catch (Exception e) {
+            e.printStackTrace();
+            logger.info("\n\t\tNeuspesno logovanje na sistem naucne centrale.\n");
+            return new ResponseEntity<>(HttpStatus.UNAUTHORIZED); // 401
+        }
+    }
+
 
     //uzimanje svih korisnika i slanje na front
     @RequestMapping(method = RequestMethod.GET, value = "/getKorisnici")
@@ -107,11 +127,11 @@ public class KorisnikController {
     }
 
     @RequestMapping(value="/izmeniKorisnika", method = RequestMethod.PUT)
-    public ResponseEntity<?> izmenaKorisnika(@RequestBody KorisnikDTO korisnik)
+    public ResponseEntity<?> izmenaKorisnika(@RequestBody KorisnikDTO korisnik, HttpServletRequest request)
     {
-        Korisnik k = korisnik_service.findByKorisnicko_ime(korisnik.getKorisnicko_ime());
+        String token = tokenUtils.getToken(request);
 
-        System.out.println("Username: " + k.getKorisnickoIme());
+        Korisnik k = korisnik_service.findByKorisnicko_ime(AES256bit.encrypt(tokenUtils.getUsernameFromToken(token),AES256bit.secretKey));
 
         k.setTipKorisnika(korisnik.getTipKorisnika());
 
@@ -121,14 +141,16 @@ public class KorisnikController {
     }
 
     @RequestMapping(value="/brisanjeKorisnika/{username}", method = RequestMethod.DELETE)
-    public ResponseEntity<Void> obrisiKorisnika(@PathVariable String username)
+    public ResponseEntity<Void> obrisiKorisnika(HttpServletRequest request)
     {
-        Korisnik k = korisnik_service.findByKorisnicko_ime(AES256bit.encrypt(username,AES256bit.secretKey));
+        String token = tokenUtils.getToken(request);
+
+        Korisnik k = korisnik_service.findByKorisnicko_ime(AES256bit.encrypt(tokenUtils.getUsernameFromToken(token),AES256bit.secretKey));
 
         //System.out.println("Username: " + k.getKorisnickoIme());
         if(k != null) {
-            korisnik_service.remove(username);
-            logger.info("\n\t\tKorisnik " + username + " je obrisan sa sistema naucne centrale.\n");
+            korisnik_service.remove(k.getKorisnickoIme());
+            logger.info("\n\t\tKorisnik " + k.getKorisnickoIme() + " je obrisan sa sistema naucne centrale.\n");
             return new ResponseEntity<>(HttpStatus.OK);
         }else
             logger.info("\n\t\tNeuspelo brisanje korisnika sa sistema naucne centrale.\n");

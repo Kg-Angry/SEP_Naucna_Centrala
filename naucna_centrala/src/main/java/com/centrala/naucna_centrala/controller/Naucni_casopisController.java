@@ -62,7 +62,6 @@ public class Naucni_casopisController {
         Set<Korisnik> recenzenti = new HashSet<>();
         Set<Naucna_oblast> naucna_oblast = new HashSet<>();
 
-
         if(nc == null)
         {
             Naucni_casopis naucni_casopis = new Naucni_casopis();
