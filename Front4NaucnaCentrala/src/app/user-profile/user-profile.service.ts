@@ -86,4 +86,30 @@ export class UserProfileService {
       timer(1500).subscribe(t => location.href = '/login');
     });
   }
+
+  zahtevZaRecenzenta(korisnickoIme, odobrio, usernameAktivnog){
+    return this.http.post('api/korisnik/iRecenzent/'+ odobrio, {korisnicko_ime: korisnickoIme, ime: usernameAktivnog})
+    .subscribe(data =>{
+      if(odobrio == 1){
+        Swal.fire({
+          position: 'top-end',
+          icon: 'info',
+          title: 'Zahtev je odobren',
+          showConfirmButton: false,
+          timer: 1500
+        });
+      } else{
+        Swal.fire({
+          position: 'top-end',
+          icon: 'info',
+          title: 'Zahtev nije odobren',
+          showConfirmButton: false,
+          timer: 1500
+        });
+      }
+        this.getAllUsers();
+      timer(1500).subscribe(t => location.href = '/userProfile');
+    });
+  }
+
 }

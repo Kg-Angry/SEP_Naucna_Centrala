@@ -21,6 +21,8 @@ import { NeuspesnoPlacanjeComponent } from './neuspesno-placanje/neuspesno-placa
 import { IntercepterService } from './intercepter.service';
 import { ErrorIntercepterService } from './error-intercepter.service';
 import { MAT_DATE_LOCALE } from '@angular/material/core';
+import {MatInputModule} from '@angular/material/input';
+import {MatStepperModule} from '@angular/material/stepper';
 
 @NgModule({
   declarations: [
@@ -45,6 +47,8 @@ import { MAT_DATE_LOCALE } from '@angular/material/core';
     FormsModule,
     BrowserAnimationsModule,
     MatSelectModule,
+    MatInputModule,
+    MatStepperModule,
   ],
   providers: [{provide : HTTP_INTERCEPTORS,
   useClass: IntercepterService,

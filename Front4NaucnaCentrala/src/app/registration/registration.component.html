@@ -54,6 +54,16 @@
           <label class="form-check-label" for="exampleCheck1">Recenzent</label>
         </div>
 
+        <div class="form-group">
+          <label for="exampleInputEmail1">Naucna Oblast: </label>
+          <mat-form-field>
+            <mat-label>Naucna Oblast: </mat-label>
+            <mat-select [(ngModel)]="IzabranaNaucnaOblast" [ngModelOptions]="{standalone: true}" multiple>
+              <mat-option *ngFor="let o of oblasti" [value]="o">{{o.naziv}}</mat-option>
+            </mat-select>
+          </mat-form-field>
+        </div>
+
         <div class="container-login100-form-btn">
           <button type="submit" class="login100-form-btn">
             Registracija

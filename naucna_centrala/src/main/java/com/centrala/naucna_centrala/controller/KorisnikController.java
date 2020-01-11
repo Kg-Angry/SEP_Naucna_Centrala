@@ -1,12 +1,15 @@
 package com.centrala.naucna_centrala.controller;
 
 import com.centrala.naucna_centrala.DTO.KorisnikDTO;
+import com.centrala.naucna_centrala.DTO.Naucna_oblastDTO;
 import com.centrala.naucna_centrala.Security.JwtAuthenticationRequest;
 import com.centrala.naucna_centrala.Security.TokenUtils;
 import com.centrala.naucna_centrala.model.Korisnik;
+import com.centrala.naucna_centrala.model.Naucna_oblast;
 import com.centrala.naucna_centrala.model.TipKorisnika;
 import com.centrala.naucna_centrala.service.EmailService;
 import com.centrala.naucna_centrala.service.Korisnik_service;
+import com.centrala.naucna_centrala.service.Naucna_oblast_service;
 import org.apache.http.protocol.HTTP;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -24,6 +27,8 @@ import java.security.NoSuchAlgorithmException;
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
+
 import com.centrala.naucna_centrala.Security.AES256bit;
 
 import javax.crypto.BadPaddingException;
@@ -37,6 +42,9 @@ public class KorisnikController {
 
     @Autowired
     private Korisnik_service korisnik_service;
+
+    @Autowired
+    private Naucna_oblast_service nos;
 
     @Autowired
     private EmailService emailService;
@@ -64,8 +72,17 @@ public class KorisnikController {
             k.setLozinka(passwordEncoder.encode(korisnik.getLozinka()));
             k.setTipKorisnika(korisnik.getTipKorisnika());
             k.setAktiviran_nalog(false);
+            k.setRecenzent(korisnik.isRecenzent());
+            System.out.println("Cekirao recenzent : " + k.isRecenzent());
             k.setId_casopisa(new HashSet<>());
             k.setRecenzenti(new HashSet<>());
+            Set<Naucna_oblast> no = new HashSet<>();
+            for(Naucna_oblastDTO n : korisnik.getNaucne_oblasti())
+            {
+                Naucna_oblast n1 = nos.getByNaziv(n.getNaziv());
+                no.add(n1);
+            }
+            k.setNaucne_oblasti(no);
             emailService.sendMailAktivacijaKorisnickogNaloga(k);
             korisnik_service.save(k);
             logger.info("\n\t\tKorisnik " + korisnik.getKorisnicko_ime() + " se registrovao na sistem naucne centrale.\n");
@@ -246,5 +263,58 @@ public class KorisnikController {
         }
         logger.info("\n\t\tKorisnik nije potvrdio aktivaciju svog naloga.\n");
         return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+    }
+
+    @PostMapping(value="/iRecenzent/{odobrio}")
+    public ResponseEntity<?> zahtevZaRecenzenta(@RequestBody KorisnikDTO korisnik, @PathVariable Integer odobrio)
+    {
+       Korisnik k = korisnik_service.findByKorisnicko_ime(AES256bit.encrypt(korisnik.getKorisnicko_ime(),AES256bit.secretKey));
+
+            if(odobrio == 1)
+            {
+                k.setTipKorisnika(TipKorisnika.RECENZENT);
+                korisnik_service.save(k);
+            }else
+            {
+                k.setRecenzent(false);
+                korisnik_service.save(k);
+            }
+        return new ResponseEntity<>(HttpStatus.OK);
+    }
+
+    @PostMapping(value="/registracijaUrednika")
+    public ResponseEntity<?> registracijaUrednika(@RequestBody KorisnikDTO korisnik)
+    {
+        Korisnik kor = korisnik_service.findByKorisnicko_ime(AES256bit.encrypt(korisnik.getKorisnicko_ime(),AES256bit.secretKey));
+
+        if(kor != null)
+        {
+            return new ResponseEntity<>(HttpStatus.FOUND);
+        }else
+        {
+            Korisnik k = new Korisnik();
+            k.setIme(korisnik.getIme());
+            k.setPrezime(korisnik.getPrezime());
+            k.setGrad(korisnik.getGrad());
+            k.setDrzava(korisnik.getDrzava());
+            k.setTitula(korisnik.getTitula());
+            k.setEmail(korisnik.getEmail());
+            k.setKorisnickoIme(korisnik.getKorisnicko_ime());
+            k.setLozinka(korisnik.getLozinka());
+            k.setTipKorisnika(korisnik.getTipKorisnika());
+            k.setAktiviran_nalog(true);
+            k.setId_casopisa(new HashSet<>());
+            Set<Naucna_oblast> no_list = new HashSet<>();
+            for(Naucna_oblastDTO n : korisnik.getNaucne_oblasti())
+            {
+                Naucna_oblast no = nos.getByNaziv(n.getNaziv());
+                no_list.add(no);
+            }
+            k.setNaucne_oblasti(no_list);
+
+            korisnik_service.save(k);
+
+            return new ResponseEntity<>(HttpStatus.CREATED);
+        }
     }
 }

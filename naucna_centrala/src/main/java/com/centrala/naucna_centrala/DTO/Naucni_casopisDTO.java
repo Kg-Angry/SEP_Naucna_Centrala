@@ -15,6 +15,7 @@ public class Naucni_casopisDTO {
     private Set<KorisnikDTO> recenzent = new HashSet<>();
     private Set<Naucna_oblastDTO> naucna_oblast = new HashSet<>();
     private boolean status;
+    private boolean dopuniti;
     private Double cena;
 
     public Naucni_casopisDTO()
@@ -22,7 +23,7 @@ public class Naucni_casopisDTO {
 
     }
 
-    public Naucni_casopisDTO(Long id, String naziv, int issn, TipCasopisa tipCasopisa, Korisnik glavni_urednik, Set<Korisnik> urednici, Set<Korisnik> recenzent, Set<Naucna_oblast> naucna_oblast, boolean status, double cena) {
+    public Naucni_casopisDTO(Long id, String naziv, int issn, TipCasopisa tipCasopisa, Korisnik glavni_urednik, Set<Korisnik> urednici, Set<Korisnik> recenzent, Set<Naucna_oblast> naucna_oblast, boolean status, double cena,boolean dopuniti) {
         this.id = id;
         this.naziv = naziv;
         this.issn = issn;
@@ -42,12 +43,13 @@ public class Naucni_casopisDTO {
         }
 
         this.status = status;
+        this.dopuniti=dopuniti;
         this.cena=cena;
     }
 
     public Naucni_casopisDTO(Naucni_casopis nc)
     {
-        this(nc.getId(),nc.getNaziv(),nc.getIssn(),nc.getTipCasopisa(),nc.getGlavni_urednik(),nc.getUrednici(),nc.getRecenzent(),nc.getNaucna_oblast(),nc.isStatus(),nc.getCena());
+        this(nc.getId(),nc.getNaziv(),nc.getIssn(),nc.getTipCasopisa(),nc.getGlavni_urednik(),nc.getUrednici(),nc.getRecenzent(),nc.getNaucna_oblast(),nc.isStatus(),nc.getCena(),nc.isDopuniti());
     }
 
     public Long getId() {
@@ -128,5 +130,13 @@ public class Naucni_casopisDTO {
 
     public void setCena(Double cena) {
         this.cena = cena;
+    }
+
+    public boolean isDopuniti() {
+        return dopuniti;
+    }
+
+    public void setDopuniti(boolean dopuniti) {
+        this.dopuniti = dopuniti;
     }
 }

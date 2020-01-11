@@ -23,6 +23,10 @@ import { NaucniCasopis } from '../class/naucni-casopis';
 export class UserProfileComponent implements OnInit {
 
   uloga: String;
+  nazivCasopisa: String = '';
+  issn: Number = 0;
+  cena: Number = 0;
+  zahtevRecenzent: Korisnik[]=[];
   korisnik: Korisnik = JSON.parse(localStorage.getItem('korisnik'));
   sviKorisnici: Korisnik[] = JSON.parse(localStorage.getItem('korisnici'));
   casopisi: NaucniCasopis[] = JSON.parse(localStorage.getItem('casopisi'));
@@ -36,6 +40,8 @@ export class UserProfileComponent implements OnInit {
   IzabraniRecenzenti: Korisnik[] = [];
   IzabraniUredniciIzmena: Korisnik[] = [];
   IzabraniRecenzentiIzmena: Korisnik[] = [];
+  urednici1: Korisnik[] = [];
+  recenzenti1: Korisnik[] = [];
   urednici: Korisnik[] = [];
   preostaliUrednici: Korisnik[] = [];
   recenzenti: Korisnik[] = [];
@@ -55,24 +61,25 @@ export class UserProfileComponent implements OnInit {
   IzabraniNaucniCasopis: NaucniCasopis = new NaucniCasopis();
   IzabaniTipoviPlacanja: Placanje[] = [];
   TipoviPlacanja: TipPlacanja[] = JSON.parse(localStorage.getItem('tipoviPlacanja'));
-
+  imeUrednika: String;
+  prezimeUrednika: String;
+  gradUrednika: String;
+  drzavaUrednika: String;
+  titulaUrednika: String;
+  emailUrednika: String;
+  korisnickoImeUrednika: String;
+  lozinkaUrednika: String;
 
   constructor(private userService: UserProfileService, private noService: NaucnaOblastService, private ncService: NaucniCasopisService
     , private nrService: NaucniRadoviService, private regService: RegistrationService, private token: TokenService) { }
 
   ngOnInit() {
-    this.korisnik = JSON.parse(localStorage.getItem('korisnik'));
     this.userService.getAllUsers();
-
-    for (let i = 0; i < this.sviKorisnici.length; i++)   {
-        if (this.sviKorisnici[i].tipKorisnika === 'UREDNIK') {
-              this.urednici.push(this.sviKorisnici[i]);
-            }
-
-        if (this.sviKorisnici[i].tipKorisnika === 'RECENZENT') {
-              this.recenzenti.push(this.sviKorisnici[i]);
-            }
-          }
+    for (let i = 0; i < this.sviKorisnici.length; i++) {
+      if(this.sviKorisnici[i].recenzent === true && this.sviKorisnici[i].tipKorisnika === 'OBICAN') {
+           this.zahtevRecenzent.push(this.sviKorisnici[i]);
+        }
+    }
   }
 
   IzmenaPodataka($event) {
@@ -141,7 +148,19 @@ export class UserProfileComponent implements OnInit {
     event.preventDefault();
     const target = event.target;
 
-    this.regService.RegistracijaAdmin(target, this.recenzenti, 'UREDNIK');
+    if(this.IzabranaNaucnaOblast.length === 0)
+    {
+      Swal.fire({
+        position: 'top-end',
+        icon: 'error',
+        title: 'Mora se izabrati bar jedna naucna oblast',
+        showConfirmButton: false,
+        timer: 1500
+      });
+    } else{
+      this.regService.RegistracijaAdmin(this.imeUrednika, this.prezimeUrednika, this.gradUrednika, this.drzavaUrednika,
+        this.titulaUrednika, this.emailUrednika, this.korisnickoImeUrednika, this.lozinkaUrednika, 'UREDNIK', this.IzabranaNaucnaOblast);
+    }
   }
 
   KreirajRad($event)
@@ -174,18 +193,122 @@ export class UserProfileComponent implements OnInit {
     this.nrService.obrisiRad(rad);
   }
 
-  KreirajCasopis($event)
-  {
+  KreirajCasopis($event) {
+
+    console.log("USO OVDE");
     event.preventDefault();
     const target = event.target;
-    console.log('Korisnicko Ime: ' + this.korisnik.korisnicko_ime);
-    this.ncService.kreirajCasopis(target, this.tipCasopisa, this.IzabraniUrednici,
-       this.IzabraniRecenzenti, this.korisnik, this.IzabranaNaucnaOblast, this.IzabaniTipoviPlacanja);
+
+    //uzimanje svih urednika
+    let urednici = this.sviKorisnici;
+    let urednici1 = this.sviKorisnici;
+    this.urednici1 = urednici.filter(urednik => urednik.tipKorisnika === 'UREDNIK' && urednik.korisnicko_ime !== this.korisnik.korisnicko_ime);
+
+    this.urednici = [];
+    for(let i = 0; i < this.urednici1.length; i++){
+      for(let k = 0; k < this.IzabranaNaucnaOblast.length; k++)
+      {
+        let trazi = this.urednici1[i].naucne_oblasti.find(x => x.naziv === this.IzabranaNaucnaOblast[k].naziv);
+
+        if(trazi !== undefined){
+          this.urednici.push(this.urednici1[i]);
+          break;
+        }
+      }
+    }
+
+    //uzimanje svih recenzenata
+    let recenzenti = this.sviKorisnici;
+    let recenzenti1 = this.sviKorisnici;
+    this.recenzenti1 = recenzenti.filter(rec => rec.tipKorisnika === 'RECENZENT');
+
+    //izabrali i recenzente
+    this.recenzenti = [];
+    for(let i = 0; i < this.recenzenti1.length; i++){
+      for(let k = 0; k < this.IzabranaNaucnaOblast.length; k++)
+      {
+        console.log("Izabrana naucna oblast: " + this.IzabranaNaucnaOblast[k]);
+        let trazi = this.recenzenti1[i].naucne_oblasti.find(x => x.naziv === this.IzabranaNaucnaOblast[k].naziv);
+
+        if(trazi !== undefined){
+
+          this.recenzenti.push(this.recenzenti1[i]);
+          break;
+        }
+      }
+    }
+
   }
 
+  posaljiPodatkeOcasopisu($event){
+    let proces = JSON.parse(localStorage.getItem('proces'));
+    if(this.IzabraniRecenzenti.length < 2) {
+      Swal.fire({
+        position: 'top-end',
+        icon: 'error',
+        title: 'Broj recenzenata minimalno mora biti 2',
+        showConfirmButton: false,
+        timer: 2500
+      });
+    } else {
+      this.ncService.kreirajCasopis(this.nazivCasopisa, this.issn, this.cena, this.tipCasopisa, this.IzabraniUrednici,
+        this.IzabraniRecenzenti, this.korisnik, this.IzabranaNaucnaOblast, this.IzabaniTipoviPlacanja);
+    }
+
+  }
+
+  //na osnovu izabranih naucnih oblasti u izmeni da se nadju adekvatni recenzenti ili urendici
+  IzmenjenCasopis($event) {
+
+    event.preventDefault();
+    const target = event.target;
+
+    //uzimanje svih urednika
+    let urednici = this.sviKorisnici;
+    let urednici1 = this.sviKorisnici;
+    this.urednici1 = urednici.filter(urednik => urednik.tipKorisnika === 'UREDNIK' && urednik.korisnicko_ime !== this.korisnik.korisnicko_ime);
+
+    this.urednici = [];
+    for(let i = 0; i < this.urednici1.length; i++){
+      for(let k = 0; k < this.IzabranaNaucnaOblastIzmena.length; k++)
+      {
+        let trazi = this.urednici1[i].naucne_oblasti.find(x => x.naziv === this.IzabranaNaucnaOblastIzmena[k].naziv);
+
+        if(trazi !== undefined){
+          this.urednici.push(this.urednici1[i]);
+          break;
+        }
+      }
+    }
+
+    //uzimanje svih recenzenata
+    let recenzenti = this.sviKorisnici;
+    let recenzenti1 = this.sviKorisnici;
+    this.recenzenti1 = recenzenti.filter(rec => rec.tipKorisnika === 'RECENZENT');
+
+    //izabrali i recenzente
+    this.recenzenti = [];
+    for(let i = 0; i < this.recenzenti1.length; i++){
+      for(let k = 0; k < this.IzabranaNaucnaOblastIzmena.length; k++)
+      {
+        let trazi = this.recenzenti1[i].naucne_oblasti.find(x => x.naziv === this.IzabranaNaucnaOblastIzmena[k].naziv);
+
+        if(trazi !== undefined){
+          this.recenzenti.push(this.recenzenti1[i]);
+          break;
+        }
+      }
+    }
+  }
+
+  //uzimanje casopisa koji je za izmenu
   IzmeniCasopis(casopis: NaucniCasopis)
   {
     this.casopis_za_izmenu = casopis;
+    this.nazivCasopisa = this.casopis_za_izmenu.naziv;
+    this.issn = this.casopis_za_izmenu.issn;
+    this.cena = this.casopis_za_izmenu.cena;
+    this.IzabranaNaucnaOblast = this.casopis_za_izmenu.naucna_oblast;
     this.tipCasopisaIzmena = casopis.tipCasopisa;
   }
 
@@ -193,10 +316,19 @@ export class UserProfileComponent implements OnInit {
   {
     event.preventDefault();
     const target = event.target;
+    if(this.IzabraniRecenzentiIzmena.length < 2) {
+      Swal.fire({
+        position: 'top-end',
+        icon: 'error',
+        title: 'Broj recenzenata minimalno mora biti 2',
+        showConfirmButton: false,
+        timer: 2500
+      });
+    } else {
+      this.ncService.izmeniCasopis(this.nazivCasopisa, this.issn, this.cena, this.tipCasopisaIzmena, this.IzabraniUredniciIzmena,
+        this.IzabraniRecenzentiIzmena, this.korisnik, this.IzabranaNaucnaOblastIzmena);
+   }
 
-
-    this.ncService.izmeniCasopis(target,this.tipCasopisaIzmena, this.IzabraniUredniciIzmena,
-      this.IzabraniRecenzentiIzmena, this.korisnik, this.IzabranaNaucnaOblastIzmena);
   }
 
   ObrisiCasopis(casopis)
@@ -210,5 +342,28 @@ export class UserProfileComponent implements OnInit {
     const target = event.target;
 
     this.userService.promenaPassworda(target, this.korisnik.korisnicko_ime);
+  }
+
+  AktivirajCasopis(nazivCasopisa: String){
+    Swal.fire({
+      title: 'Dopuna ?',
+      text: "Dopuniti naucni casopis ?",
+      icon: 'warning',
+      showCancelButton: true,
+      confirmButtonColor: '#3085d6',
+      cancelButtonColor: '#d33',
+      cancelButtonText: 'Ne',
+      confirmButtonText: 'Da'
+    }).then((result) => {
+      if (result.value) {
+        this.ncService.aktivirajCasopis(nazivCasopisa, 1);
+      } else {
+        this.ncService.aktivirajCasopis(nazivCasopisa, 0);
+      }
+    });
+  }
+
+  ZahtevRecenzenta(korisnickoIme: String, odobrio){
+    this.userService.zahtevZaRecenzenta(korisnickoIme, odobrio, this.korisnik.korisnicko_ime);
   }
 }

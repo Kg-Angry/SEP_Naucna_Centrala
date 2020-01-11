@@ -30,7 +30,7 @@ public class Naucni_casopis {
     @ManyToOne
     private Korisnik glavni_urednik;
 
-    @OneToMany(mappedBy = "id", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    @OneToMany(mappedBy = "urednik_casopisa", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     private Set<Korisnik> urednici = new HashSet<>();
 
     //casopis -> recenzent
@@ -54,17 +54,20 @@ public class Naucni_casopis {
     @Column(name = "status",nullable = false, length = 255)
     private boolean status;
 
+    @Column(name="dopuniti",nullable = false)
+    private boolean dopuniti;
+
     @Column(name="cena",nullable = false,length = 255)
     private Double cena;
 
     public Naucni_casopis() {
     }
 
-    public Naucni_casopis(String naziv, int issn, TipCasopisa tipCasopisa, Korisnik glavni_urednik, Set<Korisnik> urednici, Set<Korisnik> recenzent, Set<Naucna_oblast> naucna_oblast, boolean status, double cena) {
+    public Naucni_casopis(String naziv, int issn, TipCasopisa tipCasopisa, Korisnik glavni_urednik, Set<Korisnik> urednici, Set<Korisnik> recenzent, Set<Naucna_oblast> naucna_oblast, boolean status,boolean dopuniti, double cena) {
         this.naziv = naziv;
         this.issn = issn;
         this.tipCasopisa = tipCasopisa;
-
+        this.dopuniti = dopuniti;
         this.glavni_urednik = glavni_urednik;
         this.urednici = urednici;
         this.recenzent = recenzent;
@@ -151,5 +154,13 @@ public class Naucni_casopis {
 
     public void setCena(Double cena) {
         this.cena = cena;
+    }
+
+    public boolean isDopuniti() {
+        return dopuniti;
+    }
+
+    public void setDopuniti(boolean dopuniti) {
+        this.dopuniti = dopuniti;
     }
 }

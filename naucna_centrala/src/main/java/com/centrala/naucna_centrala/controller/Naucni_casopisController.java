@@ -7,6 +7,7 @@ import com.centrala.naucna_centrala.Security.AES256bit;
 import com.centrala.naucna_centrala.model.Korisnik;
 import com.centrala.naucna_centrala.model.Naucna_oblast;
 import com.centrala.naucna_centrala.model.Naucni_casopis;
+import com.centrala.naucna_centrala.service.EmailService;
 import com.centrala.naucna_centrala.service.Korisnik_service;
 import com.centrala.naucna_centrala.service.Naucna_oblast_service;
 import com.centrala.naucna_centrala.service.Naucni_casopis_service;
@@ -32,6 +33,8 @@ public class Naucni_casopisController {
     private Naucna_oblast_service nos;
     @Autowired
     private Korisnik_service ks;
+    @Autowired
+    private EmailService email;
 
     private static final Logger logger = LoggerFactory.getLogger(Naucni_casopisController.class);
 
@@ -176,5 +179,24 @@ public class Naucni_casopisController {
         }else
         {logger.info("\n\t\tCasopis nije uspesno obrisan.\n");
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);}
+    }
+
+    @PostMapping(value="/aktivirajCasopis/{dopuniti}")
+    public void dopunitiCasopis(@RequestBody Naucni_casopisDTO ncDTO,@PathVariable Integer dopuniti)
+    {
+        System.out.println("USO ovde");
+        Naucni_casopis nc = ncs.findByNaziv(ncDTO.getNaziv());
+        if(nc != null){
+            if(dopuniti == 1) {
+                nc.setDopuniti(true);
+                email.sendMailDupunaCasopisa(nc,nc.getGlavni_urednik());
+            }
+            else {
+                nc.setDopuniti(false);
+            }
+            nc.setStatus(true);
+            ncs.save(nc);
+        }
+
     }
 }

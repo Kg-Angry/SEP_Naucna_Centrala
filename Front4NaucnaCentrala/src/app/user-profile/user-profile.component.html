@@ -14,129 +14,182 @@
               <li class="nav-item">
                   <a href="" data-target="#edit" data-toggle="tab" class="nav-link">Izmena podataka</a>
               </li>
-              <li class="nav-item">
+              <li class="nav-item"  *ngIf="korisnik.tipKorisnika == 'ADMINISTRATOR'">
                 <a href="" data-target="#korisnici" data-toggle="tab" class="nav-link">Svi korisnici</a>
               </li>
           </ul>
           <div class="tab-content py-4">
               <div class="tab-pane active" id="casopisi">
                     <p>
-                      <button class="btn1 btn-green" data-toggle="collapse" data-target="#collapseExample" aria-expanded="false" aria-controls="collapseExample">
+                      <button class="btn1 btn-green" *ngIf="korisnik.tipKorisnika === 'UREDNIK'"  data-toggle="collapse" data-target="#collapseExample" aria-expanded="false" aria-controls="collapseExample">
                         Dodaj casopis
                       </button>
                     </p>
                     <div class="collapse" id="collapseExample">
-                      <form (submit)="KreirajCasopis($event)">
-                        <div class="form-group">
-                          <label for="exampleInputEmail1">Naziv</label>
-                          <input type="text" class="form-control" name="naziv">
-                        </div>
-                        <div class="form-group">
-                          <label for="exampleInputEmail1">ISSN</label>
-                          <input type="text" class="form-control" name="issn">
-                        </div>
-                        <div class="form-group">
-                          <label for="exampleInputEmail1">Cena</label>
-                          <input type="number" class="form-control" name="cena">
-                        </div>
-                        <div class="form-group">
-                          <label for="exampleInputEmail1">Tip Casopisa: </label>
-                          <mat-form-field>
-                            <mat-label>Tip Casopisa: </mat-label>
-                            <mat-select [(ngModel)]="tipCasopisa" [ngModelOptions]="{standalone: true}">
-                              <mat-option value="SA_PRETPLATOM">SA_PRETPLATOM</mat-option>
-                              <mat-option value="OPEN_ACCESS">OPEN_ACCESS</mat-option>
-                            </mat-select>
-                          </mat-form-field>
-                        </div>
-                        <div class="form-group">
-                          <label for="exampleInputEmail1">Urednici: </label>
-                          <mat-form-field>
-                            <mat-label>Urednici: </mat-label>
-                            <mat-select [(ngModel)]="IzabraniUrednici" [ngModelOptions]="{standalone: true}" multiple>
-                              <mat-option *ngFor="let u of urednici" [value]="u">{{u.korisnicko_ime}}</mat-option>
-                            </mat-select>
-                          </mat-form-field>
-                        </div>
-                        <div class="form-group">
-                          <label for="exampleInputEmail1">Recenzenti: </label>
-                          <mat-form-field>
-                            <mat-label>Recenzenti: </mat-label>
-                            <mat-select [(ngModel)]="IzabraniRecenzenti" [ngModelOptions]="{standalone: true}" multiple>
-                              <mat-option *ngFor="let r of recenzenti" [value]="r">{{r.korisnicko_ime}}</mat-option>
-                            </mat-select>
-                          </mat-form-field>
-                        </div>
-                        <div class="form-group">
-                            <label for="exampleInputEmail1">Tipovi Placanja: </label>
+                      <mat-horizontal-stepper #stepper>
+                        <mat-step>
+                          <form (submit)="KreirajCasopis($event)">
+                            <ng-template matStepLabel>Podaci o casopisu</ng-template>
                             <mat-form-field>
-                              <mat-label>Tipovi placanja: </mat-label>
-                              <mat-select [(ngModel)]="IzabaniTipoviPlacanja" [ngModelOptions]="{standalone: true}" multiple>
-                                <mat-option *ngFor="let tip of TipoviPlacanja" value="{{tip.naziv}}">{{tip.naziv}}</mat-option>
-                              </mat-select>
+                              <input matInput [(ngModel)]="nazivCasopisa" [ngModelOptions]="{standalone: true}" placeholder="Naziv casopisa" required>
                             </mat-form-field>
-                          </div>
-                        <div class="form-group">
-                          <label for="exampleInputEmail1">Naucna Oblast: </label>
-                          <mat-form-field>
-                            <mat-label>Naucna Oblast: </mat-label>
-                            <mat-select [(ngModel)]="IzabranaNaucnaOblast" [ngModelOptions]="{standalone: true}" multiple>
-                              <mat-option *ngFor="let o of oblasti" [value]="o">{{o.naziv}}</mat-option>
-                            </mat-select>
-                          </mat-form-field>
-                        </div>
-                        <button type="submit" class="btn1 btn-green">Submit</button>
-                      </form>
+                            <div>
+                            <ng-template matStepLabel>ISSN</ng-template>
+                            <mat-form-field>
+                              <input  matInput [(ngModel)]="issn" [ngModelOptions]="{standalone: true}" placeholder="ISSN" name="issn" required>
+                            </mat-form-field>
+                            </div>
+                            <div>
+                              <ng-template matStepLabel>Cena</ng-template>
+                              <mat-form-field>
+                                <input matInput [(ngModel)]="cena" [ngModelOptions]="{standalone: true}" type="number" placeholder="Cena" required>
+                              </mat-form-field>
+                              </div>
+                              <div class="form-group">
+                                <!-- <label for="exampleInputEmail1">Tip Casopisa: </label> -->
+                                <mat-form-field>
+                                  <mat-label>Tip Casopisa: </mat-label>
+                                  <mat-select [(ngModel)]="tipCasopisa" [ngModelOptions]="{standalone: true}">
+                                    <mat-option value="SA_PRETPLATOM">SA_PRETPLATOM</mat-option>
+                                    <mat-option value="OPEN_ACCESS">OPEN_ACCESS</mat-option>
+                                  </mat-select>
+                                </mat-form-field>
+                              </div>
+                              <div class="form-group">
+                                <!-- <label for="exampleInputEmail1">Tipovi Placanja: </label> -->
+                                <mat-form-field>
+                                  <mat-label>Tipovi placanja: </mat-label>
+                                  <mat-select [(ngModel)]="IzabaniTipoviPlacanja" [ngModelOptions]="{standalone: true}" multiple>
+                                    <mat-option *ngFor="let p of TipoviPlacanja" [value]="p.naziv">{{p.naziv}}</mat-option>
+                                  </mat-select>
+                                </mat-form-field>
+                              </div>
+                              <div class="form-group">
+                                <!-- <label for="exampleInputEmail1">Naucna Oblast: </label> -->
+                                <mat-form-field>
+                                  <mat-label>Naucna Oblast: </mat-label>
+                                  <mat-select [(ngModel)]="IzabranaNaucnaOblast" [ngModelOptions]="{standalone: true}" multiple>
+                                    <mat-option *ngFor="let o of oblasti" [value]="o">{{o.naziv}}</mat-option>
+                                  </mat-select>
+                                </mat-form-field>
+                              </div>
+                            <div>
+                              <button type="submit" mat-button matStepperNext>Next</button>
+                            </div>
+                          </form>
+                        </mat-step>
+                        <mat-step>
+                          <form (submit)="posaljiPodatkeOcasopisu($event)">
+                            <ng-template matStepLabel>Urednici i recenzenti</ng-template>
+                            <div class="form-group">
+                              <!-- <label for="exampleInputEmail1">Urednici: </label> -->
+                              <mat-form-field>
+                                <mat-label>Urednici: </mat-label>
+                                <mat-select [(ngModel)]="IzabraniUrednici" [ngModelOptions]="{standalone: true}" multiple>
+                                  <mat-option *ngFor="let u of urednici" [value]="u">{{u.korisnicko_ime}}</mat-option>
+                                </mat-select>
+                              </mat-form-field>
+                            </div>
+                            <div class="form-group">
+                              <!-- <label for="exampleInputEmail1">Recenzenti: </label> -->
+                              <mat-form-field>
+                                <mat-label>Recenzenti: </mat-label>
+                                <mat-select [(ngModel)]="IzabraniRecenzenti" [ngModelOptions]="{standalone: true}" multiple>
+                                  <mat-option *ngFor="let r of recenzenti" [value]="r">{{r.korisnicko_ime}}</mat-option>
+                                </mat-select>
+                              </mat-form-field>
+                            </div>
+                            <div>
+                              <button mat-button matStepperPrevious>Vrati se</button>
+                              <button type="submit" mat-button matStepperNext>Zavrsi</button>
+                            </div>
+                          </form>
+                        </mat-step>
+                      </mat-horizontal-stepper>
                     </div>
                     <div class="collapse" id="collapseExample4">
-                      <form (submit)="IzmenaSelektovanogCasopisa($event)">
-                        <div class="form-group">
-                          <label for="exampleInputEmail1">Naziv</label>
-                          <input type="text" class="form-control" value="{{casopis_za_izmenu.naziv}}" name="IzmeniNaziv" disabled>
-                        </div>
-                        <div class="form-group">
-                          <label for="exampleInputEmail1">ISSN</label>
-                          <input type="text" class="form-control" value="{{casopis_za_izmenu.issn}}" name="IzmeniISSN">
-                        </div>
-                        <div class="form-group">
-                          <label for="exampleInputEmail1">Tip Casopisa: </label>
-                          <mat-form-field>
-                            <mat-label>Tip Casopisa: </mat-label>
-                            <mat-select [(ngModel)]="tipCasopisaIzmena" [ngModelOptions]="{standalone: true}">
-                              <mat-option value="SA_PRETPLATOM">SA_PRETPLATOM</mat-option>
-                              <mat-option value="OPEN_ACCESS">OPEN_ACCESS</mat-option>
-                            </mat-select>
-                          </mat-form-field>
-                        </div>
-                        <div class="form-group">
-                          <label for="exampleInputEmail1">Urednici: </label>
-                          <mat-form-field>
-                            <mat-label>Urednici: </mat-label>
-                            <mat-select [(ngModel)]="IzabraniUredniciIzmena" [ngModelOptions]="{standalone: true}" multiple>
-                              <mat-option *ngFor="let u1 of urednici" [value]="u1">{{u1.korisnicko_ime}}</mat-option>
-                            </mat-select>
-                          </mat-form-field>
-                        </div>
-                        <div class="form-group">
-                          <label for="exampleInputEmail1">Recenzenti: </label>
-                          <mat-form-field>
-                            <mat-label>Recenzenti: </mat-label>
-                            <mat-select [(ngModel)]="IzabraniRecenzentiIzmena" [ngModelOptions]="{standalone: true}" multiple>
-                              <mat-option *ngFor="let r of recenzenti" [value]="r">{{r.korisnicko_ime}}</mat-option>
-                            </mat-select>
-                          </mat-form-field>
-                        </div>
-                        <div class="form-group">
-                          <label for="exampleInputEmail1">Naucna Oblast: </label>
-                          <mat-form-field>
-                            <mat-label>Naucna Oblast: </mat-label>
-                            <mat-select [(ngModel)]="IzabranaNaucnaOblastIzmena" [ngModelOptions]="{standalone: true}" multiple>
-                              <mat-option *ngFor="let o1 of oblasti" [value]="o1">{{o1.naziv}}</mat-option>
-                            </mat-select>
-                          </mat-form-field>
-                        </div>
-                        <button type="submit" class="btn1 btn-green">Submit</button>
-                      </form>
+                      <mat-horizontal-stepper #stepper>
+                        <mat-step>
+                          <form (submit)="IzmenjenCasopis($event)">
+                            <ng-template matStepLabel>Izmena podataka o casopisu</ng-template>
+                            <mat-form-field>
+                              <input matInput [(ngModel)]="nazivCasopisa" [ngModelOptions]="{standalone: true}" placeholder="Naziv casopisa" required>
+                            </mat-form-field>
+                            <div>
+                            <ng-template matStepLabel>ISSN</ng-template>
+                            <mat-form-field>
+                              <input  matInput [(ngModel)]="issn" [ngModelOptions]="{standalone: true}" placeholder="ISSN" name="issn" required>
+                            </mat-form-field>
+                            </div>
+                            <div>
+                              <ng-template matStepLabel>Cena</ng-template>
+                              <mat-form-field>
+                                <input matInput [(ngModel)]="cena" [ngModelOptions]="{standalone: true}" type="number" placeholder="Cena" required>
+                              </mat-form-field>
+                              </div>
+                              <div class="form-group">
+                                <!-- <label for="exampleInputEmail1">Tip Casopisa: </label> -->
+                                <mat-form-field>
+                                  <mat-label>Tip Casopisa: </mat-label>
+                                  <mat-select [(ngModel)]="tipCasopisa" [ngModelOptions]="{standalone: true}">
+                                    <mat-option value="SA_PRETPLATOM">SA_PRETPLATOM</mat-option>
+                                    <mat-option value="OPEN_ACCESS">OPEN_ACCESS</mat-option>
+                                  </mat-select>
+                                </mat-form-field>
+                              </div>
+                              <!-- <div class="form-group">
+                                 <label for="exampleInputEmail1">Tipovi Placanja: </label>
+                                <mat-form-field>
+                                  <mat-label>Tipovi placanja: </mat-label>
+                                  <mat-select [(ngModel)]="IzabaniTipoviPlacanja" [ngModelOptions]="{standalone: true}" multiple>
+                                    <mat-option value="PAYPAL">PAYPAL</mat-option>
+                                    <mat-option value="BITCOIN">BITCOIN</mat-option>
+                                    <mat-option value="BANKA">BANKA</mat-option>
+                                  </mat-select>
+                                </mat-form-field>
+                              </div> -->
+                              <div class="form-group">
+                                <!-- <label for="exampleInputEmail1">Naucna Oblast: </label> -->
+                                <mat-form-field>
+                                  <mat-label>Naucna Oblast: </mat-label>
+                                  <mat-select [(ngModel)]="IzabranaNaucnaOblastIzmena" [ngModelOptions]="{standalone: true}" multiple>
+                                    <mat-option *ngFor="let o of oblasti" [value]="o">{{o.naziv}}</mat-option>
+                                  </mat-select>
+                                </mat-form-field>
+                              </div>
+                            <div>
+                              <button type="submit" mat-button matStepperNext>Next</button>
+                            </div>
+                          </form>
+                        </mat-step>
+                        <mat-step>
+                          <form (submit)="IzmenaSelektovanogCasopisa($event)">
+                            <ng-template matStepLabel>Izmena urednika i recenzenata</ng-template>
+                            <div class="form-group">
+                              <!-- <label for="exampleInputEmail1">Urednici: </label> -->
+                              <mat-form-field>
+                                <mat-label>Urednici: </mat-label>
+                                <mat-select [(ngModel)]="IzabraniUredniciIzmena" [ngModelOptions]="{standalone: true}" multiple>
+                                  <mat-option *ngFor="let u of urednici" [value]="u">{{u.korisnicko_ime}}</mat-option>
+                                </mat-select>
+                              </mat-form-field>
+                            </div>
+                            <div class="form-group">
+                              <!-- <label for="exampleInputEmail1">Recenzenti: </label> -->
+                              <mat-form-field>
+                                <mat-label>Recenzenti: </mat-label>
+                                <mat-select [(ngModel)]="IzabraniRecenzentiIzmena" [ngModelOptions]="{standalone: true}" multiple>
+                                  <mat-option *ngFor="let r of recenzenti" [value]="r">{{r.korisnicko_ime}}</mat-option>
+                                </mat-select>
+                              </mat-form-field>
+                            </div>
+                            <div>
+                              <button mat-button matStepperPrevious>Vrati se</button>
+                              <button type="submit" mat-button matStepperNext>Zavrsi</button>
+                            </div>
+                          </form>
+                        </mat-step>
+                      </mat-horizontal-stepper>
                     </div>
                   <h5 class="mb-3">Naucni casopisi</h5>
                   <table class="table">
@@ -162,8 +215,9 @@
                         <td>{{c.glavni_urednik.korisnicko_ime}}</td>
                         <td><tr *ngFor="let n of c.naucna_oblast"><td>{{n.naziv}}</td></tr></td>
                         <td>{{c.status}}</td>
-                        <td><button class="btn1 btn-orange" data-toggle="collapse" data-target="#collapseExample4" aria-expanded="false" aria-controls="collapseExample" (click)="IzmeniCasopis(c)">Izmeni</button></td>
-                        <td><button class="btn1 btn-red" (click)="ObrisiCasopis(c.naziv)">Obrisi</button></td>
+                        <td><button class="btn1 btn-orange" *ngIf="korisnik.tipKorisnika === 'UREDNIK' && korisnik.korisnicko_ime === c.glavni_urednik.korisnicko_ime" data-toggle="collapse" data-target="#collapseExample4" aria-expanded="false" aria-controls="collapseExample" (click)="IzmeniCasopis(c)">Izmeni</button></td>
+                        <td><button class="btn1 btn-red" *ngIf="korisnik.tipKorisnika === 'UREDNIK' && korisnik.korisnicko_ime === c.glavni_urednik.korisnicko_ime" (click)="ObrisiCasopis(c.naziv)">Obrisi</button></td>
+                        <td *ngIf="c.dopuniti === false && korisnik.tipKorisnika === 'ADMINISTRATOR'" ><button class="btn1 btn-green" (click)="AktivirajCasopis(c.naziv)">Aktiviraj</button></td>
                       </tr>
                     </tbody>
                   </table>
@@ -411,62 +465,70 @@
               </button>
             </p>
             <div class="collapse" id="collapseExample3">
-              <form (submit)="DodavanjeKorisnikaAdmin($event)">
-                  <div class="form-group row">
-                    <label class="col-lg-3 col-form-label form-control-label">Ime</label>
-                    <div class="col-lg-9">
-                        <input class="form-control" type="text" name="ime">
+              <mat-horizontal-stepper #stepper>
+                <mat-step>
+                  <form (submit)="DodavanjeKorisnikaAdmin($event)">
+                    <ng-template matStepLabel>Podaci o uredniku</ng-template>
+                    <mat-form-field>
+                      <input matInput [(ngModel)]="imeUrednika" [ngModelOptions]="{standalone: true}" placeholder="Ime" required>
+                    </mat-form-field>
+                    <div>
+                    <ng-template matStepLabel>Prezime</ng-template>
+                    <mat-form-field>
+                      <input  matInput [(ngModel)]="prezimeUrednika" [ngModelOptions]="{standalone: true}" placeholder="Prezime" name="Prezime" required>
+                    </mat-form-field>
                     </div>
-                  </div>
-                  <div class="form-group row">
-                      <label class="col-lg-3 col-form-label form-control-label">Prezime</label>
-                      <div class="col-lg-9">
-                          <input class="form-control" type="text" name="prezime">
-                      </div>
-                  </div>
-                  <div class="form-group row">
-                    <label class="col-lg-3 col-form-label form-control-label">Grad</label>
-                    <div class="col-lg-9">
-                        <input class="form-control" type="text" name="grad">
+                    <div>
+                      <ng-template matStepLabel>Grad</ng-template>
+                      <mat-form-field>
+                        <input matInput [(ngModel)]="gradUrednika" [ngModelOptions]="{standalone: true}" placeholder="Grad" required>
+                      </mat-form-field>
                     </div>
-                  </div>
-                  <div class="form-group row">
-                    <label class="col-lg-3 col-form-label form-control-label">Drzava</label>
-                    <div class="col-lg-9">
-                        <input class="form-control" type="text" name="drzava">
+                    <div>
+                        <ng-template matStepLabel>Drzava</ng-template>
+                        <mat-form-field>
+                          <input matInput [(ngModel)]="drzavaUrednika" [ngModelOptions]="{standalone: true}" placeholder="Drzava" required>
+                        </mat-form-field>
                     </div>
-                  </div>
-                  <div class="form-group row">
-                    <label class="col-lg-3 col-form-label form-control-label">Titula</label>
-                    <div class="col-lg-9">
-                        <input class="form-control" type="text" name="titula">
+                    <div>
+                      <ng-template matStepLabel>Drzava</ng-template>
+                      <mat-form-field>
+                        <input matInput [(ngModel)]="titulaUrednika" [ngModelOptions]="{standalone: true}" placeholder="Titula" required>
+                      </mat-form-field>
                     </div>
-                  </div>
-                  <div class="form-group row">
-                      <label class="col-lg-3 col-form-label form-control-label">Email</label>
-                      <div class="col-lg-9">
-                          <input class="form-control" type="email" name="email">
+                    <div>
+                      <ng-template matStepLabel>Email</ng-template>
+                      <mat-form-field>
+                        <input matInput [(ngModel)]="emailUrednika" [ngModelOptions]="{standalone: true}" placeholder="Email" required>
+                      </mat-form-field>
+                    </div>
+                    <div>
+                      <ng-template matStepLabel>Drzava</ng-template>
+                      <mat-form-field>
+                        <input matInput [(ngModel)]="korisnickoImeUrednika" [ngModelOptions]="{standalone: true}" placeholder="KorisnickoIme" required>
+                      </mat-form-field>
+                    </div>
+                    <div>
+                      <ng-template matStepLabel>Drzava</ng-template>
+                      <mat-form-field>
+                        <input matInput [(ngModel)]="lozinkaUrednika" type="password" [ngModelOptions]="{standalone: true}" placeholder="Lozinka" required>
+                      </mat-form-field>
+                    </div>
+                      <div class="form-group">
+                        <!-- <label for="exampleInputEmail1">Naucna Oblast: </label> -->
+                        <mat-form-field>
+                          <mat-label>Naucna Oblast: </mat-label>
+                          <mat-select [(ngModel)]="IzabranaNaucnaOblast" [ngModelOptions]="{standalone: true}" multiple>
+                            <mat-option *ngFor="let o of oblasti" [value]="o">{{o.naziv}}</mat-option>
+                          </mat-select>
+                        </mat-form-field>
                       </div>
-                  </div>
-                  <div class="form-group row">
-                      <label class="col-lg-3 col-form-label form-control-label">Korisnicko ime</label>
-                      <div class="col-lg-9">
-                          <input class="form-control" type="text" name="korisnicko_ime">
-                      </div>
-                  </div>
-                  <div class="form-group row">
-                      <label class="col-lg-3 col-form-label form-control-label">Lozinka</label>
-                      <div class="col-lg-9">
-                          <input class="form-control" type="password" name="lozinka">
-                      </div>
-                  </div>
-                  <div class="form-group row">
-                      <label class="col-lg-3 col-form-label form-control-label"></label>
-                      <div class="col-lg-9">
-                          <input type="submit" class="btn1 btn-green" value="Save Changes">
-                      </div>
-                  </div>
-              </form>
+                    <div>
+                      <button type="submit" mat-button matStepperNext>Zavrsi</button>
+                    </div>
+                  </form>
+                </mat-step>
+              </mat-horizontal-stepper>
             </div>
           <h5 class="mb-3">Registrovani korisnici</h5>
           <table class="table">
@@ -494,6 +556,35 @@
                 <td>{{k.tipKorisnika}}</td>
                 <td><button class="btn1 btn-orange" data-toggle="modal" data-target="#exampleModal1" (click)="IzmeniKorisnika(k)">Izmeni</button></td>
                 <td><button class="btn1 btn-red" (click)="Obrisi(k.korisnicko_ime)">Obrisi</button></td>
+              </tr>
+            </tbody>
+          </table>
+          <h5 class="mb-3">Zahtev za recenzenta</h5>
+          <table class="table">
+            <thead>
+              <tr>
+                <th scope="col">#</th>
+                <th scope="col">Ime</th>
+                <th scope="col">Prezime</th>
+                <th scope="col">Grad</th>
+                <th scope="col">Drzava</th>
+                <th scope="col">Titula</th>
+                <th scope="col">Korisnicko ime</th>
+                <th scope="col">Uloga</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr *ngFor="let k of zahtevRecenzent">
+                <td>{{k.id}}</td>
+                <td>{{k.ime}}</td>
+                <td>{{k.prezime}}</td>
+                <td>{{k.grad}}</td>
+                <td>{{k.drzava}}</td>
+                <td>{{k.titula}}</td>
+                <td>{{k.korisnicko_ime}}</td>
+                <td>{{k.tipKorisnika}}</td>
+                <td><button class="btn1 btn-green" (click)="ZahtevRecenzenta(k.korisnicko_ime,1)">Odobri</button></td>
+                <td><button class="btn1 btn-red" (click)="ZahtevRecenzenta(k.korisnicko_ime,0)">Ponisti</button></td>
               </tr>
             </tbody>
           </table>
