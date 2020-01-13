@@ -1,3 +1,5 @@
+import { NaucniRad } from './../class/naucni-rad';
+import { NaucniCasopis } from './../class/naucni-casopis';
 import { HomeService } from './../home/home.service';
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
@@ -47,10 +49,10 @@ export class NaucniCasopisService {
   }
 }
 
-  izmeniCasopis(naziv, issn,cena, tipCasopisa, Urednici, Recenzenti, Glavni_Korisnik, IzabranaNaucnaOblast) {
+  izmeniCasopis(id,naziv, issn,cena, tipCasopisa, IzabranaNaucnaOblast) {
 
-    return this.http.put('api/naucni_casopis/izmeniCasopis', {naziv: naziv, issn: issn, cena: cena, tipCasopisa: tipCasopisa,
-      urednici: Urednici, recenzent: Recenzenti, naucna_oblast: IzabranaNaucnaOblast})
+    return this.http.put('api/naucni_casopis/izmeniCasopis', {id: id, naziv: naziv, issn: issn, cena: cena, tipCasopisa: tipCasopisa,
+      naucna_oblast: IzabranaNaucnaOblast})
       .subscribe(data => {Swal.fire({
         position: 'top-end',
         icon: 'success',
@@ -146,8 +148,8 @@ export class NaucniCasopisService {
       data2 => localStorage.setItem('tipoviPlacanjaCasopisa', JSON.stringify(data2)));
   }
 
-  aktivirajCasopis(nazivCasopisa: String, dopuniti: number){
-    return this.http.post('api/naucni_casopis/aktivirajCasopis/' + dopuniti, {naziv: nazivCasopisa})
+  aktivirajCasopis(nazivCasopisa: String, dopuniti: number, text){
+    return this.http.post('api/naucni_casopis/aktivirajCasopis/' + dopuniti+'/'+text, {naziv: nazivCasopisa})
     .subscribe(data => {Swal.fire({
       position: 'top-end',
       icon: 'success',
@@ -158,5 +160,23 @@ export class NaucniCasopisService {
       this.homeService.getNaucniCasopisi();
       timer(2500).subscribe(t => location.href = '/userProfile');
     });
+  }
+
+  dodajUKorpuCasopis(korisnik, korpa){
+    return this.http.post('api/naucni_casopis/dodajUKorpu', {id: korisnik, korpa: korpa})
+           .subscribe(data => {
+              Swal.fire({
+                position: 'top-end',
+                icon: 'success',
+                title: 'Uspesno ste dodali casopis u korpu',
+                showConfirmButton: false,
+                timer: 2000
+              });
+              this.http.get('api/korisnik/ulogovan')
+            .subscribe( (data1: any) => {
+              console.log(data1);
+              localStorage.setItem('korisnik', JSON.stringify(data1));
+          });
+        });
   }
 }

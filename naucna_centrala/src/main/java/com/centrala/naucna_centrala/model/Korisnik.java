@@ -76,6 +76,9 @@ public class Korisnik {
     @ManyToOne
     private Naucni_casopis urednik_casopisa;
 
+    @OneToOne
+    private Korpa korpa;
+
     public Korisnik()
     {
 
@@ -225,5 +228,13 @@ public class Korisnik {
 
     public void setUrednik_casopisa(Naucni_casopis urednik_casopisa) {
         this.urednik_casopisa = urednik_casopisa;
+    }
+
+    public Korpa getKorpa() {
+        return korpa;
+    }
+
+    public void setKorpa(Korpa korpa) {
+        this.korpa = korpa;
     }
 }

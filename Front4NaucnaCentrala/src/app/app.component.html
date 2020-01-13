@@ -37,6 +37,7 @@
           <li><a href="/scientific_area" class="scrollto">Naucna oblast</a></li>
           <li><a href="/scientific_papers" class="scrollto">Naucni radovi</a></li>
           <li><a href="/search" class="scrollto"><i class="fa fa-search"></i></a></li>
+          <li *ngIf="korisnik != null && korisnik.tipKorisnika === 'OBICAN'"><a href="/shopping-cart" class="scrollto"><i class="fa fa-shopping-cart"></i></a></li>
           <li *ngIf="korisnik == null"><a href="/login" class="scrollto">Logovanje</a></li>
           <li *ngIf="korisnik != null"><a href="/userProfile" class="scrollto">{{korisnik.korisnicko_ime}}</a></li>
         </ul>

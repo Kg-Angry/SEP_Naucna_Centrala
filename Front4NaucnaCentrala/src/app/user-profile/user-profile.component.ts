@@ -312,23 +312,10 @@ export class UserProfileComponent implements OnInit {
     this.tipCasopisaIzmena = casopis.tipCasopisa;
   }
 
-  IzmenaSelektovanogCasopisa($event)
+  IzmenaSelektovanogCasopisa()
   {
-    event.preventDefault();
-    const target = event.target;
-    if(this.IzabraniRecenzentiIzmena.length < 2) {
-      Swal.fire({
-        position: 'top-end',
-        icon: 'error',
-        title: 'Broj recenzenata minimalno mora biti 2',
-        showConfirmButton: false,
-        timer: 2500
-      });
-    } else {
-      this.ncService.izmeniCasopis(this.nazivCasopisa, this.issn, this.cena, this.tipCasopisaIzmena, this.IzabraniUredniciIzmena,
-        this.IzabraniRecenzentiIzmena, this.korisnik, this.IzabranaNaucnaOblastIzmena);
-   }
-
+      this.ncService.izmeniCasopis(this.casopis_za_izmenu.id, this.nazivCasopisa,
+         this.issn, this.cena, this.tipCasopisaIzmena, this.IzabranaNaucnaOblastIzmena);
   }
 
   ObrisiCasopis(casopis)
@@ -347,19 +334,18 @@ export class UserProfileComponent implements OnInit {
   AktivirajCasopis(nazivCasopisa: String){
     Swal.fire({
       title: 'Dopuna ?',
-      text: "Dopuniti naucni casopis ?",
-      icon: 'warning',
+      input: 'text',
       showCancelButton: true,
-      confirmButtonColor: '#3085d6',
-      cancelButtonColor: '#d33',
       cancelButtonText: 'Ne',
-      confirmButtonText: 'Da'
+      confirmButtonText: 'Da',
+      showLoaderOnConfirm: true,
+      allowOutsideClick: () => !Swal.isLoading()
     }).then((result) => {
       if (result.value) {
-        this.ncService.aktivirajCasopis(nazivCasopisa, 1);
-      } else {
-        this.ncService.aktivirajCasopis(nazivCasopisa, 0);
-      }
+              this.ncService.aktivirajCasopis(nazivCasopisa, 1, result.value);
+            } else {
+              this.ncService.aktivirajCasopis(nazivCasopisa, 0, result.value);
+            }
     });
   }
 

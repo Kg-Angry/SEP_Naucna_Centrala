@@ -1,10 +1,7 @@
 package com.centrala.naucna_centrala.DTO;
 
 import com.centrala.naucna_centrala.Security.AES256bit;
-import com.centrala.naucna_centrala.model.Korisnik;
-import com.centrala.naucna_centrala.model.Naucna_oblast;
-import com.centrala.naucna_centrala.model.Naucni_casopis;
-import com.centrala.naucna_centrala.model.TipKorisnika;
+import com.centrala.naucna_centrala.model.*;
 import sun.security.krb5.internal.crypto.Aes256;
 
 import java.util.HashSet;
@@ -25,14 +22,14 @@ public class KorisnikDTO {
     private TipKorisnika tipKorisnika;
     private boolean aktiviran_nalog;
     private Set<Naucna_oblastDTO> naucne_oblasti = new HashSet<>();
-
+    private KorpaDTO korpa;
 
     public KorisnikDTO()
     {
 
     }
 
-    public KorisnikDTO(Long id,String ime, String prezime, String grad, String drzava, String titula, String email, String korisnicko_ime, String lozinka, TipKorisnika tipKorisnika, boolean aktiviran_nalog, Set<Naucna_oblast> no, boolean recenzent) {
+    public KorisnikDTO(Long id,String ime, String prezime, String grad, String drzava, String titula, String email, String korisnicko_ime, String lozinka, TipKorisnika tipKorisnika, boolean aktiviran_nalog, Set<Naucna_oblast> no, boolean recenzent, Korpa k) {
         this.id = id;
         this.ime = ime;
         this.prezime = prezime;
@@ -49,11 +46,17 @@ public class KorisnikDTO {
             naucne_oblasti.add(new Naucna_oblastDTO(n));
         }
         this.recenzent = recenzent;
+        if(k == null)
+        {
+            this.korpa = new KorpaDTO();
+        }else
+            this.korpa = new KorpaDTO(k);
+
     }
 
     public KorisnikDTO(Korisnik k)
     {
-        this(k.getId(),k.getIme(),k.getPrezime(),k.getGrad(),k.getDrzava(),k.getTitula(),k.getEmail(),k.getKorisnickoIme(),k.getLozinka(),k.getTipKorisnika(),k.isAktiviran_nalog(),k.getNaucne_oblasti(),k.isRecenzent());
+        this(k.getId(),k.getIme(),k.getPrezime(),k.getGrad(),k.getDrzava(),k.getTitula(),k.getEmail(),k.getKorisnickoIme(),k.getLozinka(),k.getTipKorisnika(),k.isAktiviran_nalog(),k.getNaucne_oblasti(),k.isRecenzent(),k.getKorpa());
     }
 
     public Long getId() {
@@ -158,5 +161,13 @@ public class KorisnikDTO {
 
     public void setNaucne_oblasti(Set<Naucna_oblastDTO> naucne_oblasti) {
         this.naucne_oblasti = naucne_oblasti;
+    }
+
+    public KorpaDTO getKorpa() {
+        return korpa;
+    }
+
+    public void setKorpa(KorpaDTO korpa) {
+        this.korpa = korpa;
     }
 }

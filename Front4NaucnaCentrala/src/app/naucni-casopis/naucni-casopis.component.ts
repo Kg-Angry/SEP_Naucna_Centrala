@@ -5,6 +5,7 @@ import { NaucniRad } from './../class/naucni-rad';
 import { NaucniCasopis } from './../class/naucni-casopis';
 import { Component, OnInit } from '@angular/core';
 import {Korisnik} from './../class/korisnik';
+import Swal from 'sweetalert2';
 
 @Component({
   selector: 'app-naucni-casopis',
@@ -20,6 +21,7 @@ export class NaucniCasopisComponent implements OnInit {
   CasopisPlati: NaucniCasopis = new NaucniCasopis();
   tipPlacanjaCasopisa: TipPlacanja[] = JSON.parse(localStorage.getItem('tipoviPlacanjaCasopisa'));
   tipPlacanjaJendogCasopisa: TipPlacanja[] = [];
+  korpa: NaucniCasopis[]=[];
 
   constructor( private casopisService: NaucniCasopisService) { }
 
@@ -39,11 +41,23 @@ export class NaucniCasopisComponent implements OnInit {
   IzabraoPlacanje(t) {
     if(t === 'BANKA') {
       this.casopisService.preusmeriBanka();
-    } else if(t === 'PAYPAL') {
+    } else if (t === 'PAYPAL') {
       this.casopisService.preusmeriPayPal(this.CasopisPlati, this.korisnik);
-    } else if(t === 'BITCOIN') {
+    } else if (t === 'BITCOIN') {
       this.casopisService.preusmeriBitcoin(this.CasopisPlati, this.korisnik);
     }
+  }
+
+  uKorpu(casopis: NaucniCasopis){
+    this.korisnik.korpa.naucni_casopis_list.push(casopis);
+    Swal.fire({
+      position: 'top-end',
+      icon: 'success',
+      title: 'Uspesno ste dodatili casopis u korpu',
+      showConfirmButton: false,
+      timer: 2500
+    });
+     this.casopisService.dodajUKorpuCasopis(this.korisnik.id, this.korisnik.korpa);
   }
 
 }

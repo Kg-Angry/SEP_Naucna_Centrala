@@ -23,6 +23,7 @@ import { ErrorIntercepterService } from './error-intercepter.service';
 import { MAT_DATE_LOCALE } from '@angular/material/core';
 import {MatInputModule} from '@angular/material/input';
 import {MatStepperModule} from '@angular/material/stepper';
+import { ShoppingCartComponent } from './shopping-cart/shopping-cart.component';
 
 @NgModule({
   declarations: [
@@ -37,7 +38,8 @@ import {MatStepperModule} from '@angular/material/stepper';
     PretragaElasticComponent,
     UspesnoPlacanjeComponent,
     PaypalComponent,
-    NeuspesnoPlacanjeComponent
+    NeuspesnoPlacanjeComponent,
+    ShoppingCartComponent,
   ],
   imports: [
     BrowserModule,

@@ -46,13 +46,13 @@ public class EmailService {
 
     //slanje mejla za dopunu casopisa
     @Async
-    public void sendMailDupunaCasopisa(Naucni_casopis nc,Korisnik korisnik){ //throws MailException, InterruptedException, InvalidKeyException, InvalidAlgorithmParameterException, BadPaddingException, IllegalBlockSizeException, UnsupportedEncodingException, NoSuchPaddingException, NoSuchAlgorithmException  {
+    public void sendMailDupunaCasopisa(Naucni_casopis nc,Korisnik korisnik, String tekst){ //throws MailException, InterruptedException, InvalidKeyException, InvalidAlgorithmParameterException, BadPaddingException, IllegalBlockSizeException, UnsupportedEncodingException, NoSuchPaddingException, NoSuchAlgorithmException  {
         String decryptedString = AES256bit.decrypt(korisnik.getKorisnickoIme(),AES256bit.secretKey);
         SimpleMailMessage mail = new SimpleMailMessage();
         mail.setTo(korisnik.getEmail());
         mail.setFrom(env.getProperty("spring.mail.username"));
         mail.setSubject("[NAUCNA CENTRALA] Dopuna naucnog casopisa");
-        mail.setText("Postovani,\n Potrebno je izvrsiti dopunu naucnog casopisa "+nc.getNaziv()+"\n Pozdrav,\n Admin");
+        mail.setText("Postovani,\n Potrebno je izvrsiti dopunu naucnog casopisa "+nc.getNaziv()+" ("+tekst+")\n Pozdrav,\n Admin");
         javaMailSender.send(mail);
     }
 

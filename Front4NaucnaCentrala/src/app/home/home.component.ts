@@ -18,6 +18,7 @@ export class HomeComponent implements OnInit {
     this.homeService.getNaucniRadovi();
     this.userService.getAllUsers();
     this.casopis.getTipoviPlacanja();
+    this.casopis.getTipoviPlacanjaZaSveCasopise();
   }
 
 }

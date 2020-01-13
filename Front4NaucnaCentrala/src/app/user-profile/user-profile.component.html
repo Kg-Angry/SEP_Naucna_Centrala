@@ -158,15 +158,15 @@
                                 </mat-form-field>
                               </div>
                             <div>
-                              <button type="submit" mat-button matStepperNext>Next</button>
+                              <button type="submit" mat-button matStepperNext (click)="IzmenaSelektovanogCasopisa()">Zavrsi</button>
                             </div>
                           </form>
                         </mat-step>
-                        <mat-step>
+                        <!-- <mat-step>
                           <form (submit)="IzmenaSelektovanogCasopisa($event)">
                             <ng-template matStepLabel>Izmena urednika i recenzenata</ng-template>
                             <div class="form-group">
-                              <!-- <label for="exampleInputEmail1">Urednici: </label> -->
+                               <label for="exampleInputEmail1">Urednici: </label>
                               <mat-form-field>
                                 <mat-label>Urednici: </mat-label>
                                 <mat-select [(ngModel)]="IzabraniUredniciIzmena" [ngModelOptions]="{standalone: true}" multiple>
@@ -175,7 +175,7 @@
                               </mat-form-field>
                             </div>
                             <div class="form-group">
-                              <!-- <label for="exampleInputEmail1">Recenzenti: </label> -->
+                               <label for="exampleInputEmail1">Recenzenti: </label>
                               <mat-form-field>
                                 <mat-label>Recenzenti: </mat-label>
                                 <mat-select [(ngModel)]="IzabraniRecenzentiIzmena" [ngModelOptions]="{standalone: true}" multiple>
@@ -188,7 +188,7 @@
                               <button type="submit" mat-button matStepperNext>Zavrsi</button>
                             </div>
                           </form>
-                        </mat-step>
+                        </mat-step> -->
                       </mat-horizontal-stepper>
                     </div>
                   <h5 class="mb-3">Naucni casopisi</h5>

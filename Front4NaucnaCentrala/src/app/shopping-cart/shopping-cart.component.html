@@ -1,0 +1,77 @@
+<div class="wrap cf">
+  <h1 class="projTitle">Izabrani proizvodi u <span>korpi</span></h1>
+  <div class="heading cf">
+    <h1>Moja korpa</h1>
+    <a href="/scientific_journal" class="continue">Nastavak sopinga</a>
+  </div>
+  <div class="cart">
+<!--    <ul class="tableHead">
+      <li class="prodHeader">Product</li>
+      <li>Quantity</li>
+      <li>Total</li>
+       <li>Remove</li>
+    </ul>-->
+    <ul class="cartWrap">
+      <li class="items odd">
+
+    <div class="infoWrap" *ngFor="let c of korisnik.korpa.naucni_casopis_list" >
+        <div class="cartSection">
+        <img src="/src/assets/img/casopis.png" alt="" class="itemImg" />
+          <p class="itemNumber">{{c.issn}}</p>
+          <h3>{{c.naziv}}</h3>
+
+        <p> <input type="text"  class="qty" placeholder="1"/> x {{c.cena}}$</p>
+
+          <p class="stockStatus"> In Stock</p>
+        </div>
+
+
+        <div class="prodTotal cartSection">
+          <p>{{c.cena}}$</p>
+        </div>
+              <div class="cartSection removeWrap">
+           <a class="remove" (click)="ukloniNaucniCasopis(c)">x</a>
+        </div>
+      </div>
+      </li>
+    </ul>
+  </div>
+
+  <div class="promoCode"><label for="promo">Have A Promo Code?</label><input type="text" name="promo" placholder="Enter Code" />
+  <a href="#" class="btn"></a></div>
+
+  <div class="subtotal cf">
+    <ul>
+      <li class="totalRow"><span class="label">Subtotal</span><span class="value">{{ukupnaCena}}$</span></li>
+
+          <!-- <li class="totalRow"><span class="label">Shipping</span><span class="value">$5.00</span></li>
+
+            <li class="totalRow"><span class="label">Tax</span><span class="value">$4.00</span></li>
+            <li class="totalRow final"><span class="label">Total</span><span class="value">$44.00</span></li> -->
+      <li class="totalRow"><a href="#" class="btn" data-toggle="modal" data-target="#exampleModal">Plati</a></li>
+    </ul>
+  </div>
+</div>
+
+Modal za placanje
+<div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLabel">Izaberite nacin placanja: </h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+          <div class="form-group">
+            <label for="exampleInputEmail1"></label>
+            <input type="button" *ngFor="let t of izabraniTipoviPlacanja" (click)="IzabraoPlacanje(t.naziv)"  class="form-control" value="{{t.naziv}}" name="tip">
+          </div>
+      <div class="modal-footer">
+        <button type="button" class="btn1 btn-orange" data-dismiss="modal">Close</button>
+      </div>
+  </div>
+    </div>
+  </div>
+</div>

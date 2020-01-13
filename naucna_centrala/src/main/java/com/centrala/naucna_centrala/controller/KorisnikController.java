@@ -5,10 +5,12 @@ import com.centrala.naucna_centrala.DTO.Naucna_oblastDTO;
 import com.centrala.naucna_centrala.Security.JwtAuthenticationRequest;
 import com.centrala.naucna_centrala.Security.TokenUtils;
 import com.centrala.naucna_centrala.model.Korisnik;
+import com.centrala.naucna_centrala.model.Korpa;
 import com.centrala.naucna_centrala.model.Naucna_oblast;
 import com.centrala.naucna_centrala.model.TipKorisnika;
 import com.centrala.naucna_centrala.service.EmailService;
 import com.centrala.naucna_centrala.service.Korisnik_service;
+import com.centrala.naucna_centrala.service.Korpa_service;
 import com.centrala.naucna_centrala.service.Naucna_oblast_service;
 import org.apache.http.protocol.HTTP;
 import org.slf4j.Logger;
@@ -47,6 +49,8 @@ public class KorisnikController {
     private Naucna_oblast_service nos;
 
     @Autowired
+    private Korpa_service korpa_service;
+    @Autowired
     private EmailService emailService;
     @Autowired
     private TokenUtils tokenUtils;
@@ -72,7 +76,18 @@ public class KorisnikController {
             k.setLozinka(passwordEncoder.encode(korisnik.getLozinka()));
             k.setTipKorisnika(korisnik.getTipKorisnika());
             k.setAktiviran_nalog(false);
-            k.setRecenzent(korisnik.isRecenzent());
+            if(korisnik.isRecenzent())
+            {
+                k.setRecenzent(korisnik.isRecenzent());
+            }else
+            {
+                k.setRecenzent(korisnik.isRecenzent());
+                Korpa korpa = new Korpa();
+                korpa.setNaucni_rad(new HashSet<>());
+                korpa.setNaucni_casopis(new HashSet<>());
+                korpa_service.save(korpa);
+                k.setKorpa(korpa);
+            }
             System.out.println("Cekirao recenzent : " + k.isRecenzent());
             k.setId_casopisa(new HashSet<>());
             k.setRecenzenti(new HashSet<>());
