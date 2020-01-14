@@ -1,3 +1,4 @@
+import { PaypalPretplataComponent } from './paypal-pretplata/paypal-pretplata.component';
 import { ShoppingCartComponent } from './shopping-cart/shopping-cart.component';
 import { NeuspesnoPlacanjeComponent } from './neuspesno-placanje/neuspesno-placanje.component';
 import { UspesnoPlacanjeComponent } from './uspesno-placanje/uspesno-placanje.component';
@@ -27,6 +28,7 @@ const appRoutes: Routes = [
   {path: 'uspesnoPlacanje/:orderId', component: UspesnoPlacanjeComponent},
   {path: 'neuspesnoPlacanje/:orderId', component: NeuspesnoPlacanjeComponent},
   {path: 'paypal/:orderId', component: PaypalComponent},
+  {path: 'paypal_pretplata/:orderId', component: PaypalPretplataComponent},
   {path: 'shopping-cart', component: ShoppingCartComponent},
 ];
 

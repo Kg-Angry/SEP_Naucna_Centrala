@@ -24,6 +24,7 @@ import { MAT_DATE_LOCALE } from '@angular/material/core';
 import {MatInputModule} from '@angular/material/input';
 import {MatStepperModule} from '@angular/material/stepper';
 import { ShoppingCartComponent } from './shopping-cart/shopping-cart.component';
+import { PaypalPretplataComponent } from './paypal-pretplata/paypal-pretplata.component';
 
 @NgModule({
   declarations: [
@@ -40,6 +41,7 @@ import { ShoppingCartComponent } from './shopping-cart/shopping-cart.component';
     PaypalComponent,
     NeuspesnoPlacanjeComponent,
     ShoppingCartComponent,
+    PaypalPretplataComponent,
   ],
   imports: [
     BrowserModule,

@@ -84,7 +84,21 @@ export class NaucniCasopisService {
   {
     location.href = '/banka';
   }
-  preusmeriPayPal(casopis, korisnik) {
+  preusmeriPayPal(ukupnaCena, casopis: NaucniCasopis[], korisnik) {
+
+    //uzimam sve nazive casopisa koji su u korpi
+    let naziv: String = '';
+    let proba = '';
+    for(let i = 0; i < casopis.length;i++)
+    {
+      if(i !== casopis.length - 1){
+        naziv += casopis[i].naziv + ',';
+      } else {
+        naziv += casopis[i].naziv.toString();
+      }
+      let randomBroj: Number = Math.random()*100;
+      proba = randomBroj.toFixed(0);
+    }
     Swal.fire({
       title: 'Pretplata ?',
       text: 'Da li biste zeleli da se pretplatite na PayPal?',
@@ -95,8 +109,8 @@ export class NaucniCasopisService {
       reverseButtons: true
     }).then((result) => {
       if (result.value) {
-        return this.http.post('api1/kp/pretplata', {cena: casopis.cena, korisnicko_ime_platioca: korisnik.korisnicko_ime
-          , lozinka_platioca: korisnik.lozinka, id_porudzbine: casopis.id, naziv_casopisa: casopis.naziv}, {responseType: 'text'})
+        return this.http.post('api1/kp/pretplata', {cena: ukupnaCena, korisnicko_ime_platioca: korisnik.korisnicko_ime
+          , lozinka_platioca: korisnik.lozinka, id_porudzbine: proba, naziv_casopisa: naziv}, {responseType: 'text'})
         .subscribe((data: string) => {
            Swal.fire({
              position: 'top-end',
@@ -110,8 +124,8 @@ export class NaucniCasopisService {
       } else if (
         result.dismiss === Swal.DismissReason.cancel
       ) {
-        return this.http.post('api1/kp/paypal-api', {cena: casopis.cena, korisnicko_ime_platioca: korisnik.korisnicko_ime
-          , lozinka_platioca: korisnik.lozinka, id_porudzbine: casopis.id, naziv_casopisa: casopis.naziv}, {responseType: 'text'})
+        return this.http.post('api1/kp/paypal-api', {cena: ukupnaCena, korisnicko_ime_platioca: korisnik.korisnicko_ime
+          , lozinka_platioca: korisnik.lozinka, id_porudzbine: proba, naziv_casopisa: naziv}, {responseType: 'text'})
         .subscribe((data: string) => {
            Swal.fire({
              position: 'top-end',
@@ -125,9 +139,22 @@ export class NaucniCasopisService {
       }
     })
   }
-  preusmeriBitcoin(casopis, korisnik){
-    return this.http.post('api1/kp/bitcoin-api', {cena: casopis.cena, korisnicko_ime_platioca: korisnik.korisnicko_ime
-    , lozinka_platioca: korisnik.lozinka, id_porudzbine: casopis.id, naziv_casopisa: casopis.naziv}, {responseType: 'text'})
+  preusmeriBitcoin(ukupnaCena, casopis: NaucniCasopis[], korisnik){
+    //uzimam sve nazive casopisa koji su u korpi
+    let naziv: String = '';
+    let proba = '';
+    for(let i = 0; i < casopis.length; i++)
+    {
+      if(i !== casopis.length - 1){
+        naziv += casopis[i].naziv + ',';
+      } else {
+        naziv += casopis[i].naziv.toString();
+      }
+      let randomBroj: Number = Math.random()*100;
+      proba = randomBroj.toFixed(0);
+    }
+    return this.http.post('api1/kp/bitcoin-api', {cena: ukupnaCena, korisnicko_ime_platioca: korisnik.korisnicko_ime
+    , lozinka_platioca: korisnik.lozinka, id_porudzbine: proba, naziv_casopisa: naziv}, {responseType: 'text'})
     .subscribe((data: string) => { Swal.fire({
       position: 'top-end',
       icon: 'info',

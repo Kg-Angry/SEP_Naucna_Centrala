@@ -16,6 +16,7 @@ export class PaypalService {
   }
 
   slanjePodataka(target, payID, token, payerID) {
+
     return this.http.post('api1/kp/paypal-api', {paymentId: payID, payerID: payerID})
     .subscribe(data => { Swal.fire({
       position: 'top-end',
@@ -27,5 +28,18 @@ export class PaypalService {
 
       timer(2500).subscribe(t => location.href = '/home');
     });
+  }
+
+  slanjePodatakaZaPretplatu(token) {
+    return this.http.post('api1/kp/pretplata', {token: token}, {responseType: 'text'})
+        .subscribe((data: String) => { Swal.fire({
+          position: 'top-end',
+          icon: 'success',
+          title: 'Uspesno ste platili za PayPal',
+          showConfirmButton: false,
+          timer: 2500
+        });
+          timer(2500).subscribe(t => location.href = '/home');
+        });
   }
 }

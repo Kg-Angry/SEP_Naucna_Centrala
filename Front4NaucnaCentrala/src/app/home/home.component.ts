@@ -2,6 +2,7 @@ import { NaucniCasopisService } from './../naucni-casopis/naucni-casopis.service
 import { UserProfileService } from './../user-profile/user-profile.service';
 import { HomeService } from './home.service';
 import { Component, OnInit } from '@angular/core';
+import { ActivatedRoute } from '@angular/router';
 
 @Component({
   selector: 'app-home',
@@ -13,12 +14,12 @@ export class HomeComponent implements OnInit {
   constructor(private homeService: HomeService, private userService: UserProfileService, private casopis: NaucniCasopisService) { }
 
   ngOnInit() {
-    this.homeService.getOblasti();
-    this.homeService.getNaucniCasopisi();
-    this.homeService.getNaucniRadovi();
-    this.userService.getAllUsers();
-    this.casopis.getTipoviPlacanja();
-    this.casopis.getTipoviPlacanjaZaSveCasopise();
+      this.homeService.getOblasti();
+      this.homeService.getNaucniCasopisi();
+      this.homeService.getNaucniRadovi();
+      this.userService.getAllUsers();
+      this.casopis.getTipoviPlacanja();
+      this.casopis.getTipoviPlacanjaZaSveCasopise();
   }
 
 }

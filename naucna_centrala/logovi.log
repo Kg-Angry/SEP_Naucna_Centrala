@@ -34,3 +34,147 @@
 2020-01-13 00:35:31.555  INFO 6780 --- [https-jsse-nio-8080-exec-4] o.a.c.c.C.[Tomcat].[localhost].[/]       : Initializing Spring DispatcherServlet 'dispatcherServlet'
 2020-01-13 00:35:31.555  INFO 6780 --- [https-jsse-nio-8080-exec-4] o.s.web.servlet.DispatcherServlet        : Initializing Servlet 'dispatcherServlet'
 2020-01-13 00:35:31.574  INFO 6780 --- [https-jsse-nio-8080-exec-4] o.s.web.servlet.DispatcherServlet        : Completed initialization in 18 ms
+2020-01-13 13:14:21.034  INFO 8908 --- [main] c.c.n.NaucnaCentralaApplication          : Starting NaucnaCentralaApplication on DESKTOP-N07U3GC with PID 8908 (C:\Users\Alexandar\Documents\MASTER\1_semestar\SEP_Naucna_Centrala\SEP_Naucna_Centrala\naucna_centrala\target\classes started by Alexandar in C:\Users\Alexandar\Documents\MASTER\1_semestar\SEP_Naucna_Centrala\SEP_Naucna_Centrala\naucna_centrala)
+2020-01-13 13:14:21.046  INFO 8908 --- [main] c.c.n.NaucnaCentralaApplication          : No active profile set, falling back to default profiles: default
+2020-01-13 13:14:24.948  INFO 8908 --- [main] .s.d.r.c.RepositoryConfigurationDelegate : Bootstrapping Spring Data repositories in DEFAULT mode.
+2020-01-13 13:14:25.807  INFO 8908 --- [main] .s.d.r.c.RepositoryConfigurationDelegate : Finished Spring Data repository scanning in 776ms. Found 5 repository interfaces.
+2020-01-13 13:14:26.026  INFO 8908 --- [main] .s.d.r.c.RepositoryConfigurationDelegate : Bootstrapping Spring Data repositories in DEFAULT mode.
+2020-01-13 13:14:26.182  INFO 8908 --- [main] .s.d.r.c.RepositoryConfigurationDelegate : Finished Spring Data repository scanning in 144ms. Found 5 repository interfaces.
+2020-01-13 13:14:27.369  INFO 8908 --- [main] trationDelegate$BeanPostProcessorChecker : Bean 'naucnaCentralaApplication' of type [com.centrala.naucna_centrala.NaucnaCentralaApplication$$EnhancerBySpringCGLIB$$30c47683] is not eligible for getting processed by all BeanPostProcessors (for example: not eligible for auto-proxying)
+2020-01-13 13:14:27.572  INFO 8908 --- [main] trationDelegate$BeanPostProcessorChecker : Bean 'org.springframework.transaction.annotation.ProxyTransactionManagementConfiguration' of type [org.springframework.transaction.annotation.ProxyTransactionManagementConfiguration] is not eligible for getting processed by all BeanPostProcessors (for example: not eligible for auto-proxying)
+2020-01-13 13:14:27.666  INFO 8908 --- [main] trationDelegate$BeanPostProcessorChecker : Bean 'org.springframework.security.config.annotation.configuration.ObjectPostProcessorConfiguration' of type [org.springframework.security.config.annotation.configuration.ObjectPostProcessorConfiguration] is not eligible for getting processed by all BeanPostProcessors (for example: not eligible for auto-proxying)
+2020-01-13 13:14:27.682  INFO 8908 --- [main] trationDelegate$BeanPostProcessorChecker : Bean 'objectPostProcessor' of type [org.springframework.security.config.annotation.configuration.AutowireBeanFactoryObjectPostProcessor] is not eligible for getting processed by all BeanPostProcessors (for example: not eligible for auto-proxying)
+2020-01-13 13:14:27.697  INFO 8908 --- [main] trationDelegate$BeanPostProcessorChecker : Bean 'org.springframework.security.access.expression.method.DefaultMethodSecurityExpressionHandler@1d2644e3' of type [org.springframework.security.access.expression.method.DefaultMethodSecurityExpressionHandler] is not eligible for getting processed by all BeanPostProcessors (for example: not eligible for auto-proxying)
+2020-01-13 13:14:27.697  INFO 8908 --- [main] trationDelegate$BeanPostProcessorChecker : Bean 'org.springframework.security.config.annotation.method.configuration.GlobalMethodSecurityConfiguration' of type [org.springframework.security.config.annotation.method.configuration.GlobalMethodSecurityConfiguration] is not eligible for getting processed by all BeanPostProcessors (for example: not eligible for auto-proxying)
+2020-01-13 13:14:27.713  INFO 8908 --- [main] trationDelegate$BeanPostProcessorChecker : Bean 'org.springframework.security.config.annotation.method.configuration.Jsr250MetadataSourceConfiguration' of type [org.springframework.security.config.annotation.method.configuration.Jsr250MetadataSourceConfiguration] is not eligible for getting processed by all BeanPostProcessors (for example: not eligible for auto-proxying)
+2020-01-13 13:14:27.713  INFO 8908 --- [main] trationDelegate$BeanPostProcessorChecker : Bean 'jsr250MethodSecurityMetadataSource' of type [org.springframework.security.access.annotation.Jsr250MethodSecurityMetadataSource] is not eligible for getting processed by all BeanPostProcessors (for example: not eligible for auto-proxying)
+2020-01-13 13:14:27.729  INFO 8908 --- [main] trationDelegate$BeanPostProcessorChecker : Bean 'methodSecurityMetadataSource' of type [org.springframework.security.access.method.DelegatingMethodSecurityMetadataSource] is not eligible for getting processed by all BeanPostProcessors (for example: not eligible for auto-proxying)
+2020-01-13 13:14:29.160  INFO 8908 --- [main] o.s.b.w.embedded.tomcat.TomcatWebServer  : Tomcat initialized with port(s): 8080 (https)
+2020-01-13 13:14:29.222  INFO 8908 --- [main] o.apache.catalina.core.StandardService   : Starting service [Tomcat]
+2020-01-13 13:14:29.222  INFO 8908 --- [main] org.apache.catalina.core.StandardEngine  : Starting Servlet engine: [Apache Tomcat/9.0.27]
+2020-01-13 13:14:32.182  INFO 8908 --- [main] o.a.c.c.C.[Tomcat].[localhost].[/]       : Initializing Spring embedded WebApplicationContext
+2020-01-13 13:14:32.186  INFO 8908 --- [main] o.s.web.context.ContextLoader            : Root WebApplicationContext: initialization completed in 10950 ms
+2020-01-13 13:14:39.289  INFO 8908 --- [main] o.hibernate.jpa.internal.util.LogHelper  : HHH000204: Processing PersistenceUnitInfo [name: default]
+2020-01-13 13:14:39.539  INFO 8908 --- [main] org.hibernate.Version                    : HHH000412: Hibernate Core {5.4.6.Final}
+2020-01-13 13:14:40.149  INFO 8908 --- [main] o.hibernate.annotations.common.Version   : HCANN000001: Hibernate Commons Annotations {5.1.0.Final}
+2020-01-13 13:14:40.708  INFO 8908 --- [main] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Starting...
+2020-01-13 13:14:41.140  INFO 8908 --- [main] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Start completed.
+2020-01-13 13:14:41.224  INFO 8908 --- [main] org.hibernate.dialect.Dialect            : HHH000400: Using dialect: org.hibernate.dialect.MySQL5Dialect
+2020-01-13 13:14:54.674  INFO 8908 --- [main] o.h.e.t.j.p.i.JtaPlatformInitiator       : HHH000490: Using JtaPlatform implementation: [org.hibernate.engine.transaction.jta.platform.internal.NoJtaPlatform]
+2020-01-13 13:14:54.689  INFO 8908 --- [main] j.LocalContainerEntityManagerFactoryBean : Initialized JPA EntityManagerFactory for persistence unit 'default'
+2020-01-13 13:14:55.174  WARN 8908 --- [main] JpaBaseConfiguration$JpaWebConfiguration : spring.jpa.open-in-view is enabled by default. Therefore, database queries may be performed during view rendering. Explicitly configure spring.jpa.open-in-view to disable this warning
+2020-01-13 13:14:58.832  INFO 8908 --- [main] o.s.s.web.DefaultSecurityFilterChain     : Creating filter chain: any request, [org.springframework.security.web.context.request.async.WebAsyncManagerIntegrationFilter@657b3b, org.springframework.security.web.context.SecurityContextPersistenceFilter@21c75084, org.springframework.security.web.header.HeaderWriterFilter@9f9146d, org.springframework.web.filter.CorsFilter@2cea921a, org.springframework.security.web.authentication.logout.LogoutFilter@adafe19, org.springframework.security.web.savedrequest.RequestCacheAwareFilter@75527e36, org.springframework.security.web.servletapi.SecurityContextHolderAwareRequestFilter@203765b2, org.springframework.security.web.authentication.rememberme.RememberMeAuthenticationFilter@322b09da, org.springframework.security.web.authentication.AnonymousAuthenticationFilter@65753724, org.springframework.security.web.session.SessionManagementFilter@45e7bb79, org.springframework.security.web.access.ExceptionTranslationFilter@48a46b0f, org.springframework.security.web.access.intercept.FilterSecurityInterceptor@211a9647]
+2020-01-13 13:15:02.301  INFO 8908 --- [main] o.s.s.concurrent.ThreadPoolTaskExecutor  : Initializing ExecutorService 'applicationTaskExecutor'
+2020-01-13 13:15:08.634  INFO 8908 --- [main] o.s.b.w.embedded.tomcat.TomcatWebServer  : Tomcat started on port(s): 8080 (https) with context path ''
+2020-01-13 13:15:08.634  INFO 8908 --- [main] c.c.n.NaucnaCentralaApplication          : Started NaucnaCentralaApplication in 48.789 seconds (JVM running for 56.676)
+2020-01-13 13:16:40.506  INFO 8908 --- [https-jsse-nio-8080-exec-6] o.a.c.c.C.[Tomcat].[localhost].[/]       : Initializing Spring DispatcherServlet 'dispatcherServlet'
+2020-01-13 13:16:40.506  INFO 8908 --- [https-jsse-nio-8080-exec-6] o.s.web.servlet.DispatcherServlet        : Initializing Servlet 'dispatcherServlet'
+2020-01-13 13:16:40.534  INFO 8908 --- [https-jsse-nio-8080-exec-6] o.s.web.servlet.DispatcherServlet        : Completed initialization in 28 ms
+2020-01-13 15:06:38.960  INFO 8908 --- [https-jsse-nio-8080-exec-6] c.c.n.controller.KorisnikController      : 
+		Korisnik sa email adresom aaaaa se upravo ulogovao na sistem naucne centrale.
+
+2020-01-13 17:01:16.209  INFO 8908 --- [https-jsse-nio-8080-exec-8] c.c.n.controller.KorisnikController      : 
+		Korisnik sa email adresom aaaaa se upravo ulogovao na sistem naucne centrale.
+
+2020-01-13 17:04:28.903  INFO 8908 --- [https-jsse-nio-8080-exec-1] c.c.n.controller.KorisnikController      : 
+		Korisnik sa email adresom aaaaa se upravo ulogovao na sistem naucne centrale.
+
+2020-01-13 17:11:54.212  INFO 8908 --- [https-jsse-nio-8080-exec-1] c.c.n.controller.KorisnikController      : 
+		Korisnik sa email adresom aaaaa se upravo ulogovao na sistem naucne centrale.
+
+2020-01-13 17:30:38.223  INFO 3236 --- [main] c.c.n.NaucnaCentralaApplication          : Starting NaucnaCentralaApplication on DESKTOP-N07U3GC with PID 3236 (C:\Users\Alexandar\Documents\MASTER\1_semestar\SEP_Naucna_Centrala\SEP_Naucna_Centrala\naucna_centrala\target\classes started by Alexandar in C:\Users\Alexandar\Documents\MASTER\1_semestar\SEP_Naucna_Centrala\SEP_Naucna_Centrala\naucna_centrala)
+2020-01-13 17:30:38.223  INFO 3236 --- [main] c.c.n.NaucnaCentralaApplication          : No active profile set, falling back to default profiles: default
+2020-01-13 17:30:40.985  INFO 3236 --- [main] .s.d.r.c.RepositoryConfigurationDelegate : Bootstrapping Spring Data repositories in DEFAULT mode.
+2020-01-13 17:30:41.298  INFO 3236 --- [main] .s.d.r.c.RepositoryConfigurationDelegate : Finished Spring Data repository scanning in 300ms. Found 5 repository interfaces.
+2020-01-13 17:30:41.353  INFO 3236 --- [main] .s.d.r.c.RepositoryConfigurationDelegate : Bootstrapping Spring Data repositories in DEFAULT mode.
+2020-01-13 17:30:41.638  INFO 3236 --- [main] .s.d.r.c.RepositoryConfigurationDelegate : Finished Spring Data repository scanning in 273ms. Found 5 repository interfaces.
+2020-01-13 17:30:42.844  INFO 3236 --- [main] trationDelegate$BeanPostProcessorChecker : Bean 'naucnaCentralaApplication' of type [com.centrala.naucna_centrala.NaucnaCentralaApplication$$EnhancerBySpringCGLIB$$3019bc5c] is not eligible for getting processed by all BeanPostProcessors (for example: not eligible for auto-proxying)
+2020-01-13 17:30:42.989  INFO 3236 --- [main] trationDelegate$BeanPostProcessorChecker : Bean 'org.springframework.transaction.annotation.ProxyTransactionManagementConfiguration' of type [org.springframework.transaction.annotation.ProxyTransactionManagementConfiguration] is not eligible for getting processed by all BeanPostProcessors (for example: not eligible for auto-proxying)
+2020-01-13 17:30:43.107  INFO 3236 --- [main] trationDelegate$BeanPostProcessorChecker : Bean 'org.springframework.security.config.annotation.configuration.ObjectPostProcessorConfiguration' of type [org.springframework.security.config.annotation.configuration.ObjectPostProcessorConfiguration] is not eligible for getting processed by all BeanPostProcessors (for example: not eligible for auto-proxying)
+2020-01-13 17:30:43.115  INFO 3236 --- [main] trationDelegate$BeanPostProcessorChecker : Bean 'objectPostProcessor' of type [org.springframework.security.config.annotation.configuration.AutowireBeanFactoryObjectPostProcessor] is not eligible for getting processed by all BeanPostProcessors (for example: not eligible for auto-proxying)
+2020-01-13 17:30:43.122  INFO 3236 --- [main] trationDelegate$BeanPostProcessorChecker : Bean 'org.springframework.security.access.expression.method.DefaultMethodSecurityExpressionHandler@46baf579' of type [org.springframework.security.access.expression.method.DefaultMethodSecurityExpressionHandler] is not eligible for getting processed by all BeanPostProcessors (for example: not eligible for auto-proxying)
+2020-01-13 17:30:43.127  INFO 3236 --- [main] trationDelegate$BeanPostProcessorChecker : Bean 'org.springframework.security.config.annotation.method.configuration.GlobalMethodSecurityConfiguration' of type [org.springframework.security.config.annotation.method.configuration.GlobalMethodSecurityConfiguration] is not eligible for getting processed by all BeanPostProcessors (for example: not eligible for auto-proxying)
+2020-01-13 17:30:43.146  INFO 3236 --- [main] trationDelegate$BeanPostProcessorChecker : Bean 'org.springframework.security.config.annotation.method.configuration.Jsr250MetadataSourceConfiguration' of type [org.springframework.security.config.annotation.method.configuration.Jsr250MetadataSourceConfiguration] is not eligible for getting processed by all BeanPostProcessors (for example: not eligible for auto-proxying)
+2020-01-13 17:30:43.149  INFO 3236 --- [main] trationDelegate$BeanPostProcessorChecker : Bean 'jsr250MethodSecurityMetadataSource' of type [org.springframework.security.access.annotation.Jsr250MethodSecurityMetadataSource] is not eligible for getting processed by all BeanPostProcessors (for example: not eligible for auto-proxying)
+2020-01-13 17:30:43.151  INFO 3236 --- [main] trationDelegate$BeanPostProcessorChecker : Bean 'methodSecurityMetadataSource' of type [org.springframework.security.access.method.DelegatingMethodSecurityMetadataSource] is not eligible for getting processed by all BeanPostProcessors (for example: not eligible for auto-proxying)
+2020-01-13 17:30:43.982  INFO 3236 --- [main] o.s.b.w.embedded.tomcat.TomcatWebServer  : Tomcat initialized with port(s): 8080 (https)
+2020-01-13 17:30:44.015  INFO 3236 --- [main] o.apache.catalina.core.StandardService   : Starting service [Tomcat]
+2020-01-13 17:30:44.016  INFO 3236 --- [main] org.apache.catalina.core.StandardEngine  : Starting Servlet engine: [Apache Tomcat/9.0.27]
+2020-01-13 17:30:44.359  INFO 3236 --- [main] o.a.c.c.C.[Tomcat].[localhost].[/]       : Initializing Spring embedded WebApplicationContext
+2020-01-13 17:30:44.360  INFO 3236 --- [main] o.s.web.context.ContextLoader            : Root WebApplicationContext: initialization completed in 5903 ms
+2020-01-13 17:30:44.895  INFO 3236 --- [main] o.hibernate.jpa.internal.util.LogHelper  : HHH000204: Processing PersistenceUnitInfo [name: default]
+2020-01-13 17:30:45.405  INFO 3236 --- [main] org.hibernate.Version                    : HHH000412: Hibernate Core {5.4.6.Final}
+2020-01-13 17:30:46.304  INFO 3236 --- [main] o.hibernate.annotations.common.Version   : HCANN000001: Hibernate Commons Annotations {5.1.0.Final}
+2020-01-13 17:30:46.695  INFO 3236 --- [main] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Starting...
+2020-01-13 17:30:47.086  INFO 3236 --- [main] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Start completed.
+2020-01-13 17:30:47.117  INFO 3236 --- [main] org.hibernate.dialect.Dialect            : HHH000400: Using dialect: org.hibernate.dialect.MySQL5Dialect
+2020-01-13 17:30:52.403  INFO 3236 --- [main] o.h.e.t.j.p.i.JtaPlatformInitiator       : HHH000490: Using JtaPlatform implementation: [org.hibernate.engine.transaction.jta.platform.internal.NoJtaPlatform]
+2020-01-13 17:30:52.418  INFO 3236 --- [main] j.LocalContainerEntityManagerFactoryBean : Initialized JPA EntityManagerFactory for persistence unit 'default'
+2020-01-13 17:30:52.834  WARN 3236 --- [main] JpaBaseConfiguration$JpaWebConfiguration : spring.jpa.open-in-view is enabled by default. Therefore, database queries may be performed during view rendering. Explicitly configure spring.jpa.open-in-view to disable this warning
+2020-01-13 17:30:55.635  INFO 3236 --- [main] o.s.s.web.DefaultSecurityFilterChain     : Creating filter chain: any request, [org.springframework.security.web.context.request.async.WebAsyncManagerIntegrationFilter@4b85edeb, org.springframework.security.web.context.SecurityContextPersistenceFilter@1552da16, org.springframework.security.web.header.HeaderWriterFilter@4228f269, org.springframework.web.filter.CorsFilter@5731caaf, org.springframework.security.web.authentication.logout.LogoutFilter@46ab4efc, org.springframework.security.web.savedrequest.RequestCacheAwareFilter@77ce88c4, org.springframework.security.web.servletapi.SecurityContextHolderAwareRequestFilter@236861da, org.springframework.security.web.authentication.rememberme.RememberMeAuthenticationFilter@a9a8ec3, org.springframework.security.web.authentication.AnonymousAuthenticationFilter@59933644, org.springframework.security.web.session.SessionManagementFilter@775f15fd, org.springframework.security.web.access.ExceptionTranslationFilter@3686389, org.springframework.security.web.access.intercept.FilterSecurityInterceptor@51af8049]
+2020-01-13 17:30:57.308  INFO 3236 --- [main] o.s.s.concurrent.ThreadPoolTaskExecutor  : Initializing ExecutorService 'applicationTaskExecutor'
+2020-01-13 17:30:59.234  INFO 3236 --- [main] o.s.b.w.embedded.tomcat.TomcatWebServer  : Tomcat started on port(s): 8080 (https) with context path ''
+2020-01-13 17:30:59.239  INFO 3236 --- [main] c.c.n.NaucnaCentralaApplication          : Started NaucnaCentralaApplication in 22.848 seconds (JVM running for 26.38)
+2020-01-13 17:31:12.079  INFO 3236 --- [https-jsse-nio-8080-exec-7] o.a.c.c.C.[Tomcat].[localhost].[/]       : Initializing Spring DispatcherServlet 'dispatcherServlet'
+2020-01-13 17:31:12.079  INFO 3236 --- [https-jsse-nio-8080-exec-7] o.s.web.servlet.DispatcherServlet        : Initializing Servlet 'dispatcherServlet'
+2020-01-13 17:31:12.095  INFO 3236 --- [https-jsse-nio-8080-exec-7] o.s.web.servlet.DispatcherServlet        : Completed initialization in 16 ms
+2020-01-13 17:32:04.972  INFO 3236 --- [https-jsse-nio-8080-exec-3] c.c.n.controller.KorisnikController      : 
+		Korisnik obican je uspesno dobio JWT token.
+
+2020-01-13 17:32:05.548  INFO 3236 --- [https-jsse-nio-8080-exec-4] c.c.n.controller.KorisnikController      : 
+		Korisnik sa email adresom aaaaa se upravo ulogovao na sistem naucne centrale.
+
+2020-01-13 17:32:35.614  INFO 3236 --- [https-jsse-nio-8080-exec-6] c.c.n.controller.KorisnikController      : 
+		Korisnik sa email adresom aaaaa se upravo ulogovao na sistem naucne centrale.
+
+2020-01-13 17:32:39.832  INFO 3236 --- [https-jsse-nio-8080-exec-6] c.c.n.controller.KorisnikController      : 
+		Korisnik sa email adresom aaaaa se upravo ulogovao na sistem naucne centrale.
+
+2020-01-13 22:12:16.118  INFO 8988 --- [main] c.c.n.NaucnaCentralaApplication          : Starting NaucnaCentralaApplication on DESKTOP-N07U3GC with PID 8988 (C:\Users\Alexandar\Documents\MASTER\1_semestar\SEP_Naucna_Centrala\SEP_Naucna_Centrala\naucna_centrala\target\classes started by Alexandar in C:\Users\Alexandar\Documents\MASTER\1_semestar\SEP_Naucna_Centrala\SEP_Naucna_Centrala\naucna_centrala)
+2020-01-13 22:12:16.126  INFO 8988 --- [main] c.c.n.NaucnaCentralaApplication          : No active profile set, falling back to default profiles: default
+2020-01-13 22:12:20.108  INFO 8988 --- [main] .s.d.r.c.RepositoryConfigurationDelegate : Bootstrapping Spring Data repositories in DEFAULT mode.
+2020-01-13 22:12:20.441  INFO 8988 --- [main] .s.d.r.c.RepositoryConfigurationDelegate : Finished Spring Data repository scanning in 319ms. Found 5 repository interfaces.
+2020-01-13 22:12:20.504  INFO 8988 --- [main] .s.d.r.c.RepositoryConfigurationDelegate : Bootstrapping Spring Data repositories in DEFAULT mode.
+2020-01-13 22:12:20.608  INFO 8988 --- [main] .s.d.r.c.RepositoryConfigurationDelegate : Finished Spring Data repository scanning in 88ms. Found 5 repository interfaces.
+2020-01-13 22:12:21.605  INFO 8988 --- [main] trationDelegate$BeanPostProcessorChecker : Bean 'naucnaCentralaApplication' of type [com.centrala.naucna_centrala.NaucnaCentralaApplication$$EnhancerBySpringCGLIB$$426c0abc] is not eligible for getting processed by all BeanPostProcessors (for example: not eligible for auto-proxying)
+2020-01-13 22:12:21.792  INFO 8988 --- [main] trationDelegate$BeanPostProcessorChecker : Bean 'org.springframework.transaction.annotation.ProxyTransactionManagementConfiguration' of type [org.springframework.transaction.annotation.ProxyTransactionManagementConfiguration] is not eligible for getting processed by all BeanPostProcessors (for example: not eligible for auto-proxying)
+2020-01-13 22:12:21.980  INFO 8988 --- [main] trationDelegate$BeanPostProcessorChecker : Bean 'org.springframework.security.config.annotation.configuration.ObjectPostProcessorConfiguration' of type [org.springframework.security.config.annotation.configuration.ObjectPostProcessorConfiguration] is not eligible for getting processed by all BeanPostProcessors (for example: not eligible for auto-proxying)
+2020-01-13 22:12:21.988  INFO 8988 --- [main] trationDelegate$BeanPostProcessorChecker : Bean 'objectPostProcessor' of type [org.springframework.security.config.annotation.configuration.AutowireBeanFactoryObjectPostProcessor] is not eligible for getting processed by all BeanPostProcessors (for example: not eligible for auto-proxying)
+2020-01-13 22:12:21.996  INFO 8988 --- [main] trationDelegate$BeanPostProcessorChecker : Bean 'org.springframework.security.access.expression.method.DefaultMethodSecurityExpressionHandler@48b0e701' of type [org.springframework.security.access.expression.method.DefaultMethodSecurityExpressionHandler] is not eligible for getting processed by all BeanPostProcessors (for example: not eligible for auto-proxying)
+2020-01-13 22:12:22.004  INFO 8988 --- [main] trationDelegate$BeanPostProcessorChecker : Bean 'org.springframework.security.config.annotation.method.configuration.GlobalMethodSecurityConfiguration' of type [org.springframework.security.config.annotation.method.configuration.GlobalMethodSecurityConfiguration] is not eligible for getting processed by all BeanPostProcessors (for example: not eligible for auto-proxying)
+2020-01-13 22:12:22.020  INFO 8988 --- [main] trationDelegate$BeanPostProcessorChecker : Bean 'org.springframework.security.config.annotation.method.configuration.Jsr250MetadataSourceConfiguration' of type [org.springframework.security.config.annotation.method.configuration.Jsr250MetadataSourceConfiguration] is not eligible for getting processed by all BeanPostProcessors (for example: not eligible for auto-proxying)
+2020-01-13 22:12:22.024  INFO 8988 --- [main] trationDelegate$BeanPostProcessorChecker : Bean 'jsr250MethodSecurityMetadataSource' of type [org.springframework.security.access.annotation.Jsr250MethodSecurityMetadataSource] is not eligible for getting processed by all BeanPostProcessors (for example: not eligible for auto-proxying)
+2020-01-13 22:12:22.029  INFO 8988 --- [main] trationDelegate$BeanPostProcessorChecker : Bean 'methodSecurityMetadataSource' of type [org.springframework.security.access.method.DelegatingMethodSecurityMetadataSource] is not eligible for getting processed by all BeanPostProcessors (for example: not eligible for auto-proxying)
+2020-01-13 22:12:22.990  INFO 8988 --- [main] o.s.b.w.embedded.tomcat.TomcatWebServer  : Tomcat initialized with port(s): 8080 (https)
+2020-01-13 22:12:23.022  INFO 8988 --- [main] o.apache.catalina.core.StandardService   : Starting service [Tomcat]
+2020-01-13 22:12:23.026  INFO 8988 --- [main] org.apache.catalina.core.StandardEngine  : Starting Servlet engine: [Apache Tomcat/9.0.27]
+2020-01-13 22:12:23.414  INFO 8988 --- [main] o.a.c.c.C.[Tomcat].[localhost].[/]       : Initializing Spring embedded WebApplicationContext
+2020-01-13 22:12:23.414  INFO 8988 --- [main] o.s.web.context.ContextLoader            : Root WebApplicationContext: initialization completed in 7088 ms
+2020-01-13 22:12:24.074  INFO 8988 --- [main] o.hibernate.jpa.internal.util.LogHelper  : HHH000204: Processing PersistenceUnitInfo [name: default]
+2020-01-13 22:12:24.294  INFO 8988 --- [main] org.hibernate.Version                    : HHH000412: Hibernate Core {5.4.6.Final}
+2020-01-13 22:12:24.990  INFO 8988 --- [main] o.hibernate.annotations.common.Version   : HCANN000001: Hibernate Commons Annotations {5.1.0.Final}
+2020-01-13 22:12:25.265  INFO 8988 --- [main] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Starting...
+2020-01-13 22:12:25.541  INFO 8988 --- [main] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Start completed.
+2020-01-13 22:12:25.573  INFO 8988 --- [main] org.hibernate.dialect.Dialect            : HHH000400: Using dialect: org.hibernate.dialect.MySQL5Dialect
+2020-01-13 22:12:30.885  INFO 8988 --- [main] o.h.e.t.j.p.i.JtaPlatformInitiator       : HHH000490: Using JtaPlatform implementation: [org.hibernate.engine.transaction.jta.platform.internal.NoJtaPlatform]
+2020-01-13 22:12:30.909  INFO 8988 --- [main] j.LocalContainerEntityManagerFactoryBean : Initialized JPA EntityManagerFactory for persistence unit 'default'
+2020-01-13 22:12:31.341  WARN 8988 --- [main] JpaBaseConfiguration$JpaWebConfiguration : spring.jpa.open-in-view is enabled by default. Therefore, database queries may be performed during view rendering. Explicitly configure spring.jpa.open-in-view to disable this warning
+2020-01-13 22:12:33.669  INFO 8988 --- [main] o.s.s.web.DefaultSecurityFilterChain     : Creating filter chain: any request, [org.springframework.security.web.context.request.async.WebAsyncManagerIntegrationFilter@fcd0e8d, org.springframework.security.web.context.SecurityContextPersistenceFilter@46b5f061, org.springframework.security.web.header.HeaderWriterFilter@2cd3fc29, org.springframework.web.filter.CorsFilter@4e4d0a0b, org.springframework.security.web.authentication.logout.LogoutFilter@4afd65fd, org.springframework.security.web.savedrequest.RequestCacheAwareFilter@108b121f, org.springframework.security.web.servletapi.SecurityContextHolderAwareRequestFilter@37a67cf, org.springframework.security.web.authentication.rememberme.RememberMeAuthenticationFilter@1322b575, org.springframework.security.web.authentication.AnonymousAuthenticationFilter@1a4083f6, org.springframework.security.web.session.SessionManagementFilter@3513d214, org.springframework.security.web.access.ExceptionTranslationFilter@236861da, org.springframework.security.web.access.intercept.FilterSecurityInterceptor@6ef1c3f7]
+2020-01-13 22:12:35.045  INFO 8988 --- [main] o.s.s.concurrent.ThreadPoolTaskExecutor  : Initializing ExecutorService 'applicationTaskExecutor'
+2020-01-13 22:12:37.101  INFO 8988 --- [main] o.s.b.w.embedded.tomcat.TomcatWebServer  : Tomcat started on port(s): 8080 (https) with context path ''
+2020-01-13 22:12:37.109  INFO 8988 --- [main] c.c.n.NaucnaCentralaApplication          : Started NaucnaCentralaApplication in 22.339 seconds (JVM running for 26.794)
+2020-01-13 22:16:54.473  INFO 8988 --- [https-jsse-nio-8080-exec-3] o.a.c.c.C.[Tomcat].[localhost].[/]       : Initializing Spring DispatcherServlet 'dispatcherServlet'
+2020-01-13 22:16:54.477  INFO 8988 --- [https-jsse-nio-8080-exec-3] o.s.web.servlet.DispatcherServlet        : Initializing Servlet 'dispatcherServlet'
+2020-01-13 22:16:54.493  INFO 8988 --- [https-jsse-nio-8080-exec-3] o.s.web.servlet.DispatcherServlet        : Completed initialization in 16 ms
+2020-01-13 22:18:17.834  INFO 8988 --- [https-jsse-nio-8080-exec-6] c.c.n.controller.KorisnikController      : 
+		Korisnik obican je uspesno dobio JWT token.
+
+2020-01-13 22:18:18.383  INFO 8988 --- [https-jsse-nio-8080-exec-9] c.c.n.controller.KorisnikController      : 
+		Korisnik sa email adresom aaaaa se upravo ulogovao na sistem naucne centrale.
+
+2020-01-13 22:20:43.474  INFO 8988 --- [https-jsse-nio-8080-exec-8] c.c.n.controller.KorisnikController      : 
+		Korisnik sa email adresom aaaaa se upravo ulogovao na sistem naucne centrale.
+
+2020-01-13 22:20:49.351  INFO 8988 --- [https-jsse-nio-8080-exec-8] c.c.n.controller.KorisnikController      : 
+		Korisnik sa email adresom aaaaa se upravo ulogovao na sistem naucne centrale.
+
