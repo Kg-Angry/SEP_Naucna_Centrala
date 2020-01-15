@@ -103,24 +103,46 @@ export class NaucniCasopisService {
       title: 'Pretplata ?',
       text: 'Da li biste zeleli da se pretplatite na PayPal?',
       icon: 'warning',
+      input: 'select',
+      inputOptions: {
+        'WEEK': 'WEEK',
+        'MONTH': 'MONTH',
+        'YEAR': 'YEAR'
+      },
       showCancelButton: true,
       confirmButtonText: 'Da',
       cancelButtonText: 'Ne',
       reverseButtons: true
     }).then((result) => {
       if (result.value) {
-        return this.http.post('api1/kp/pretplata', {cena: ukupnaCena, korisnicko_ime_platioca: korisnik.korisnicko_ime
-          , lozinka_platioca: korisnik.lozinka, id_porudzbine: proba, naziv_casopisa: naziv}, {responseType: 'text'})
-        .subscribe((data: string) => {
-           Swal.fire({
-             position: 'top-end',
-             icon: 'info',
-             title: 'Bicete preusmereni na stranicu za pretplatu na PayPal',
-             showConfirmButton: false,
-             timer: 2500
-         });
-          timer(2500).subscribe(t => location.href = data);
-        });
+        Swal.fire({
+          title: 'Vremenski period ?',
+          input: 'select',
+          inputOptions: {
+            '1': '1',
+            '2': '2',
+            '3': '3',
+            '5': '5',
+            '7': '7'
+          },
+          showCancelButton: true,
+          confirmButtonText: 'Potvrdi',
+        }).then((result1) => {
+          if (result1.value) {
+          return this.http.post('api1/kp/pretplata', {cena: ukupnaCena, korisnicko_ime_platioca: korisnik.korisnicko_ime
+          , lozinka_platioca: korisnik.lozinka, id_porudzbine: proba, naziv_casopisa: naziv, period: result.value, rate: result1.value}, {responseType: 'text'})
+          .subscribe((data: string) => {
+            Swal.fire({
+              position: 'top-end',
+              icon: 'info',
+              title: 'Bicete preusmereni na stranicu za pretplatu na PayPal',
+              showConfirmButton: false,
+              timer: 2500
+          });
+            timer(2500).subscribe(t => location.href = data);
+          });
+          }
+        })
       } else if (
         result.dismiss === Swal.DismissReason.cancel
       ) {

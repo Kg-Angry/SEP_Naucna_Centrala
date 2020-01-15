@@ -1,9 +1,12 @@
+import { NaucniCasopis } from './../class/naucni-casopis';
+import { Korisnik } from './../class/korisnik';
 import { UspesnoPlacanjeService } from './uspesno-placanje.service';
 import { ActivatedRoute } from "@angular/router";
 import { timer } from 'rxjs';
 import Swal from 'sweetalert2';
 
 import { Component, OnInit } from '@angular/core';
+import { Korpa } from '../class/korpa';
 
 @Component({
   selector: 'app-uspesno-placanje',
@@ -13,6 +16,7 @@ import { Component, OnInit } from '@angular/core';
 export class UspesnoPlacanjeComponent implements OnInit {
 
   orderId: String;
+  korisnik: Korisnik = JSON.parse(localStorage.getItem('korisnik'));
 
   constructor(private route: ActivatedRoute, private uspesnoService: UspesnoPlacanjeService) { }
 
@@ -26,6 +30,9 @@ export class UspesnoPlacanjeComponent implements OnInit {
       showConfirmButton: false,
       timer: 4500
     });
+      this.korisnik.korpa.naucni_casopis_list = [];
+      this.korisnik.korpa.naucni_rad_list = [];
+      localStorage.setItem('korisnik', JSON.stringify(this.korisnik));
       timer(5500).subscribe(t => location.href = '/');
   }
 
