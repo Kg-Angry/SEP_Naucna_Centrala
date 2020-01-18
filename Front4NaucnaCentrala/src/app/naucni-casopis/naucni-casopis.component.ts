@@ -40,7 +40,7 @@ export class NaucniCasopisComponent implements OnInit {
   }
   IzabraoPlacanje(t) {
     if(t === 'BANKA') {
-      this.casopisService.preusmeriBanka();
+      // this.casopisService.preusmeriBanka(this.CasopisPlati, this.korisnik);
     } else if (t === 'PAYPAL') {
       // this.casopisService.preusmeriPayPal(this.CasopisPlati, this.korisnik);
     } else if (t === 'BITCOIN') {

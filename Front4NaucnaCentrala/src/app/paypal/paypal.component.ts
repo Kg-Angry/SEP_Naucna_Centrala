@@ -39,9 +39,10 @@ export class PaypalComponent implements OnInit {
     event.preventDefault()
     const target = event.target;
 
-    this.paypalService.slanjePodataka(target, this.payID, this.token, this.payerID);
+
     this.orderId = this.route.snapshot.paramMap.get('orderId');
-      this.uspesnoService.izmenaStatusa(this.orderId);
+      // this.uspesnoService.izmenaStatusa(this.orderId);
+    this.paypalService.slanjePodataka(this.orderId, target, this.payID, this.token, this.payerID);
   }
 
 }

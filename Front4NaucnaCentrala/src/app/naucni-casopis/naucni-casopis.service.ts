@@ -80,9 +80,32 @@ export class NaucniCasopisService {
       })
   }
 
-  preusmeriBanka()
-  {
-    location.href = '/banka';
+  preusmeriBanka(ukupnaCena, casopis, korisnik) {
+    //uzimam sve nazive casopisa koji su u korpi
+    let naziv: String = '';
+    let proba = '';
+    for(let i = 0; i < casopis.length;i++)
+    {
+      if(i !== casopis.length - 1){
+        naziv += casopis[i].naziv + ',';
+      } else {
+        naziv += casopis[i].naziv.toString();
+      }
+      let randomBroj: Number = Math.random()*100;
+      proba = randomBroj.toFixed(0);
+
+    return this.http.post('api1/kp/banka-api', {cena: ukupnaCena, korisnicko_ime_platioca: korisnik.korisnicko_ime
+      , lozinka_platioca: korisnik.lozinka, id_porudzbine: proba, naziv_casopisa: naziv}, {responseType: 'text'})
+      .subscribe((data: string) => { Swal.fire({
+        position: 'top-end',
+        icon: 'info',
+        title: 'Bicete preusmereni na stranicu za Banku',
+        showConfirmButton: false,
+        timer: 2500
+      });
+        timer(2500).subscribe(t => location.href = data);
+      });
+    }
   }
   preusmeriPayPal(ukupnaCena, casopis: NaucniCasopis[], korisnik) {
 
