@@ -67,7 +67,7 @@ export class ShoppingCartComponent implements OnInit {
   {
 
     if(tipPlacanja === 'BANKA') {
-      this.casopisService.preusmeriBanka(this.ukupnaCena, this.korisnik.korpa.naucni_casopis_list, this.korisnik);
+      this.casopisService.preusmeriBanka(this.korisnik.korpa.naucni_casopis_list, this.korisnik);
     } else if (tipPlacanja === 'PAYPAL') {
       this.casopisService.preusmeriPayPal(this.ukupnaCena, this.korisnik.korpa.naucni_casopis_list, this.korisnik);
     } else if (tipPlacanja === 'BITCOIN') {

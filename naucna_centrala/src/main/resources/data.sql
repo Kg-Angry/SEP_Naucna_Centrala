@@ -43,6 +43,8 @@ insert into naucni_casopis(cena,dopuniti,issn,naziv,status,tip_casopisa,glavni_u
 values(1,0,1111,"Top Speed",1,"SA_PRETPLATOM",1);
 insert into naucni_casopis(cena,dopuniti,issn,naziv,status,tip_casopisa,glavni_urednik_id)
 values(1.2,0,12896,"Casopis",1,"OPEN_ACCESS",2);
+insert into naucni_casopis(cena,dopuniti,issn,naziv,status,tip_casopisa,glavni_urednik_id)
+values(1.6,0,23456,"Svet kompjutera",1,"OPEN_ACCESS",2);
 
 -- Naucni casopis - naucne oblasti
 insert into casopis_naucneoblasti(casopis_id,naucna_oblast_id)
@@ -55,6 +57,8 @@ insert into casopis_naucneoblasti(casopis_id,naucna_oblast_id)
 values(2,1);
 insert into casopis_naucneoblasti(casopis_id,naucna_oblast_id)
 values(2,2);
+insert into casopis_naucneoblasti(casopis_id,naucna_oblast_id)
+values(3,2);
 
 -- Naucni casopis - recenzenti
 insert into casopis_recenzenti(casopis_id,recenzent_id)
@@ -65,6 +69,10 @@ insert into casopis_recenzenti(casopis_id,recenzent_id)
 values(2,3);
 insert into casopis_recenzenti(casopis_id,recenzent_id)
 values(2,4);
+insert into casopis_recenzenti(casopis_id,recenzent_id)
+values(3,1);
+insert into casopis_recenzenti(casopis_id,recenzent_id)
+values(3,3);
 
 -- korpa za korisnika
 insert into korpa (id) values(1);
