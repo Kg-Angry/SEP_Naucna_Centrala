@@ -23,7 +23,7 @@ export class NaucniRadoviComponent implements OnInit {
   }
 
   uKorpu(rad: NaucniRad){
-    let dodaoUkorpu = -1;
+    let dodaoUkorpu = 0;
     let casopisDodat = false;
     for(let k = 0; k < this.tipPlacanjaCasopisa.length; k++) {
       if(this.tipPlacanjaCasopisa[k].naziv === rad.naucni_casopis.naziv) {
@@ -55,7 +55,7 @@ export class NaucniRadoviComponent implements OnInit {
               }
         }
     }
-    if(dodaoUkorpu === -1){
+    if(dodaoUkorpu === 0){
       Swal.fire({
         position: 'top-end',
         icon: 'error',

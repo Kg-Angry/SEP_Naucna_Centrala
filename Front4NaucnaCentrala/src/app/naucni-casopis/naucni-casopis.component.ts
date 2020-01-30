@@ -1,3 +1,4 @@
+import { ShoppingCartService } from './../shopping-cart/shopping-cart.service';
 import { TipPlacanja } from './../class/tip-placanja';
 import { Placanje } from './../class/placanje.enum';
 import { NaucniCasopisService } from './naucni-casopis.service';
@@ -25,7 +26,7 @@ export class NaucniCasopisComponent implements OnInit {
   zajednickiTipovi: Placanje[] = JSON.parse(localStorage.getItem('zajednickiTipovi'));
   korpa: NaucniCasopis[]=[];
 
-  constructor( private casopisService: NaucniCasopisService) { }
+  constructor( private casopisService: NaucniCasopisService, private shopingService: ShoppingCartService) { }
 
   ngOnInit() {
     for(let i = 0; i < this.tipPlacanjaCasopisa.length; i++) {
@@ -51,7 +52,7 @@ export class NaucniCasopisComponent implements OnInit {
   }
 
   uKorpu(casopis: NaucniCasopis){
-    let dodaoUkorpu = -1;
+    let dodaoUkorpu = 0;
     for(let k = 0; k < this.tipPlacanjaCasopisa.length; k++) {
       if(this.tipPlacanjaCasopisa[k].naziv === casopis.naziv) {
               for(let j=0; j < this.zajednickiTipovi.length;j++)
@@ -60,6 +61,13 @@ export class NaucniCasopisComponent implements OnInit {
                     if(this.zajednickiTipovi[j] === this.tipPlacanjaCasopisa[k].tipoviPlacanja[i])
                     {
                       dodaoUkorpu = 1;
+                      for(let r = 0; r < this.korisnik.korpa.naucni_rad_list.length; r++)
+                      {
+                        if(this.korisnik.korpa.naucni_rad_list[r].naucni_casopis.id === casopis.id)
+                        {
+                            this.shopingService.ukloniIzKorpeRad2(this.korisnik.korisnicko_ime, this.korisnik.korpa.naucni_rad_list[r].id);
+                        }
+                      }
                       this.korisnik.korpa.naucni_casopis_list.push(casopis);
                     }
                 }
@@ -70,7 +78,7 @@ export class NaucniCasopisComponent implements OnInit {
               }
         }
     }
-    if(dodaoUkorpu === -1){
+    if(dodaoUkorpu === 0){
       Swal.fire({
         position: 'top-end',
         icon: 'error',

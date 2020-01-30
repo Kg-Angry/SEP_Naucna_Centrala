@@ -46,4 +46,17 @@ export class ShoppingCartService {
       timer(2000).subscribe(t => location.href = '/shopping-cart');
       });
   }
+
+  //kada se doda casopis da se uklone svi njegovi radovi iz korpe
+  ukloniIzKorpeRad2(korisnickoIme: String, id_rada) {
+    return this.http.post('api/naucni_rad/izbaciIzKorpe/' + id_rada, {korisnicko_ime: korisnickoIme})
+    .subscribe(data =>{
+        this.http.get('api/korisnik/ulogovan')
+        .subscribe( (data1: any) => {
+          console.log(data1);
+          localStorage.setItem('korisnik', JSON.stringify(data1));
+      });
+      timer(2000).subscribe(t => location.href = '/shopping-cart');
+      });
+  }
 }

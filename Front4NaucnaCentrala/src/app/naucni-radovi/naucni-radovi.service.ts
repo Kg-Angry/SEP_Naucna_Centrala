@@ -75,7 +75,7 @@ export class NaucniRadoviService {
               Swal.fire({
                 position: 'top-end',
                 icon: 'success',
-                title: 'Uspesno ste dodali casopis u korpu',
+                title: 'Uspesno ste dodali rad u korpu',
                 showConfirmButton: false,
                 timer: 2000
               });
