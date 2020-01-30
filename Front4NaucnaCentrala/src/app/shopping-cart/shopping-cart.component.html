@@ -33,6 +33,26 @@
            <a class="remove" (click)="ukloniNaucniCasopis(c)">x</a>
         </div>
       </div>
+
+      <div class="infoWrap" *ngFor="let r of korisnik.korpa.naucni_rad_list" >
+        <div class="cartSection">
+        <img src="/src/assets/img/rad.png" alt="" class="itemImg" />
+          <p class="itemNumber">{{r.id}}</p>
+          <h3>{{r.naslov}}</h3>
+
+        <p> <input type="text"  class="qty" placeholder="1"/> x {{r.cena}}$</p>
+
+          <p class="stockStatus"> In Stock</p>
+        </div>
+
+
+        <div class="prodTotal cartSection">
+          <p>{{r.cena}}$</p>
+        </div>
+              <div class="cartSection removeWrap">
+           <a class="remove" (click)="ukloniNaucniRad(r)">x</a>
+        </div>
+      </div>
       </li>
     </ul>
   </div>

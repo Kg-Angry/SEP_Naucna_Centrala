@@ -30,12 +30,13 @@
             <div class="single-banner">
               <div class="product-wrapper">
                 <a href="#" class="single-banner-image-wrapper">
-                  <img alt="" width="200px" height="200px" src="/src/assets/img/avatar-01.jpg">
+                  <img alt="" width="200px" height="200px" src="/src/assets/img/rad.png">
+                  <div class="price"><span>$</span>{{r.cena}}</div>
                 </a>
                 <div class="product-description">
                   <div class="functional-buttons">
-                    <a href="#" title="Add to Cart">
-                      <i class="fa fa-shopping-cart"></i>
+                    <a (click)="uKorpu(r)" title="Dodaj u korpu casopis">
+                      <i class="fa fa-plus"></i>
                     </a>
                   </div>
                 </div>
@@ -55,7 +56,7 @@
             <div class="col-xs-12 col-sm-5 col-md-4">
               <div class="left-item">
                 <a href="single-product.html" title="{{r.naslov}}">
-                  <img alt="" width="autp" height="auto" src="/src/assets/img/avatar-01.jpg">
+                  <img alt="" width="autp" height="auto" src="/src/assets/img/rad.png">
                 </a>
               </div>
             </div>
@@ -74,7 +75,9 @@
                   <h5>------------------</h5>
                   <h5>Naucna oblast: {{r.oblast_pripadanja.naziv}}</h5>
                   <h5>------------------</h5>
-                  <h5>Apstrakt: {{r.apstrakt}}$</h5>
+                  <h5>Apstrakt: {{r.apstrakt}}</h5>
+                  <h5>------------------</h5>
+                  <h5>Cena: {{r.cena}}$</h5>
                   <h5>------------------</h5>
               </div>
             </div>

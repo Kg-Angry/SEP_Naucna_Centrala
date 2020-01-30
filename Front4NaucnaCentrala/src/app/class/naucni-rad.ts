@@ -10,4 +10,5 @@ export class NaucniRad {
   oblast_pripadanja: NaucnaOblast;
   putanja_upload_fajla: String;
   naucni_casopis: NaucniCasopis;
+  cena: number;
 }

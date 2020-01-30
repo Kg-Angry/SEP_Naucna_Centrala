@@ -1,13 +1,11 @@
 package com.centrala.naucna_centrala.controller;
 
 import com.centrala.naucna_centrala.DTO.KorisnikDTO;
+import com.centrala.naucna_centrala.DTO.Naucni_casopisDTO;
 import com.centrala.naucna_centrala.DTO.Naucni_radDTO;
 import com.centrala.naucna_centrala.Security.AES256bit;
 import com.centrala.naucna_centrala.model.*;
-import com.centrala.naucna_centrala.service.Korisnik_service;
-import com.centrala.naucna_centrala.service.Naucna_oblast_service;
-import com.centrala.naucna_centrala.service.Naucni_casopis_service;
-import com.centrala.naucna_centrala.service.Naucni_rad_service;
+import com.centrala.naucna_centrala.service.*;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -17,7 +15,6 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
 import javax.servlet.ServletContext;
-import javax.servlet.http.HttpServletRequest;
 import java.io.File;
 import java.io.IOException;
 import java.nio.file.Path;
@@ -38,6 +35,8 @@ public class Naucni_radController {
     private Naucni_casopis_service ncs;
     @Autowired
     ServletContext context;
+    @Autowired
+    private Korpa_service korpa_service;
 
     private static final Logger logger = LoggerFactory.getLogger(Naucni_radController.class);
 
@@ -68,6 +67,7 @@ public class Naucni_radController {
             naucni_rad.setPutanja_upload_fajla(rad.getPutanja_upload_fajla());
             Korisnik k = korisnikService.findByKorisnicko_ime(AES256bit.encrypt(rad.getAutor().getKorisnicko_ime(),AES256bit.secretKey));
             naucni_rad.setAutor(k);
+            naucni_rad.setCena(rad.getCena());
             nrs.save(naucni_rad);
             logger.info("\n\t\tKreiran je naucni rad "+ naucni_rad.getNaslov()+" u sistem naucne centrale.\n");
             return new ResponseEntity<>(HttpStatus.CREATED);
@@ -78,30 +78,24 @@ public class Naucni_radController {
     }
 
     @RequestMapping(method = RequestMethod.POST, value="/uploadFile/{naslov}")
-    public ResponseEntity<?> uploadFile(@RequestBody MultipartFile file,@PathVariable String naslov) throws IOException {
+    public ResponseEntity<?> uploadFile(@RequestBody Naucni_radDTO ncDTO,@PathVariable String naslov) {
 
         Naucni_rad nr = nrs.findByNaslov(naslov);
-
-        if (!file.isEmpty()) {
-            try {
+        System.out.println("Naziv fajla: " + ncDTO.getPutanja_upload_fajla());
+        if (!ncDTO.getPutanja_upload_fajla().isEmpty()) {
                 Path currentWorkingDir = Paths.get("").toAbsolutePath();
                 String realPathtoUploads = currentWorkingDir.normalize().toString()+"/src/main/resources/upload/";
                 if (!new File(realPathtoUploads).exists()) {
                     new File(realPathtoUploads).mkdir();
                 }
 
-                String orgName = file.getOriginalFilename();
-                String filePath = realPathtoUploads + orgName;
+                String filePath = realPathtoUploads + ncDTO.getPutanja_upload_fajla();
                 nr.setPutanja_upload_fajla(filePath);
                 File dest = new File(filePath);
-                file.transferTo(dest);
+
                 nrs.save(nr);
-                logger.info("\n\t\tUspesno je upload-ovan PDF fajl "+ orgName +" u naucni rad u sistem naucne centrale.\n");
+                logger.info("\n\t\tUspesno je upload-ovan PDF fajl "+ ncDTO.getPutanja_upload_fajla() +" u naucni rad u sistem naucne centrale.\n");
                 return new ResponseEntity<>(HttpStatus.CREATED);
-            }catch (IOException e)
-            { logger.info("\n\t\tProblem sa upload pdf fajla.\n");
-                System.out.println(e.getMessage());
-            }
 
     }
         logger.info("\n\t\tNije moguce dodati pdf fajl u naucni casopis.\n");
@@ -161,5 +155,77 @@ public class Naucni_radController {
         }
         logger.info("\n\t\tNije uspesno obrisan"+ naziv +" naucni rad.\n");
         return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+    }
+
+
+    //kroz korisnika progurati korpu sa artiklima!!!!
+    @PostMapping(value="/dodajUKorpu")
+    public ResponseEntity<?> dodajUKorpu(@RequestBody KorisnikDTO korisnik)
+    {
+        Korpa korpa = korpa_service.findById(korisnik.getKorpa().getId());
+        if(korpa == null)
+        {
+            Korpa kreiraj_korpu = new Korpa();
+            Set<Naucni_casopis> nc_list = new HashSet<>();
+            Set<Naucni_rad> nr_list = new HashSet<>();
+
+            for(Naucni_casopisDTO n : korisnik.getKorpa().getNaucni_casopis_list())
+            {
+                Naucni_casopis nc = ncs.findByNaziv(n.getNaziv());
+                nc_list.add(nc);
+            }
+            kreiraj_korpu.setNaucni_casopis(nc_list);
+            for(Naucni_radDTO r : korisnik.getKorpa().getNaucni_rad_list())
+            {
+                Naucni_rad nr = nrs.findByNaslov(r.getNaslov());
+                nr_list.add(nr);
+            }
+            kreiraj_korpu.setNaucni_rad(nr_list);
+            korpa_service.save(kreiraj_korpu);
+            logger.info("\n\t\tUspesno su dodati radovi u korpu.\n");
+            return new ResponseEntity<>(HttpStatus.OK);
+        }else
+        {
+            Set<Naucni_casopis> nc_list = korpa.getNaucni_casopis();
+            Set<Naucni_rad> nr_list = korpa.getNaucni_rad();
+            for(Naucni_casopisDTO n : korisnik.getKorpa().getNaucni_casopis_list())
+            {
+                Naucni_casopis nc = ncs.findByNaziv(n.getNaziv());
+                nc_list.add(nc);
+            }
+            korpa.setNaucni_casopis(nc_list);
+            for(Naucni_radDTO r : korisnik.getKorpa().getNaucni_rad_list())
+            {
+                Naucni_rad nr = nrs.findByNaslov(r.getNaslov());
+                nr_list.add(nr);
+            }
+            korpa.setNaucni_rad(nr_list);
+            korpa_service.save(korpa);
+            logger.info("\n\t\tUspesno su dodati radovi u korpu.\n");
+            return new ResponseEntity<>(HttpStatus.OK);
+        }
+    }
+
+    @PostMapping(value="/izbaciIzKorpe/{id_rada}")
+    public ResponseEntity<?> izbaciIzKorpe(@RequestBody KorisnikDTO k, @PathVariable Long id_rada)
+    {
+        Korisnik korisnik = korisnikService.findByKorisnicko_ime(AES256bit.encrypt(k.getKorisnicko_ime(),AES256bit.secretKey));
+        Korpa korpa = korisnik.getKorpa();
+        System.out.println("Korpa: " + korpa.getId());
+        Set<Naucni_rad> nc_list = new HashSet<>();
+        for(Naucni_rad n : korisnik.getKorpa().getNaucni_rad())
+        {
+            System.out.println("U korpi ima: "+n.getNaslov());
+            if(n.getId() != id_rada)
+            {
+                nc_list.add(n);
+            }
+        }
+        korpa.setNaucni_rad(nc_list);
+        korpa_service.save(korpa);
+        korisnik.setKorpa(korpa);
+        korisnikService.save(korisnik);
+        logger.info("\n\t\tUspesno je izbacen rad sa ID: "+ id_rada +" iz korpe.\n");
+        return new ResponseEntity<>(HttpStatus.OK);
     }
 }

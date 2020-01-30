@@ -1,3 +1,5 @@
+import { NaucniRad } from './../class/naucni-rad';
+import { NaucniRadoviService } from './../naucni-radovi/naucni-radovi.service';
 import { NaucniCasopisService } from './../naucni-casopis/naucni-casopis.service';
 import { Placanje } from './../class/placanje.enum';
 import { TipPlacanja } from './../class/tip-placanja';
@@ -15,6 +17,7 @@ export class ShoppingCartComponent implements OnInit {
 
   ukupnaCena = 0;
   casopisi: NaucniCasopis[] = [];
+  radovi: NaucniRad[] = [];
   korisnik: Korisnik = JSON.parse(localStorage.getItem('korisnik'));
   izabraniTipoviPlacanja: TipPlacanja[] = [];
   zajednickiTipPlacanja: Placanje[] = [];
@@ -28,17 +31,35 @@ export class ShoppingCartComponent implements OnInit {
     for(let i = 0; i < this.korisnik.korpa.naucni_casopis_list.length; i++){
       this.ukupnaCena += this.korisnik.korpa.naucni_casopis_list[i].cena;
     }
-
-    //uzeo sam samo casopis i tip placanja za izabrani casopis u korpi
-    for(let k = 0; k < this.korisnik.korpa.naucni_casopis_list.length; k++){
-        for(let j=0; j < this.tipPlacanjaCasopisa.length; j++)
-        {
-          if(this.korisnik.korpa.naucni_casopis_list[k].id === this.tipPlacanjaCasopisa[j].id)
-          {
-            this.izabraniTipoviPlacanja.push(this.tipPlacanjaCasopisa[j]);
-          }
-        }
+    for(let i = 0; i < this.korisnik.korpa.naucni_rad_list.length; i++){
+      this.ukupnaCena += this.korisnik.korpa.naucni_rad_list[i].cena;
     }
+
+    //uzimam da proverim zajednicko placanje za casopis
+    if(this.korisnik.korpa.naucni_casopis_list.length > 0) {
+
+      //uzeo sam samo casopis i tip placanja za izabrani casopis u korpi
+    for(let k = 0; k < this.korisnik.korpa.naucni_casopis_list.length; k++){
+      for(let j=0; j < this.tipPlacanjaCasopisa.length; j++)
+      {
+        if(this.korisnik.korpa.naucni_casopis_list[k].id === this.tipPlacanjaCasopisa[j].id)
+        {
+          this.izabraniTipoviPlacanja.push(this.tipPlacanjaCasopisa[j]);
+        }
+      }
+    }
+
+     //uzeo sam samo naucni rad i tip placanja za izabrani rad na osnovu caospisa
+     for(let k = 0; k < this.korisnik.korpa.naucni_rad_list.length; k++){
+      for(let j=0; j < this.tipPlacanjaCasopisa.length; j++)
+      {
+        if(this.korisnik.korpa.naucni_rad_list[k].naucni_casopis.id === this.tipPlacanjaCasopisa[j].id)
+        {
+          this.izabraniTipoviPlacanja.push(this.tipPlacanjaCasopisa[j]);
+        }
+      }
+    }
+
     let brojac = 0; //sluzi da izbroji da li svi casopisi imaju podrzani tip placanja
     //uzeo sve tipove placanja za sve casopise
     for(let k = 0; k < this.sviTipoviPlacanja.length; k++) {
@@ -48,7 +69,7 @@ export class ShoppingCartComponent implements OnInit {
             ++brojac;
             if(brojac === this.korisnik.korpa.naucni_casopis_list.length) {
               this.zajednickiTipPlacanja.push(this.izabraniTipoviPlacanja[j].tipoviPlacanja[i]);
-              localStorage.setItem('setovao', JSON.stringify(this.zajednickiTipPlacanja));
+              localStorage.setItem('zajednickiTipovi', JSON.stringify(this.zajednickiTipPlacanja));
               break;
             }
           }
@@ -56,11 +77,18 @@ export class ShoppingCartComponent implements OnInit {
       }
       brojac = 0;
     }
+    }
   }
 
   ukloniNaucniCasopis(naucniCasopis: NaucniCasopis){
     this.ukupnaCena -= naucniCasopis.cena;
     this.shoppingService.ukloniIzKorpe(this.korisnik.korisnicko_ime, naucniCasopis.id);
+  }
+
+  ukloniNaucniRad(naucniRad: NaucniRad)
+  {
+    this.ukupnaCena -= naucniRad.cena;
+    this.shoppingService.ukloniIzKorpeRad(this.korisnik.korisnicko_ime, naucniRad.id);
   }
 
   IzabraoPlacanje(tipPlacanja)

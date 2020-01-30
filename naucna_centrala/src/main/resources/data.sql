@@ -76,4 +76,14 @@ values(3,3);
 
 -- korpa za korisnika
 insert into korpa (id) values(1);
+
+-- naucni radovi
+insert into naucni_rad(apstrakt,cena,kljucni_pojmovi,naslov,putanja_upload_fajla,autor_id,naucni_casopis_id,oblast_pripadanja_id)
+values("rad",1.1,"rad","Rad","C:\Users\Alexandar\Documents\MASTER\1_semestar\SEP_Naucna_Centrala\SEP_Naucna_Centrala\naucna_centrala/src/main/resources/upload/Naučna Centrala.pdf",3,1,1);
+insert into naucni_rad(apstrakt,cena,kljucni_pojmovi,naslov,putanja_upload_fajla,autor_id,naucni_casopis_id,oblast_pripadanja_id)
+values("rad1",1.2,"rad1","Rad1","C:\Users\Alexandar\Documents\MASTER\1_semestar\SEP_Naucna_Centrala\SEP_Naucna_Centrala\naucna_centrala/src/main/resources/upload/Proba.txt",3,2,2);
+insert into naucni_rad(apstrakt,cena,kljucni_pojmovi,naslov,putanja_upload_fajla,autor_id,naucni_casopis_id,oblast_pripadanja_id)
+values("rad2",1.3,"rad2","Rad2","C:\Users\Alexandar\Documents\MASTER\1_semestar\SEP_Naucna_Centrala\SEP_Naucna_Centrala\naucna_centrala/src/main/resources/upload/Proba.pdf",3,3,1);
+
 -- SELECT * from korisnik;
+
