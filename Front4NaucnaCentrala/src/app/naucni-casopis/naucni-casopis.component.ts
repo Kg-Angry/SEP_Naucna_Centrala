@@ -70,11 +70,14 @@ export class NaucniCasopisComponent implements OnInit {
     let dodaoUkorpu = 0;
     for(let k = 0; k < this.tipPlacanjaCasopisa.length; k++) {
       if(this.tipPlacanjaCasopisa[k].naziv === casopis.naziv) {
-              for(let j=0; j < this.zajednickiTipovi.length;j++)
+              if(this.zajednickiTipovi)
+              {
+                for(let j=0; j < this.zajednickiTipovi.length;j++)
               {
                 for(let i = 0; i < this.tipPlacanjaCasopisa[k].tipoviPlacanja.length; i++){
                     if(this.zajednickiTipovi[j] === this.tipPlacanjaCasopisa[k].tipoviPlacanja[i])
                     {
+                      
                       dodaoUkorpu = 1;
                       for(let r = 0; r < this.korisnik.korpa.naucni_rad_list.length; r++)
                       {
@@ -91,6 +94,12 @@ export class NaucniCasopisComponent implements OnInit {
                   break;
                 }
               }
+              }else
+              { 
+                dodaoUkorpu = 1;
+                 this.korisnik.korpa.naucni_casopis_list.push(casopis);
+                this.casopisService.dodajUKorpuCasopis(this.korisnik.id, this.korisnik.korpa);
+              }  
         }
     }
     if(dodaoUkorpu === 0){

@@ -30,6 +30,8 @@ export class NaucniRadoviComponent implements OnInit {
       let casopisDodat = false;
       for(let k = 0; k < this.tipPlacanjaCasopisa.length; k++) {
         if(this.tipPlacanjaCasopisa[k].naziv === rad.naucni_casopis.naziv) {
+          if(this.zajednickiTipovi)
+              {
                 for(let j=0; j < this.zajednickiTipovi.length; j++)
                 {
                   for(let i = 0; i < this.tipPlacanjaCasopisa[k].tipoviPlacanja.length; i++){
@@ -61,8 +63,6 @@ export class NaucniRadoviComponent implements OnInit {
                             dodaoUkorpu = 1;
                             this.korisnik.korpa.naucni_rad_list.push(rad);
                           }
-
-
                         }else{
                           break;
                         }
@@ -74,6 +74,12 @@ export class NaucniRadoviComponent implements OnInit {
                     break;
                   }
                 }
+              }else
+              {
+                dodaoUkorpu = 1;
+                this.korisnik.korpa.naucni_rad_list.push(rad);
+                 this.naucniRadService.dodajUKorpuCasopis(this.korisnik.id, this.korisnik.korpa);
+              }
           }
       }
       if(dodaoUkorpu === 0){

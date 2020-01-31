@@ -83,6 +83,7 @@ export class NaucniRadoviService {
             .subscribe( (data1: any) => {
               console.log(data1);
               localStorage.setItem('korisnik', JSON.stringify(data1));
+              location.href='/shopping-cart';
           });
         });
   }

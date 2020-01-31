@@ -6,8 +6,6 @@ import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import Swal from 'sweetalert2';
 import { timer, interval } from 'rxjs';
-import { first } from "rxjs/operators";
-import { Subscription } from 'rxjs';
 
 @Injectable({
   providedIn: 'root'
@@ -15,7 +13,7 @@ import { Subscription } from 'rxjs';
 export class NaucniCasopisService {
 
 //na svakih 30s on proverava da li je KP ziv :D
-  source = interval(3000);
+  source = interval(10000);
 
   constructor(private http: HttpClient, private homeService: HomeService) { }
 
