@@ -25,6 +25,7 @@ import {MatInputModule} from '@angular/material/input';
 import {MatStepperModule} from '@angular/material/stepper';
 import { ShoppingCartComponent } from './shopping-cart/shopping-cart.component';
 import { PaypalPretplataComponent } from './paypal-pretplata/paypal-pretplata.component';
+import { FormeComponent } from './forme/forme.component';
 
 @NgModule({
   declarations: [
@@ -42,6 +43,7 @@ import { PaypalPretplataComponent } from './paypal-pretplata/paypal-pretplata.co
     NeuspesnoPlacanjeComponent,
     ShoppingCartComponent,
     PaypalPretplataComponent,
+    FormeComponent,
   ],
   imports: [
     BrowserModule,

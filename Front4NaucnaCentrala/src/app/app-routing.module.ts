@@ -1,3 +1,4 @@
+import { FormeComponent } from './forme/forme.component';
 import { PaypalPretplataComponent } from './paypal-pretplata/paypal-pretplata.component';
 import { ShoppingCartComponent } from './shopping-cart/shopping-cart.component';
 import { NeuspesnoPlacanjeComponent } from './neuspesno-placanje/neuspesno-placanje.component';
@@ -30,6 +31,7 @@ const appRoutes: Routes = [
   {path: 'paypal/:orderId', component: PaypalComponent},
   {path: 'paypal_pretplata/:orderId', component: PaypalPretplataComponent},
   {path: 'shopping-cart', component: ShoppingCartComponent},
+  {path: 'genforme', component: FormeComponent},
 ];
 
 @NgModule({

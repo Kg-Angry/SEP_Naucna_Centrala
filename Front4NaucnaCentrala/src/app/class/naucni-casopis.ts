@@ -1,3 +1,4 @@
+import { UnetiTipovi } from './uneti-tipovi';
 import { Placanje } from './placanje.enum';
 import { NaucnaOblast } from './naucna-oblast';
 import { Korisnik } from './korisnik';
@@ -14,4 +15,5 @@ export class NaucniCasopis {
   tipoviPlacanja: Placanje[];
   status: boolean;
   cena: number;
+  unosTipova: UnetiTipovi[] = [];
 }

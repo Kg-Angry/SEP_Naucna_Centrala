@@ -92,13 +92,43 @@ export class ShoppingCartComponent implements OnInit {
 
   IzabraoPlacanje(tipPlacanja)
   {
-
     if(tipPlacanja === 'BANKA') {
-      this.casopisService.preusmeriBanka(this.korisnik.korpa.naucni_casopis_list, this.korisnik);
+      if(this.korisnik.korpa.naucni_casopis_list.length > 0)
+      {
+        this.casopisService.preusmeriBanka(this.korisnik.korpa.naucni_casopis_list, this.korisnik, this.korisnik.korpa.naucni_rad_list);
+      }else
+      {
+        let naucniCasopis = new NaucniCasopis();
+        naucniCasopis = this.korisnik.korpa.naucni_rad_list[0].naucni_casopis;
+        let ukupnaCenaRadova = 0;
+        for(let i=0;i<this.korisnik.korpa.naucni_rad_list.length;i++)
+        {
+          ukupnaCenaRadova += this.korisnik.korpa.naucni_rad_list[i].cena;
+        }
+        naucniCasopis.cena=ukupnaCenaRadova;
+        let naucniCasopisList: NaucniCasopis[]=[];
+
+        naucniCasopisList.push(naucniCasopis);
+
+        this.casopisService.preusmeriBanka(naucniCasopisList, this.korisnik, this.korisnik.korpa.naucni_rad_list);
+      }
     } else if (tipPlacanja === 'PAYPAL') {
-      this.casopisService.preusmeriPayPal(this.ukupnaCena, this.korisnik.korpa.naucni_casopis_list, this.korisnik);
+      if(this.korisnik.korpa.naucni_casopis_list.length > 0)
+      {
+      this.casopisService.preusmeriPayPal(this.ukupnaCena, this.korisnik.korpa.naucni_casopis_list,this.korisnik.korpa.naucni_rad_list, this.korisnik);
+      }else
+      {
+        this.casopisService.preusmeriPayPal(this.ukupnaCena, this.korisnik.korpa.naucni_casopis_list,this.korisnik.korpa.naucni_rad_list, this.korisnik);
+      }
     } else if (tipPlacanja === 'BITCOIN') {
-      this.casopisService.preusmeriBitcoin(this.ukupnaCena, this.korisnik.korpa.naucni_casopis_list, this.korisnik);
+      if(this.korisnik.korpa.naucni_casopis_list.length > 0)
+      {
+        this.casopisService.preusmeriBitcoin(this.ukupnaCena, this.korisnik.korpa.naucni_casopis_list,this.korisnik.korpa.naucni_rad_list, this.korisnik);
+      }else
+      {
+        this.casopisService.preusmeriBitcoin(this.ukupnaCena, this.korisnik.korpa.naucni_casopis_list,this.korisnik.korpa.naucni_rad_list, this.korisnik);
+      }
+
     }
   }
 

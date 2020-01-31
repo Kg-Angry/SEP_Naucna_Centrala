@@ -17,13 +17,14 @@ public class Naucni_casopisDTO {
     private boolean status;
     private boolean dopuniti;
     private Double cena;
+    private Set<UnosZaTipovePlacanjaDTO> unosTipova = new HashSet<>();
 
     public Naucni_casopisDTO()
     {
 
     }
 
-    public Naucni_casopisDTO(Long id, String naziv, int issn, TipCasopisa tipCasopisa, Korisnik glavni_urednik, Set<Korisnik> urednici, Set<Korisnik> recenzent, Set<Naucna_oblast> naucna_oblast, boolean status, double cena,boolean dopuniti) {
+    public Naucni_casopisDTO(Long id, String naziv, int issn, TipCasopisa tipCasopisa, Korisnik glavni_urednik, Set<Korisnik> urednici, Set<Korisnik> recenzent, Set<Naucna_oblast> naucna_oblast, boolean status, double cena,boolean dopuniti, Set<UnosZaTipovePlacanja> unosZaTipovePlacanja) {
         this.id = id;
         this.naziv = naziv;
         this.issn = issn;
@@ -45,11 +46,15 @@ public class Naucni_casopisDTO {
         this.status = status;
         this.dopuniti=dopuniti;
         this.cena=cena;
+        for(UnosZaTipovePlacanja u : unosZaTipovePlacanja)
+        {
+            this.unosTipova.add(new UnosZaTipovePlacanjaDTO(u));
+        }
     }
 
     public Naucni_casopisDTO(Naucni_casopis nc)
     {
-        this(nc.getId(),nc.getNaziv(),nc.getIssn(),nc.getTipCasopisa(),nc.getGlavni_urednik(),nc.getUrednici(),nc.getRecenzent(),nc.getNaucna_oblast(),nc.isStatus(),nc.getCena(),nc.isDopuniti());
+        this(nc.getId(),nc.getNaziv(),nc.getIssn(),nc.getTipCasopisa(),nc.getGlavni_urednik(),nc.getUrednici(),nc.getRecenzent(),nc.getNaucna_oblast(),nc.isStatus(),nc.getCena(),nc.isDopuniti(),nc.getUnosTipova());
     }
 
     public Long getId() {
@@ -138,5 +143,13 @@ public class Naucni_casopisDTO {
 
     public void setDopuniti(boolean dopuniti) {
         this.dopuniti = dopuniti;
+    }
+
+    public Set<UnosZaTipovePlacanjaDTO> getUnosTipova() {
+        return unosTipova;
+    }
+
+    public void setUnosTipova(Set<UnosZaTipovePlacanjaDTO> unosTipova) {
+        this.unosTipova = unosTipova;
     }
 }

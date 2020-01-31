@@ -62,6 +62,7 @@ public class Naucni_casopisController {
         Set<Korisnik> urednici = new HashSet<>();
         Set<Korisnik> recenzenti = new HashSet<>();
         Set<Naucna_oblast> naucna_oblast = new HashSet<>();
+        Set<UnosZaTipovePlacanja> unosZaTipovePlacanja = new HashSet<>();
 
         if(nc == null)
         {
@@ -107,7 +108,14 @@ public class Naucni_casopisController {
 
             naucni_casopis.setCena(ncDTO.getCena());
             naucni_casopis.setStatus(false);
-
+            for(UnosZaTipovePlacanjaDTO u : ncDTO.getUnosTipova())
+            {
+                UnosZaTipovePlacanja u1 = new UnosZaTipovePlacanja();
+                u1.setTipPlacanja(u.getTipPlacanja());
+                u1.setPopunjeno(u.isPopunjeno());
+                unosZaTipovePlacanja.add(u1);
+            }
+            naucni_casopis.setUnosTipova(unosZaTipovePlacanja);
             naucni_casopis = ncs.save(naucni_casopis);
             logger.info("\n\t\tKreiran je casopis "+ naucni_casopis.getNaziv()+", a kreirao ga je "+ naucni_casopis.getGlavni_urednik().getKorisnickoIme() +" na sistem naucne centrale.\n");
             return new ResponseEntity<>(HttpStatus.OK);
@@ -264,5 +272,25 @@ public class Naucni_casopisController {
         korisnik.setKorpa(korpa);
         ks.save(korisnik);
         return new ResponseEntity<>(HttpStatus.OK);
+    }
+
+    @PutMapping(value="/popunjenaForma/{nacin}")
+    public ResponseEntity<?> popunjenaForma(@RequestBody Naucni_casopisDTO naucni_casopisDTO, @PathVariable String nacin)
+    {
+        Naucni_casopis naucni_casopis=ncs.findByNaziv(naucni_casopisDTO.getNaziv());
+
+        if(naucni_casopis!=null)
+        {
+            for(UnosZaTipovePlacanja t : naucni_casopis.getUnosTipova())
+            {
+                if(t.getTipPlacanja().equals(nacin))
+                {
+                    t.setPopunjeno(true);
+                    ncs.save(naucni_casopis);
+                    return new ResponseEntity<>(HttpStatus.OK);
+                }
+            }
+        }
+        return new ResponseEntity<>(HttpStatus.NOT_FOUND);
     }
 }

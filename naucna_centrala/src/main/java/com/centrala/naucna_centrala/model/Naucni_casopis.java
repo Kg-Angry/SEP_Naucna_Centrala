@@ -60,10 +60,13 @@ public class Naucni_casopis {
     @Column(name="cena",nullable = false,length = 255)
     private Double cena;
 
+    @OneToMany(mappedBy = "naucniCasopis", cascade = CascadeType.ALL)
+    private Set<UnosZaTipovePlacanja> unosTipova = new HashSet<>();
+
     public Naucni_casopis() {
     }
 
-    public Naucni_casopis(String naziv, int issn, TipCasopisa tipCasopisa, Korisnik glavni_urednik, Set<Korisnik> urednici, Set<Korisnik> recenzent, Set<Naucna_oblast> naucna_oblast, boolean status,boolean dopuniti, double cena) {
+    public Naucni_casopis(String naziv, int issn, TipCasopisa tipCasopisa, Korisnik glavni_urednik, Set<Korisnik> urednici, Set<Korisnik> recenzent, Set<Naucna_oblast> naucna_oblast, boolean status,boolean dopuniti, double cena, Set<UnosZaTipovePlacanja> unosTipova) {
         this.naziv = naziv;
         this.issn = issn;
         this.tipCasopisa = tipCasopisa;
@@ -74,6 +77,7 @@ public class Naucni_casopis {
         this.naucna_oblast = naucna_oblast;
         this.status = status;
         this.cena = cena;
+        this.unosTipova = unosTipova;
     }
 
     public Long getId() {
@@ -162,5 +166,13 @@ public class Naucni_casopis {
 
     public void setDopuniti(boolean dopuniti) {
         this.dopuniti = dopuniti;
+    }
+
+    public Set<UnosZaTipovePlacanja> getUnosTipova() {
+        return unosTipova;
+    }
+
+    public void setUnosTipova(Set<UnosZaTipovePlacanja> unosTipova) {
+        this.unosTipova = unosTipova;
     }
 }

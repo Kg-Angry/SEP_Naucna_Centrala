@@ -21,6 +21,15 @@ export class ErrorIntercepterService {
           timer: 3500
         });
         timer(3500).subscribe(t => location.href = '/login');
+      }else if(error.status === 504)
+      {
+        Swal.fire({
+          position: 'top-end',
+          icon: 'error',
+          title: 'Problem sa serverom! Molim vas malo sacekajte.',
+          showConfirmButton: false,
+          timer: 3500
+        });
       }
     }
   }

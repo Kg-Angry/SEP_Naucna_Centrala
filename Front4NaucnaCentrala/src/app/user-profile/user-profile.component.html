@@ -218,6 +218,7 @@
                         <td><button class="btn1 btn-orange" *ngIf="korisnik.tipKorisnika === 'UREDNIK' && korisnik.korisnicko_ime === c.glavni_urednik.korisnicko_ime" data-toggle="collapse" data-target="#collapseExample4" aria-expanded="false" aria-controls="collapseExample" (click)="IzmeniCasopis(c)">Izmeni</button></td>
                         <td><button class="btn1 btn-red" *ngIf="korisnik.tipKorisnika === 'UREDNIK' && korisnik.korisnicko_ime === c.glavni_urednik.korisnicko_ime" (click)="ObrisiCasopis(c.naziv)">Obrisi</button></td>
                         <td *ngIf="c.dopuniti === false && korisnik.tipKorisnika === 'ADMINISTRATOR'" ><button class="btn1 btn-green" (click)="AktivirajCasopis(c.naziv)">Aktiviraj</button></td>
+                      <td><tr *ngFor="let u of c.unosTipova"><td *ngIf="u.popunjeno === false && korisnik.tipKorisnika === 'ADMINISTRATOR'"><button class="btn1 btn-green" (click)="PopuniPodatke(u.tipPlacanja,c.naziv)">{{u.tipPlacanja}}</button></td></tr></td>
                       </tr>
                     </tbody>
                   </table>

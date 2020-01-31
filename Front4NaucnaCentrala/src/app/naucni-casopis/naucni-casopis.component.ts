@@ -1,3 +1,4 @@
+import { Transakcija } from './../class/transakcija';
 import { ShoppingCartService } from './../shopping-cart/shopping-cart.service';
 import { TipPlacanja } from './../class/tip-placanja';
 import { Placanje } from './../class/placanje.enum';
@@ -7,7 +8,7 @@ import { NaucniCasopis } from './../class/naucni-casopis';
 import { Component, OnInit } from '@angular/core';
 import {Korisnik} from './../class/korisnik';
 import Swal from 'sweetalert2';
-import { ThrowStmt } from '@angular/compiler';
+
 
 @Component({
   selector: 'app-naucni-casopis',
@@ -25,10 +26,12 @@ export class NaucniCasopisComponent implements OnInit {
   tipPlacanjaJendogCasopisa: TipPlacanja[] = [];
   zajednickiTipovi: Placanje[] = JSON.parse(localStorage.getItem('zajednickiTipovi'));
   korpa: NaucniCasopis[]=[];
+  transakcije: Transakcija[] = JSON.parse(localStorage.getItem('transakcije'));
 
   constructor( private casopisService: NaucniCasopisService, private shopingService: ShoppingCartService) { }
 
   ngOnInit() {
+    this.casopisService.sveTransakcije(this.korisnik.korisnicko_ime);
     for(let i = 0; i < this.tipPlacanjaCasopisa.length; i++) {
 
       if(this.casopisi[i].id === this.tipPlacanjaCasopisa[i].id) {
@@ -37,17 +40,29 @@ export class NaucniCasopisComponent implements OnInit {
     }
   }
 
-  PlatiCasopis(c: NaucniCasopis) {
+  pretplatiSe(c: NaucniCasopis) {
     this.CasopisPlati = c;
-
-  }
-  IzabraoPlacanje(t) {
-    if(t === 'BANKA') {
-      // this.casopisService.preusmeriBanka(this.CasopisPlati, this.korisnik);
-    } else if (t === 'PAYPAL') {
-      // this.casopisService.preusmeriPayPal(this.CasopisPlati, this.korisnik);
-    } else if (t === 'BITCOIN') {
-      // this.casopisService.preusmeriBitcoin(this.CasopisPlati, this.korisnik);
+    let pretplata = false;
+    for(let k = 0; k < this.tipPlacanjaCasopisa.length; k++) {
+      if(this.tipPlacanjaCasopisa[k].naziv === c.naziv) {
+        for(let i = 0; i < this.tipPlacanjaCasopisa[k].tipoviPlacanja.length; i++)
+        {
+          if(this.tipPlacanjaCasopisa[k].tipoviPlacanja[i].toString() === 'PAYPAL'){
+            pretplata = true;
+            this.casopisService.pretplataPaypal(c, this.korisnik);
+            break;
+          }
+        }
+        if(!pretplata){
+          Swal.fire({
+            position: 'top-end',
+            icon: 'error',
+            title: 'Nije moguce pretplatiti se na odabrani casopis',
+            showConfirmButton: false,
+            timer: 2500
+          });
+        }
+      }
     }
   }
 

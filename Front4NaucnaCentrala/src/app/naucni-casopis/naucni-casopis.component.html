@@ -34,14 +34,17 @@
                     <div class="price"><span>$</span>{{c.cena}}</div>
                   </a>
                   <div class="product-description" *ngIf="korisnik !== null">
-                    <div class="functional-buttons">
-                      <a  data-toggle="modal" data-target="#exampleModal" (click)="PlatiCasopis(c)" title="Kupi casopis">
-                        <i class="fa fa-shopping-cart"></i>
-                      </a>
-                      <a (click)="uKorpu(c)" title="Dodaj u korpu casopis">
-                        <i class="fa fa-plus"></i>
-                      </a>
+                    <div>
+                      <div class="functional-buttons">
+                        <a *ngIf="c.tipCasopisa === 'SA_PRETPLATOM'"  (click)="pretplatiSe(c)" title="Pretplati se na casopis">
+                          <i class="fa fa-shopping-cart"></i>
+                        </a>
+                        <a (click)="uKorpu(c)" title="Dodaj u korpu casopis">
+                          <i class="fa fa-plus"></i>
+                        </a>
+                      </div>
                     </div>
+
                   </div>
                 </div>
                 <div class="banner-bottom text-center">

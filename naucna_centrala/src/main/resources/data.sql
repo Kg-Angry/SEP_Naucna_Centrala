@@ -84,6 +84,19 @@ insert into naucni_rad(apstrakt,cena,kljucni_pojmovi,naslov,putanja_upload_fajla
 values("rad1",1.2,"rad1","Rad1","C:\Users\Alexandar\Documents\MASTER\1_semestar\SEP_Naucna_Centrala\SEP_Naucna_Centrala\naucna_centrala/src/main/resources/upload/Proba.txt",3,2,2);
 insert into naucni_rad(apstrakt,cena,kljucni_pojmovi,naslov,putanja_upload_fajla,autor_id,naucni_casopis_id,oblast_pripadanja_id)
 values("rad2",1.3,"rad2","Rad2","C:\Users\Alexandar\Documents\MASTER\1_semestar\SEP_Naucna_Centrala\SEP_Naucna_Centrala\naucna_centrala/src/main/resources/upload/Proba.pdf",3,3,1);
+insert into naucni_rad(apstrakt,cena,kljucni_pojmovi,naslov,putanja_upload_fajla,autor_id,naucni_casopis_id,oblast_pripadanja_id)
+values("rad3",1.0,"rad3","Rad3","C:\Users\Alexandar\Documents\MASTER\1_semestar\SEP_Naucna_Centrala\SEP_Naucna_Centrala\naucna_centrala/src/main/resources/upload/Proba.pdf",3,1,1);
 
+-- tipovi placanja za casopis
+insert into unos_za_tipove_placanja (popunjeno, tip_placanja,casopis_id)
+values(false,'PAYPAL',1);
+insert into unos_za_tipove_placanja (popunjeno, tip_placanja,casopis_id)
+values(false,'BITCOIN',1);
+insert into unos_za_tipove_placanja (popunjeno, tip_placanja,casopis_id)
+values(false,'PAYPAL',2);
+insert into unos_za_tipove_placanja (popunjeno, tip_placanja,casopis_id)
+values(false,'BANKA',2);
+insert into unos_za_tipove_placanja (popunjeno, tip_placanja,casopis_id)
+values(false,'BANKA',3);
 -- SELECT * from korisnik;
 

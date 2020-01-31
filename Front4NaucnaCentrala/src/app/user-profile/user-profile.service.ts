@@ -112,4 +112,15 @@ export class UserProfileService {
     });
   }
 
+  preuzimanjeFormi(tipPlacanja: String,casopis: String){
+
+    return this.http.get('api1/kp/form/'+ tipPlacanja).subscribe(data =>
+      {
+        localStorage.setItem('forma', JSON.stringify(data));
+        localStorage.setItem('naslovCasopisa', JSON.stringify(casopis));
+        localStorage.setItem('dugmeTip', JSON.stringify(tipPlacanja));
+        location.href = '/genforme';
+      })
+  }
+
 }

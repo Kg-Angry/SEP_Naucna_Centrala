@@ -195,7 +195,6 @@ export class UserProfileComponent implements OnInit {
 
   KreirajCasopis($event) {
 
-    console.log("USO OVDE");
     event.preventDefault();
     const target = event.target;
 
@@ -351,5 +350,9 @@ export class UserProfileComponent implements OnInit {
 
   ZahtevRecenzenta(korisnickoIme: String, odobrio){
     this.userService.zahtevZaRecenzenta(korisnickoIme, odobrio, this.korisnik.korisnicko_ime);
+  }
+
+  PopuniPodatke(tipPlacanja: String, casopisNaziv: String){
+    this.userService.preuzimanjeFormi(tipPlacanja, casopisNaziv);
   }
 }

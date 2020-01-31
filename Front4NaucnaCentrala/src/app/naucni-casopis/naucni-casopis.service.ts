@@ -1,15 +1,21 @@
+import { Transakcija } from './../class/transakcija';
 import { NaucniRad } from './../class/naucni-rad';
 import { NaucniCasopis } from './../class/naucni-casopis';
 import { HomeService } from './../home/home.service';
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import Swal from 'sweetalert2';
-import { timer } from 'rxjs';
+import { timer, interval } from 'rxjs';
+import { first } from "rxjs/operators";
+import { Subscription } from 'rxjs';
 
 @Injectable({
   providedIn: 'root'
 })
 export class NaucniCasopisService {
+
+//na svakih 30s on proverava da li je KP ziv :D
+  source = interval(3000);
 
   constructor(private http: HttpClient, private homeService: HomeService) { }
 
@@ -80,14 +86,25 @@ export class NaucniCasopisService {
       })
   }
 
-  preusmeriBanka(casopis, korisnik) {
+  preusmeriBanka(casopis, korisnik, rad:NaucniRad[]) {
     //uzimam sve nazive casopisa koji su u korpi
       let proba = '';
+      let nazivRadova: String = '';
       let randomBroj: Number = Math.random()*100;
-      proba = randomBroj.toFixed(0);
 
+      for(let i = 0; i < rad.length;i++)
+    {
+      if(i !== rad.length - 1){
+        nazivRadova += rad[i].naslov + ',';
+      } else {
+        nazivRadova += rad[i].naslov.toString();
+      }
+    }
+
+      proba = randomBroj.toFixed(0);
+    console.log("Cena: " + casopis.cena);
     return this.http.post('api1/kp/bankaPayment', {korisnicko_ime_platioca: korisnik.korisnicko_ime
-      , lozinka_platioca: korisnik.lozinka, id_porudzbine: proba, nazivi_casopisa: casopis}, {responseType: 'text'})
+      , lozinka_platioca: korisnik.lozinka, id_porudzbine: proba, nazivi_casopisa: casopis, naziv_radova: nazivRadova }, {responseType: 'text'})
       .subscribe((data: string) => { Swal.fire({
         position: 'top-end',
         icon: 'info',
@@ -98,21 +115,10 @@ export class NaucniCasopisService {
         timer(2500).subscribe(t => location.href = data);
       });
     }
-  preusmeriPayPal(ukupnaCena, casopis: NaucniCasopis[], korisnik) {
 
-    //uzimam sve nazive casopisa koji su u korpi
-    let naziv: String = '';
-    let proba = '';
-    for(let i = 0; i < casopis.length;i++)
-    {
-      if(i !== casopis.length - 1){
-        naziv += casopis[i].naziv + ',';
-      } else {
-        naziv += casopis[i].naziv.toString();
-      }
-      let randomBroj: Number = Math.random()*100;
-      proba = randomBroj.toFixed(0);
-    }
+  pretplataPaypal(casopis: NaucniCasopis, korisnik){
+    let randomBroj: Number = Math.random()*100;
+    let proba = randomBroj.toFixed(0);
     Swal.fire({
       title: 'Pretplata ?',
       text: 'Da li biste zeleli da se pretplatite na PayPal?',
@@ -143,8 +149,8 @@ export class NaucniCasopisService {
           confirmButtonText: 'Potvrdi',
         }).then((result1) => {
           if (result1.value) {
-          return this.http.post('api1/kp/pretplata', {cena: ukupnaCena, korisnicko_ime_platioca: korisnik.korisnicko_ime
-          , lozinka_platioca: korisnik.lozinka, id_porudzbine: proba, naziv_casopisa: naziv, period: result.value, rate: result1.value}, {responseType: 'text'})
+          return this.http.post('api1/kp/pretplata', {cena: casopis.cena, korisnicko_ime_platioca: korisnik.korisnicko_ime
+          , lozinka_platioca: korisnik.lozinka, id_porudzbine: proba, naziv_casopisa: casopis.naziv, period: result.value, rate: result1.value}, {responseType: 'text'})
           .subscribe((data: string) => {
             Swal.fire({
               position: 'top-end',
@@ -157,11 +163,43 @@ export class NaucniCasopisService {
           });
           }
         })
-      } else if (
-        result.dismiss === Swal.DismissReason.cancel
-      ) {
-        return this.http.post('api1/kp/paypal-api', {cena: ukupnaCena, korisnicko_ime_platioca: korisnik.korisnicko_ime
-          , lozinka_platioca: korisnik.lozinka, id_porudzbine: proba, naziv_casopisa: naziv}, {responseType: 'text'})
+      }
+  });
+}
+  preusmeriPayPal(ukupnaCena, casopis: NaucniCasopis[], rad: NaucniRad[], korisnik) {
+
+    //uzimam sve nazive casopisa koji su u korpi
+    let naziv: String = '';
+    let nazivRadova: String = '';
+    let proba = '';
+    for(let i = 0; i < casopis.length;i++)
+    {
+      if(i !== casopis.length - 1){
+        naziv += casopis[i].naziv + ',';
+      } else {
+        naziv += casopis[i].naziv.toString();
+      }
+
+    }
+
+    for(let i = 0; i < rad.length;i++)
+    {
+      if(i !== rad.length - 1){
+        nazivRadova += rad[i].naslov + ',';
+      } else {
+        nazivRadova += rad[i].naslov.toString();
+      }
+
+    }
+
+    if(casopis.length === 0){
+      naziv = rad[0].naucni_casopis.naziv;
+    }
+
+    let randomBroj: Number = Math.random()*100;
+      proba = randomBroj.toFixed(0);
+    return this.http.post('api1/kp/paypal-api', {cena: ukupnaCena, korisnicko_ime_platioca: korisnik.korisnicko_ime
+          , lozinka_platioca: korisnik.lozinka, id_porudzbine: proba, naziv_casopisa: naziv, naziv_radova:nazivRadova}, {responseType: 'text'})
         .subscribe((data: string) => {
            Swal.fire({
              position: 'top-end',
@@ -172,12 +210,11 @@ export class NaucniCasopisService {
          });
           timer(2500).subscribe(t => location.href = data);
         });
-      }
-    })
   }
-  preusmeriBitcoin(ukupnaCena, casopis: NaucniCasopis[], korisnik){
+  preusmeriBitcoin(ukupnaCena, casopis: NaucniCasopis[], rad:NaucniRad[], korisnik){
     //uzimam sve nazive casopisa koji su u korpi
     let naziv: String = '';
+    let nazivRadova: String = '';
     let proba = '';
     for(let i = 0; i < casopis.length; i++)
     {
@@ -186,11 +223,27 @@ export class NaucniCasopisService {
       } else {
         naziv += casopis[i].naziv.toString();
       }
-      let randomBroj: Number = Math.random()*100;
-      proba = randomBroj.toFixed(0);
     }
+
+    for(let i = 0; i < rad.length;i++)
+    {
+      if(i !== rad.length - 1){
+        nazivRadova += rad[i].naslov + ',';
+      } else {
+        nazivRadova += rad[i].naslov.toString();
+      }
+
+    }
+
+    if(casopis.length === 0)
+    {
+      naziv = rad[0].naucni_casopis.naziv;
+    }
+    let randomBroj: Number = Math.random()*100;
+      proba = randomBroj.toFixed(0);
+
     return this.http.post('api1/kp/bitcoin-api', {cena: ukupnaCena, korisnicko_ime_platioca: korisnik.korisnicko_ime
-    , lozinka_platioca: korisnik.lozinka, id_porudzbine: proba, naziv_casopisa: naziv}, {responseType: 'text'})
+    , lozinka_platioca: korisnik.lozinka, id_porudzbine: proba, naziv_casopisa: naziv, naziv_radova:nazivRadova}, {responseType: 'text'})
     .subscribe((data: string) => { Swal.fire({
       position: 'top-end',
       icon: 'info',
@@ -241,5 +294,12 @@ export class NaucniCasopisService {
               localStorage.setItem('korisnik', JSON.stringify(data1));
           });
         });
+  }
+
+  sveTransakcije(korisnicko_ime: String) {
+    this.source.subscribe(()=>{
+      return this.http.get('api1/kp/sveTransakcije/' + korisnicko_ime)
+    .subscribe(data => {localStorage.setItem('transakcije', JSON.stringify(data))});
+    })
   }
 }
