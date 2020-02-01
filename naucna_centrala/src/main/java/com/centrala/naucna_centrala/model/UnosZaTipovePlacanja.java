@@ -44,4 +44,12 @@ public class UnosZaTipovePlacanja {
     public void setPopunjeno(boolean popunjeno) {
         this.popunjeno = popunjeno;
     }
+
+    public Naucni_casopis getNaucniCasopis() {
+        return naucniCasopis;
+    }
+
+    public void setNaucniCasopis(Naucni_casopis naucniCasopis) {
+        this.naucniCasopis = naucniCasopis;
+    }
 }

@@ -108,20 +108,25 @@ public class Naucni_casopisController {
 
             naucni_casopis.setCena(ncDTO.getCena());
             naucni_casopis.setStatus(false);
+            naucni_casopis = ncs.save(naucni_casopis);
+
             for(UnosZaTipovePlacanjaDTO u : ncDTO.getUnosTipova())
             {
                 UnosZaTipovePlacanja u1 = new UnosZaTipovePlacanja();
                 u1.setTipPlacanja(u.getTipPlacanja());
                 u1.setPopunjeno(u.isPopunjeno());
+                u1.setNaucniCasopis(naucni_casopis);
                 unosZaTipovePlacanja.add(u1);
             }
             naucni_casopis.setUnosTipova(unosZaTipovePlacanja);
             naucni_casopis = ncs.save(naucni_casopis);
+
+
             logger.info("\n\t\tKreiran je casopis "+ naucni_casopis.getNaziv()+", a kreirao ga je "+ naucni_casopis.getGlavni_urednik().getKorisnickoIme() +" na sistem naucne centrale.\n");
             return new ResponseEntity<>(HttpStatus.OK);
         }else
         {logger.info("\n\t\tCasopis nije uspesno kreiran ili vec postoji u bazi!!!.\n");
-        return new ResponseEntity<>(HttpStatus.NOT_FOUND);}
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);}
     }
 
     @RequestMapping(method = RequestMethod.PUT, value="/izmeniCasopis")
@@ -170,7 +175,7 @@ public class Naucni_casopisController {
             return new ResponseEntity<>(HttpStatus.OK);
         }else
         {logger.info("\n\t\tCasopis nije uspesno izmenjen.\n");
-        return new ResponseEntity<>(HttpStatus.NOT_FOUND);}
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);}
     }
 
     @RequestMapping(method = RequestMethod.DELETE, value = "/obrisiCasopis/{naziv}")

@@ -1,3 +1,4 @@
+import { Korisnik } from './../class/korisnik';
 import { NaucniCasopisService } from './../naucni-casopis/naucni-casopis.service';
 import { UserProfileService } from './../user-profile/user-profile.service';
 import { HomeService } from './home.service';
@@ -11,9 +12,14 @@ import { ActivatedRoute } from '@angular/router';
 })
 export class HomeComponent implements OnInit {
 
+  korisnik: Korisnik = JSON.parse(localStorage.getItem('korisnik'));
+
   constructor(private homeService: HomeService, private userService: UserProfileService, private casopis: NaucniCasopisService) { }
 
   ngOnInit() {
+      if(this.korisnik){
+        this.homeService.sveTransakcije(this.korisnik.korisnicko_ime);
+      }
       this.homeService.getOblasti();
       this.homeService.getNaucniCasopisi();
       this.homeService.getNaucniRadovi();

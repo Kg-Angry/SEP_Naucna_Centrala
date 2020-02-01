@@ -1,3 +1,4 @@
+import { ListPeriodPretplate } from './../class/list-period-pretplate';
 import { Transakcija } from './../class/transakcija';
 import { NaucniRad } from './../class/naucni-rad';
 import { NaucniCasopis } from './../class/naucni-casopis';
@@ -6,19 +7,33 @@ import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import Swal from 'sweetalert2';
 import { timer, interval } from 'rxjs';
+import {Placanje} from '../class/placanje.enum';
+import {UnetiTipovi} from '../class/uneti-tipovi';
 
 @Injectable({
   providedIn: 'root'
 })
 export class NaucniCasopisService {
 
-//na svakih 30s on proverava da li je KP ziv :D
+//na svakih 10s on proverava da li je KP ziv :D
   source = interval(10000);
+  poljaZaPopunjavanje: UnetiTipovi[]=[];
+  listPeriodPretplate: ListPeriodPretplate = new ListPeriodPretplate();
 
   constructor(private http: HttpClient, private homeService: HomeService) { }
 
-  kreirajCasopis(naziv ,issn ,cena, tipCasopisa, Urednici, Recenzenti, Glavni_Korisnik, IzabranaNaucnaOblast, IzabaniTipoviPlacanja)
+  kreirajCasopis(naziv ,issn ,cena, tipCasopisa, Urednici, Recenzenti, Glavni_Korisnik, IzabranaNaucnaOblast, IzabaniTipoviPlacanja: Placanje[])
   {
+    if(IzabaniTipoviPlacanja.length > 0)
+    {
+      for(let i = 0; i < IzabaniTipoviPlacanja.length; i++){
+        let u = new UnetiTipovi();
+        u.tipPlacanja = IzabaniTipoviPlacanja[i].toString();
+        u.popunjeno = false;
+        this.poljaZaPopunjavanje.push(u);
+      }
+
+    }
     if(cena < 0)
     {
       Swal.fire({
@@ -31,11 +46,10 @@ export class NaucniCasopisService {
         this.homeService.getNaucniCasopisi();
         timer(2500).subscribe(t => location.href = '/userProfile');
     } else{
-    console.log(IzabaniTipoviPlacanja);
-    console.log("NAziv" + naziv);
     return this.http.post('api/naucni_casopis/kreirajCasopis', {naziv: naziv, issn: issn, tipCasopisa: tipCasopisa,
        tipoviPlacanja: IzabaniTipoviPlacanja,
-        glavni_urednik: Glavni_Korisnik, urednici: Urednici, recenzent: Recenzenti, naucna_oblast: IzabranaNaucnaOblast, cena: cena}).
+        glavni_urednik: Glavni_Korisnik, urednici: Urednici, recenzent: Recenzenti, naucna_oblast: IzabranaNaucnaOblast, cena: cena,
+      unosTipova: this.poljaZaPopunjavanje}).
     subscribe(data => {
       Swal.fire({
         position: 'top-end',
@@ -115,34 +129,44 @@ export class NaucniCasopisService {
     }
 
   pretplataPaypal(casopis: NaucniCasopis, korisnik){
-    let randomBroj: Number = Math.random()*100;
-    let proba = randomBroj.toFixed(0);
+    this.periodPretplate().subscribe((data: ListPeriodPretplate) =>
+    {
+      this.listPeriodPretplate = data;
+      let randomBroj: Number = Math.random()*100;
+      let proba = randomBroj.toFixed(0);
+      let period:Map<string, string> = new Map<string, string>();
+      let vreme: Map<string, string> = new Map<string, string>();
+      for(let i = 0; i < this.listPeriodPretplate.list_period.length; i++)
+      {
+        period.set(this.listPeriodPretplate.list_period[i].period.toString(), this.listPeriodPretplate.list_period[i].period.toString());
+      }
+
     Swal.fire({
       title: 'Pretplata ?',
       text: 'Da li biste zeleli da se pretplatite na PayPal?',
       icon: 'warning',
       input: 'select',
-      inputOptions: {
-        'WEEK': 'WEEK',
-        'MONTH': 'MONTH',
-        'YEAR': 'YEAR'
-      },
+      inputOptions: period,
       showCancelButton: true,
       confirmButtonText: 'Da',
       cancelButtonText: 'Ne',
       reverseButtons: true
     }).then((result) => {
       if (result.value) {
+        for(let i = 0; i < this.listPeriodPretplate.list_period.length; i++)
+      {
+          if(this.listPeriodPretplate.list_period[i].period === result.value)
+          {
+            for(let j=0; j < this.listPeriodPretplate.list_period[i].ciklus.length;j++)
+            {
+              vreme.set(this.listPeriodPretplate.list_period[i].ciklus[j].toString(),this.listPeriodPretplate.list_period[i].ciklus[j].toString());
+            }
+          }
+      }
         Swal.fire({
           title: 'Vremenski period ?',
           input: 'select',
-          inputOptions: {
-            '1': '1',
-            '2': '2',
-            '3': '3',
-            '5': '5',
-            '7': '7'
-          },
+          inputOptions: vreme,
           showCancelButton: true,
           confirmButtonText: 'Potvrdi',
         }).then((result1) => {
@@ -163,6 +187,8 @@ export class NaucniCasopisService {
         })
       }
   });
+    });
+
 }
   preusmeriPayPal(ukupnaCena, casopis: NaucniCasopis[], rad: NaucniRad[], korisnik) {
 
@@ -299,5 +325,9 @@ export class NaucniCasopisService {
       return this.http.get('api1/kp/sveTransakcije/' + korisnicko_ime)
     .subscribe(data => {localStorage.setItem('transakcije', JSON.stringify(data))});
     })
+  }
+
+  periodPretplate(){
+    return this.http.get('api1/kp/preiodPretplate');
   }
 }
