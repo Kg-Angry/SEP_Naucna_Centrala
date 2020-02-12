@@ -2,6 +2,7 @@ package com.centrala.naucna_centrala.controller;
 
 import com.centrala.naucna_centrala.DTO.KorisnikDTO;
 import com.centrala.naucna_centrala.DTO.Naucna_oblastDTO;
+import com.centrala.naucna_centrala.DTO.TransakcijeListDTO;
 import com.centrala.naucna_centrala.Security.JwtAuthenticationRequest;
 import com.centrala.naucna_centrala.Security.TokenUtils;
 import com.centrala.naucna_centrala.model.Korisnik;
@@ -19,6 +20,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
+import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.web.bind.annotation.*;
 
@@ -32,6 +34,7 @@ import java.util.List;
 import java.util.Set;
 
 import com.centrala.naucna_centrala.Security.AES256bit;
+import org.springframework.web.client.RestTemplate;
 
 import javax.crypto.BadPaddingException;
 import javax.crypto.IllegalBlockSizeException;
@@ -54,6 +57,9 @@ public class KorisnikController {
     private EmailService emailService;
     @Autowired
     private TokenUtils tokenUtils;
+    @Autowired
+    private RestTemplate restTemplate;
+    private static boolean nesto;
 
     private static final Logger logger = LoggerFactory.getLogger(KorisnikController.class);
 
@@ -332,4 +338,24 @@ public class KorisnikController {
             return new ResponseEntity<>(HttpStatus.CREATED);
         }
     }
+
+    @Scheduled(fixedRate = 10000)
+    public void statusTransakcije()
+    {
+//        System.out.println("USO U METODU");
+        try {
+            TransakcijeListDTO t = restTemplate.getForObject("https://localhost:8081/api1/kp/sveTransakcije", TransakcijeListDTO.class);
+            nesto = true;
+//            System.out.println("RADIIIIII");
+        }catch (Exception e){
+            nesto =false;
+//            System.out.println("NEEEE RADIIIIII");
+        }
+    }
+
+    @GetMapping(value="/provera")
+    public ResponseEntity<?> proveraKP(){
+        return ResponseEntity.ok(nesto);
+    }
+
 }

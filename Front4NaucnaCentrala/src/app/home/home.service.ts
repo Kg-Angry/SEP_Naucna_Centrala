@@ -1,13 +1,14 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { interval } from 'rxjs';
+import { interval, timer } from 'rxjs';
+import Swal from 'sweetalert2';
 
 @Injectable({
   providedIn: 'root'
 })
 export class HomeService {
 
-  source = interval(30000);
+  source = interval(10000);
   constructor(private http: HttpClient) { }
 
   getOblasti() {
@@ -20,10 +21,22 @@ export class HomeService {
     return this.http.get('api/naucni_rad/sviRadovi').subscribe(data => localStorage.setItem('radovi', JSON.stringify(data)));
   }
 
-  sveTransakcije(korisnicko_ime: String) {
+  sveTransakcije() {
     this.source.subscribe(()=>{
-      return this.http.get('api1/kp/sveTransakcije/' + korisnicko_ime)
-    .subscribe(data => {localStorage.setItem('transakcije', JSON.stringify(data))});
-    })
+      return this.http.get('api/korisnik/provera')
+    .subscribe((data: Boolean) => {
+
+      if(!data)
+      {
+        Swal.fire({
+          position: 'top-end',
+          icon: 'error',
+          title: 'Problem sa serverom. Molimo Vas sacekajte',
+          showConfirmButton: false,
+          timer: 2500
+        });
+      }
+    });
+    });
   }
 }

@@ -1,5 +1,4 @@
-import { Korisnik } from 'src/app/class/korisnik';
-import { HomeService } from './../home/home.service';
+import { NaucniCasopisService } from './../naucni-casopis/naucni-casopis.service';
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import Swal from 'sweetalert2';
@@ -10,7 +9,7 @@ import { timer } from 'rxjs';
 })
 export class UserProfileService {
 
-  constructor(private http: HttpClient) { }
+  constructor(private http: HttpClient, private ncServise: NaucniCasopisService) { }
 
   getAllUsers() {
     return this.http.get('api/korisnik/getKorisnici').subscribe(data => {localStorage.setItem('korisnici', JSON.stringify(data)); });
@@ -121,6 +120,24 @@ export class UserProfileService {
         localStorage.setItem('dugmeTip', JSON.stringify(tipPlacanja));
         location.href = '/genforme';
       })
+  }
+
+  dodajNoviServis(target){
+    const nazivServisa = target.querySelector('input[name=\'nazivServisa\']').value.toUpperCase();
+
+    return this.http.post('api1/tipPlacanja/noviServis', { naziv: nazivServisa }).subscribe(data =>
+      {
+        Swal.fire({
+          position: 'top-end',
+          icon: 'success',
+          title: 'Dodat novi servis',
+          showConfirmButton: false,
+          timer: 2000
+        });
+        this.ncServise.getTipoviPlacanja();
+        timer(2000).subscribe(t => location.href = '/userProfile');
+      });
+
   }
 
 }

@@ -17,11 +17,14 @@
               <li class="nav-item"  *ngIf="korisnik.tipKorisnika == 'ADMINISTRATOR'">
                 <a href="" data-target="#korisnici" data-toggle="tab" class="nav-link">Svi korisnici</a>
               </li>
+              <li class="nav-item"  *ngIf="korisnik.tipKorisnika == 'ADMINISTRATOR'">
+                <a href="" data-target="#servis" data-toggle="tab" class="nav-link">Novi servisi</a>
+              </li>
           </ul>
           <div class="tab-content py-4">
               <div class="tab-pane active" id="casopisi">
                     <p>
-                      <button class="btn1 btn-green" *ngIf="korisnik.tipKorisnika === 'UREDNIK'"  data-toggle="collapse" data-target="#collapseExample" aria-expanded="false" aria-controls="collapseExample">
+                      <button class="btn1 btn-green" data-toggle="collapse" data-target="#collapseExample" aria-expanded="false" aria-controls="collapseExample">
                         Dodaj casopis
                       </button>
                     </p>
@@ -593,6 +596,22 @@
               </tr>
             </tbody>
           </table>
+          </div>
+          <div class="tab-pane" id="servis">
+            <p>
+              <button class="btn1 btn-green" data-toggle="collapse" data-target="#collapseExample7" aria-expanded="true" aria-controls="collapseExample5">
+                Dodaj servis za placanje
+              </button>
+            </p>
+            <div class="collapse" id="collapseExample7">
+              <form (submit)="DodajServis($event)">
+                <div class="form-group">
+                  <label for="exampleInputEmail1">Naziv servisa</label>
+                  <input type="text" class="form-control" name="nazivServisa">
+                </div>
+                <button type="submit" class="btn1 btn-green">Dodaj</button>
+              </form>
+            </div>
           </div>
       </div>
       </div>

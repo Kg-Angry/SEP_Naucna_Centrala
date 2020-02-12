@@ -355,4 +355,11 @@ export class UserProfileComponent implements OnInit {
   PopuniPodatke(tipPlacanja: String, casopisNaziv: String){
     this.userService.preuzimanjeFormi(tipPlacanja, casopisNaziv);
   }
+
+  DodajServis($event)
+  {
+    event.preventDefault();
+    const target = event.target;
+    this.userService.dodajNoviServis(target);
+  }
 }
