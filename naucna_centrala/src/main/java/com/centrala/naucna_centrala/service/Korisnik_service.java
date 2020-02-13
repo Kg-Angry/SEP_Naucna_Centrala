@@ -21,8 +21,8 @@ public class Korisnik_service {
     private Korisnik_repository kr;
     @Autowired
     TokenUtils tokenUtils;
-    @Autowired
-    private AuthenticationManager authenticationManager;
+//    @Autowired
+//    private AuthenticationManager authenticationManager;
 
     private BCryptPasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
 

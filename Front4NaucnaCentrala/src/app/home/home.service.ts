@@ -39,4 +39,12 @@ export class HomeService {
     });
     });
   }
+
+  proveraPretplate(korisnickoIme: String)
+  {
+    this.source.subscribe(()=>{
+      return this.http.post('api1/kp/pretplataTransakcija/'+korisnickoIme,{})
+    .subscribe(data => {});
+  });
+  }
 }

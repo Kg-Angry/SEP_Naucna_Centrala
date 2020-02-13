@@ -19,6 +19,7 @@ export class HomeComponent implements OnInit {
   ngOnInit() {
       if(this.korisnik){
         this.homeService.sveTransakcije();
+        this.homeService.proveraPretplate(this.korisnik.korisnicko_ime);
       }
       this.homeService.getOblasti();
       this.homeService.getNaucniCasopisi();

@@ -79,6 +79,10 @@ public class Korisnik {
     @OneToOne
     private Korpa korpa;
 
+    @ManyToMany(fetch = FetchType.EAGER,cascade = CascadeType.ALL)
+    @JoinTable(name="korisnik_role",joinColumns = {@JoinColumn(name = "user_id")},inverseJoinColumns = {@JoinColumn(name = "id")})
+    private Set<Role> roles;
+
     public Korisnik()
     {
 
@@ -236,5 +240,13 @@ public class Korisnik {
 
     public void setKorpa(Korpa korpa) {
         this.korpa = korpa;
+    }
+
+    public Set<Role> getRoles() {
+        return roles;
+    }
+
+    public void setRoles(Set<Role> roles) {
+        this.roles = roles;
     }
 }

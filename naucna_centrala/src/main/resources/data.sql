@@ -22,6 +22,7 @@ insert into korisnik(aktiviran_nalog,drzava,email,grad,ime,korisnicko_ime,lozink
 values (1,'US','aaaaa','SI','obican','5lE97W9WSyrVG9+ovuNeuw==','$2a$10$gyakK5g85nodEj065u.XZ.MIY3Tvs6LkyRgzvQFxrAos8QcJf5J5O','obican',0,'OBICAN','visa',1,NULL);
 
 
+
 --Naucna oblast
 insert into naucna_oblast(naziv,opis) values ("IT","Oblast namenjena za infromacione tehnologije");
 insert into naucna_oblast(naziv,opis) values ("Elektrotehnika","Oblast namenjena za rad sa uredjajima koji su tehnicke prirode");
