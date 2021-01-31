@@ -1,7 +1,7 @@
 import { AppRoutingModule } from './app-routing.module';
 import { RouterModule } from '@angular/router';
 import { BrowserModule } from '@angular/platform-browser';
-import { NgModule } from '@angular/core';
+import { NgModule, ErrorHandler } from '@angular/core';
 import { AppComponent } from './app.component';
 import { HomeComponent } from './home/home.component';
 import { LoginComponent } from './login/login.component';
@@ -10,13 +10,22 @@ import { NaucniCasopisComponent } from './naucni-casopis/naucni-casopis.componen
 import { NaucnaOblastComponent } from './naucna-oblast/naucna-oblast.component';
 import { NaucniRadoviComponent } from './naucni-radovi/naucni-radovi.component';
 import { UserProfileComponent } from './user-profile/user-profile.component';
-import { HttpClientModule } from '@angular/common/http';
+import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
 import {FormsModule} from '@angular/forms';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import {MatSelectModule} from '@angular/material/select';
 import { PretragaElasticComponent } from './pretraga-elastic/pretraga-elastic.component';
 import { UspesnoPlacanjeComponent } from './uspesno-placanje/uspesno-placanje.component';
 import { PaypalComponent } from './paypal/paypal.component';
+import { NeuspesnoPlacanjeComponent } from './neuspesno-placanje/neuspesno-placanje.component';
+import { IntercepterService } from './intercepter.service';
+import { ErrorIntercepterService } from './error-intercepter.service';
+import { MAT_DATE_LOCALE } from '@angular/material/core';
+import {MatInputModule} from '@angular/material/input';
+import {MatStepperModule} from '@angular/material/stepper';
+import { ShoppingCartComponent } from './shopping-cart/shopping-cart.component';
+import { PaypalPretplataComponent } from './paypal-pretplata/paypal-pretplata.component';
+import { FormeComponent } from './forme/forme.component';
 
 @NgModule({
   declarations: [
@@ -30,7 +39,11 @@ import { PaypalComponent } from './paypal/paypal.component';
     UserProfileComponent,
     PretragaElasticComponent,
     UspesnoPlacanjeComponent,
-    PaypalComponent
+    PaypalComponent,
+    NeuspesnoPlacanjeComponent,
+    ShoppingCartComponent,
+    PaypalPretplataComponent,
+    FormeComponent,
   ],
   imports: [
     BrowserModule,
@@ -40,8 +53,19 @@ import { PaypalComponent } from './paypal/paypal.component';
     FormsModule,
     BrowserAnimationsModule,
     MatSelectModule,
+    MatInputModule,
+    MatStepperModule,
   ],
-  providers: [],
+  providers: [{provide : HTTP_INTERCEPTORS,
+  useClass: IntercepterService,
+  multi   : true,
+  },
+    {
+      provide: ErrorHandler,
+      useClass: ErrorIntercepterService,
+    },
+      {provide: MAT_DATE_LOCALE, useValue: 'en-GB'},
+    ],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

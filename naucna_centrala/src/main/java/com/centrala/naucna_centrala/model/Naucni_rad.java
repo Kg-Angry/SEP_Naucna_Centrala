@@ -26,11 +26,17 @@ public class Naucni_rad {
     @Column(name="apstrakt", nullable = false, length = 255)
     private String apstrakt;
 
+    @Column(name="cena")
+    private double cena;
+
     @OneToOne
     private Naucna_oblast oblast_pripadanja;
 
     @Column(name="putanja_upload_fajla", nullable = false, length = 255)
     private String putanja_upload_fajla;
+
+    @OneToOne
+    private Korisnik autor;
 
     @ManyToOne
     private Naucni_casopis naucni_casopis;
@@ -40,14 +46,16 @@ public class Naucni_rad {
 
     }
 
-    public Naucni_rad(String naslov, Set<Korisnik> koautori, String kljucni_pojmovi, String apstrakt, Naucna_oblast oblast_pripadanja, String putanja_upload_fajla, Naucni_casopis naucni_casopis) {
+    public Naucni_rad(String naslov, Set<Korisnik> koautori, String kljucni_pojmovi, String apstrakt, Naucna_oblast oblast_pripadanja, String putanja_upload_fajla, Korisnik autor, Naucni_casopis naucni_casopis,double cena) {
         this.naslov = naslov;
         this.koautori = koautori;
         this.kljucni_pojmovi = kljucni_pojmovi;
         this.apstrakt = apstrakt;
         this.oblast_pripadanja = oblast_pripadanja;
         this.putanja_upload_fajla = putanja_upload_fajla;
+        this.autor = autor;
         this.naucni_casopis = naucni_casopis;
+        this.cena=cena;
     }
 
     public Long getId() {
@@ -106,12 +114,28 @@ public class Naucni_rad {
         this.putanja_upload_fajla = putanja_upload_fajla;
     }
 
+    public Korisnik getAutor() {
+        return autor;
+    }
+
+    public void setAutor(Korisnik autor) {
+        this.autor = autor;
+    }
+
     public Naucni_casopis getNaucni_casopis() {
         return naucni_casopis;
     }
 
     public void setNaucni_casopis(Naucni_casopis naucni_casopis) {
         this.naucni_casopis = naucni_casopis;
+    }
+
+    public double getCena() {
+        return cena;
+    }
+
+    public void setCena(double cena) {
+        this.cena = cena;
     }
 }
 

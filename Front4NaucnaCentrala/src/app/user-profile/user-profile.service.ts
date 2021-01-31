@@ -1,5 +1,4 @@
-import { Korisnik } from 'src/app/class/korisnik';
-import { HomeService } from './../home/home.service';
+import { NaucniCasopisService } from './../naucni-casopis/naucni-casopis.service';
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import Swal from 'sweetalert2';
@@ -10,7 +9,7 @@ import { timer } from 'rxjs';
 })
 export class UserProfileService {
 
-  constructor(private http: HttpClient) { }
+  constructor(private http: HttpClient, private ncServise: NaucniCasopisService) { }
 
   getAllUsers() {
     return this.http.get('api/korisnik/getKorisnici').subscribe(data => {localStorage.setItem('korisnici', JSON.stringify(data)); });
@@ -86,4 +85,59 @@ export class UserProfileService {
       timer(1500).subscribe(t => location.href = '/login');
     });
   }
+
+  zahtevZaRecenzenta(korisnickoIme, odobrio, usernameAktivnog){
+    return this.http.post('api/korisnik/iRecenzent/'+ odobrio, {korisnicko_ime: korisnickoIme, ime: usernameAktivnog})
+    .subscribe(data =>{
+      if(odobrio == 1){
+        Swal.fire({
+          position: 'top-end',
+          icon: 'info',
+          title: 'Zahtev je odobren',
+          showConfirmButton: false,
+          timer: 1500
+        });
+      } else{
+        Swal.fire({
+          position: 'top-end',
+          icon: 'info',
+          title: 'Zahtev nije odobren',
+          showConfirmButton: false,
+          timer: 1500
+        });
+      }
+        this.getAllUsers();
+      timer(1500).subscribe(t => location.href = '/userProfile');
+    });
+  }
+
+  preuzimanjeFormi(tipPlacanja: String,casopis: String){
+
+    return this.http.get('api1/kp/form/'+ tipPlacanja).subscribe(data =>
+      {
+        localStorage.setItem('forma', JSON.stringify(data));
+        localStorage.setItem('naslovCasopisa', JSON.stringify(casopis));
+        localStorage.setItem('dugmeTip', JSON.stringify(tipPlacanja));
+        location.href = '/genforme';
+      })
+  }
+
+  dodajNoviServis(target){
+    const nazivServisa = target.querySelector('input[name=\'nazivServisa\']').value.toUpperCase();
+
+    return this.http.post('api1/tipPlacanja/noviServis', { naziv: nazivServisa }).subscribe(data =>
+      {
+        Swal.fire({
+          position: 'top-end',
+          icon: 'success',
+          title: 'Dodat novi servis',
+          showConfirmButton: false,
+          timer: 2000
+        });
+        this.ncServise.getTipoviPlacanja();
+        timer(2000).subscribe(t => location.href = '/userProfile');
+      });
+
+  }
+
 }

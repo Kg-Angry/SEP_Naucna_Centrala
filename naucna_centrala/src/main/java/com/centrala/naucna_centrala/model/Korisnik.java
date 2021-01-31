@@ -48,20 +48,47 @@ public class Korisnik {
     @Column(name ="aktiviran_nalog", nullable = false, length=255)
     private boolean aktiviran_nalog;
 
+    //provera da li je pri registraciji cekirao da bude i recenzent
+    @Column(name="cekirao_recenzent")
+    private boolean recenzent;
+
+    @ManyToMany
+    @JoinTable(
+            name="korisnik_naucneoblasti",
+            joinColumns = @JoinColumn( name = "korisnik_id"),
+            inverseJoinColumns = @JoinColumn (name = "naucna_oblast_id")
+    )
+    private Set<Naucna_oblast> naucne_oblasti;
+
     //lista casopisa koje ima glavni urednik
     @OneToMany(mappedBy = "id", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     private Set<Naucni_casopis> id_casopisa = new HashSet<>();
 
     //vise recenzenata na vise naucnih casopisa
-    @ManyToMany(mappedBy = "recenzent", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    @ManyToMany
+    @JoinTable(
+            name="recenzent_naucniCasopis",
+            joinColumns = @JoinColumn( name = "korisnik_id"),
+            inverseJoinColumns = @JoinColumn (name = "naucni_casopis_id")
+    )
     private Set<Naucni_casopis> recenzenti = new HashSet<>();
+
+    @ManyToOne
+    private Naucni_casopis urednik_casopisa;
+
+    @OneToOne
+    private Korpa korpa;
+
+    @ManyToMany(fetch = FetchType.EAGER,cascade = CascadeType.ALL)
+    @JoinTable(name="korisnik_role",joinColumns = {@JoinColumn(name = "user_id")},inverseJoinColumns = {@JoinColumn(name = "id")})
+    private Set<Role> roles;
 
     public Korisnik()
     {
 
     }
 
-    public Korisnik(String ime, String prezime, String grad, String drzava, String titula, String email, String korisnickoIme, String lozinka, TipKorisnika tipKorisnika, boolean aktiviran_nalog, Set<Naucni_casopis> id_casopisa, Set<Naucni_casopis> recenzenti) {
+    public Korisnik(String ime, String prezime, String grad, String drzava, String titula, String email, String korisnickoIme, String lozinka, TipKorisnika tipKorisnika, boolean aktiviran_nalog, Set<Naucni_casopis> id_casopisa, Set<Naucni_casopis> recenzenti, Set<Naucna_oblast> naucne_oblasti, boolean recenzent) {
         this.ime = ime;
         this.prezime = prezime;
         this.grad = grad;
@@ -73,7 +100,9 @@ public class Korisnik {
         this.tipKorisnika = tipKorisnika;
         this.aktiviran_nalog = aktiviran_nalog;
         this.id_casopisa = id_casopisa;
+        this.naucne_oblasti = naucne_oblasti;
         this.recenzenti = recenzenti;
+        this.recenzent = recenzent;
 
     }
 
@@ -179,5 +208,45 @@ public class Korisnik {
 
     public void setRecenzenti(Set<Naucni_casopis> recenzenti) {
         this.recenzenti = recenzenti;
+    }
+
+    public boolean isRecenzent() {
+        return recenzent;
+    }
+
+    public void setRecenzent(boolean recenzent) {
+        this.recenzent = recenzent;
+    }
+
+    public Set<Naucna_oblast> getNaucne_oblasti() {
+        return naucne_oblasti;
+    }
+
+    public void setNaucne_oblasti(Set<Naucna_oblast> naucne_oblasti) {
+        this.naucne_oblasti = naucne_oblasti;
+    }
+
+    public Naucni_casopis getUrednik_casopisa() {
+        return urednik_casopisa;
+    }
+
+    public void setUrednik_casopisa(Naucni_casopis urednik_casopisa) {
+        this.urednik_casopisa = urednik_casopisa;
+    }
+
+    public Korpa getKorpa() {
+        return korpa;
+    }
+
+    public void setKorpa(Korpa korpa) {
+        this.korpa = korpa;
+    }
+
+    public Set<Role> getRoles() {
+        return roles;
+    }
+
+    public void setRoles(Set<Role> roles) {
+        this.roles = roles;
     }
 }

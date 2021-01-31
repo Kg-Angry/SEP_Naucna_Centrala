@@ -1,4 +1,11 @@
 {
+  "/api3/*":
+  {
+    "target":"http://localhost:8083",
+    "secure": false,
+    "logLevel": "debug",
+    "changeOrigin": true
+  },
   "/api2/*":
   {
     "target":"http://localhost:8082",
@@ -8,14 +15,14 @@
   },
   "/api1/*":
   {
-    "target":"http://localhost:8081",
+    "target":"https://localhost:8081",
     "secure": false,
     "logLevel": "debug",
     "changeOrigin": true
   },
   "/api/*":
   {
-    "target":"http://localhost:8080",
+    "target":"https://localhost:8080",
     "secure": false,
     "logLevel": "debug",
     "changeOrigin": true

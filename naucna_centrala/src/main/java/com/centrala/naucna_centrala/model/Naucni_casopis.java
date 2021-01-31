@@ -26,17 +26,11 @@ public class Naucni_casopis {
     @Enumerated(EnumType.STRING)
     private TipCasopisa tipCasopisa;
 
-    @ElementCollection(targetClass = TipPlacanja.class)
-    @JoinTable(name = "tipovi_placanja", joinColumns = @JoinColumn(name = "id"))
-    @Column(name = "tip_placanja", nullable = false)
-    @Enumerated(EnumType.STRING)
-    private List<TipPlacanja> tipoviPlacanja = new ArrayList<>();
-
     //glavni urednik je samo 1 na casopisu
     @ManyToOne
     private Korisnik glavni_urednik;
 
-    @OneToMany(mappedBy = "id", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    @OneToMany(mappedBy = "urednik_casopisa", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     private Set<Korisnik> urednici = new HashSet<>();
 
     //casopis -> recenzent
@@ -60,23 +54,30 @@ public class Naucni_casopis {
     @Column(name = "status",nullable = false, length = 255)
     private boolean status;
 
+    @Column(name="dopuniti",nullable = false)
+    private boolean dopuniti;
+
     @Column(name="cena",nullable = false,length = 255)
     private Double cena;
+
+    @OneToMany(mappedBy = "naucniCasopis", cascade = CascadeType.ALL)
+    private Set<UnosZaTipovePlacanja> unosTipova = new HashSet<>();
 
     public Naucni_casopis() {
     }
 
-    public Naucni_casopis(String naziv, int issn, TipCasopisa tipCasopisa, List<TipPlacanja> tipoviPlacanja, Korisnik glavni_urednik, Set<Korisnik> urednici, Set<Korisnik> recenzent, Set<Naucna_oblast> naucna_oblast, boolean status, double cena) {
+    public Naucni_casopis(String naziv, int issn, TipCasopisa tipCasopisa, Korisnik glavni_urednik, Set<Korisnik> urednici, Set<Korisnik> recenzent, Set<Naucna_oblast> naucna_oblast, boolean status,boolean dopuniti, double cena, Set<UnosZaTipovePlacanja> unosTipova) {
         this.naziv = naziv;
         this.issn = issn;
         this.tipCasopisa = tipCasopisa;
-        this.tipoviPlacanja = tipoviPlacanja;
+        this.dopuniti = dopuniti;
         this.glavni_urednik = glavni_urednik;
         this.urednici = urednici;
         this.recenzent = recenzent;
         this.naucna_oblast = naucna_oblast;
         this.status = status;
         this.cena = cena;
+        this.unosTipova = unosTipova;
     }
 
     public Long getId() {
@@ -109,14 +110,6 @@ public class Naucni_casopis {
 
     public void setTipCasopisa(TipCasopisa tipCasopisa) {
         this.tipCasopisa = tipCasopisa;
-    }
-
-    public List<TipPlacanja> getTipoviPlacanja() {
-        return tipoviPlacanja;
-    }
-
-    public void setTipoviPlacanja(List<TipPlacanja> tipoviPlacanja) {
-        this.tipoviPlacanja = tipoviPlacanja;
     }
 
     public Korisnik getGlavni_urednik() {
@@ -165,5 +158,21 @@ public class Naucni_casopis {
 
     public void setCena(Double cena) {
         this.cena = cena;
+    }
+
+    public boolean isDopuniti() {
+        return dopuniti;
+    }
+
+    public void setDopuniti(boolean dopuniti) {
+        this.dopuniti = dopuniti;
+    }
+
+    public Set<UnosZaTipovePlacanja> getUnosTipova() {
+        return unosTipova;
+    }
+
+    public void setUnosTipova(Set<UnosZaTipovePlacanja> unosTipova) {
+        this.unosTipova = unosTipova;
     }
 }

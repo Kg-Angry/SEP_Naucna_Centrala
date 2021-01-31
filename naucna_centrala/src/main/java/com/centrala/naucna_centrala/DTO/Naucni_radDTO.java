@@ -16,13 +16,15 @@ public class Naucni_radDTO {
     private Naucna_oblastDTO oblast_pripadanja;
     private String putanja_upload_fajla;
     private Naucni_casopisDTO naucni_casopis;
+    private KorisnikDTO autor;
+    private double cena;
 
     public Naucni_radDTO()
     {
 
     }
 
-    public Naucni_radDTO(Long id, String naslov, Set<Korisnik> koautori, String kljucni_pojmovi, String apstrakt, Naucna_oblast oblast_pripadanja, String putanja_upload_fajla, Naucni_casopis naucni_casopis) {
+    public Naucni_radDTO(Long id, String naslov, Set<Korisnik> koautori, String kljucni_pojmovi, String apstrakt, Naucna_oblast oblast_pripadanja, String putanja_upload_fajla, Naucni_casopis naucni_casopis, Korisnik autor, double cena) {
         this.id = id;
         this.naslov = naslov;
         for(Korisnik k : koautori)
@@ -34,11 +36,13 @@ public class Naucni_radDTO {
         this.oblast_pripadanja = new Naucna_oblastDTO(oblast_pripadanja);
         this.putanja_upload_fajla = putanja_upload_fajla;
         this.naucni_casopis = new Naucni_casopisDTO(naucni_casopis);
+        this.autor = new KorisnikDTO(autor);
+        this.cena=cena;
     }
 
     public Naucni_radDTO(Naucni_rad nr)
     {
-        this(nr.getId(),nr.getNaslov(),nr.getKoautori(),nr.getKljucni_pojmovi(),nr.getApstrakt(),nr.getOblast_pripadanja(),nr.getPutanja_upload_fajla(),nr.getNaucni_casopis());
+        this(nr.getId(),nr.getNaslov(),nr.getKoautori(),nr.getKljucni_pojmovi(),nr.getApstrakt(),nr.getOblast_pripadanja(),nr.getPutanja_upload_fajla(),nr.getNaucni_casopis(),nr.getAutor(),nr.getCena());
     }
 
     public Long getId() {
@@ -103,5 +107,21 @@ public class Naucni_radDTO {
 
     public void setNaucni_casopis(Naucni_casopisDTO naucni_casopis) {
         this.naucni_casopis = naucni_casopis;
+    }
+
+    public KorisnikDTO getAutor() {
+        return autor;
+    }
+
+    public void setAutor(KorisnikDTO autor) {
+        this.autor = autor;
+    }
+
+    public double getCena() {
+        return cena;
+    }
+
+    public void setCena(double cena) {
+        this.cena = cena;
     }
 }

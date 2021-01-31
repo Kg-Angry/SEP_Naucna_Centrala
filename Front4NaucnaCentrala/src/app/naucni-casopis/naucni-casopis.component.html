@@ -27,18 +27,24 @@
         <div class="row tab-pane fade in active" id="home">
           <div class="shop-single-product-area">
             <div class="col-md-4 col-sm-6" *ngFor="let c of casopisi" >
-              <div class="single-banner">
+              <div class="single-banner" *ngIf="c.status === true">
                 <div class="product-wrapper">
                   <a href="#" class="single-banner-image-wrapper">
                     <img alt="" width="200px" height="200px" src="/src/assets/img/casopis.png">
                     <div class="price"><span>$</span>{{c.cena}}</div>
                   </a>
-                  <div class="product-description">
-                    <div class="functional-buttons">
-                      <a data-toggle="modal" data-target="#exampleModal" (click)="PlatiCasopis(c)" title="Add to Cart">
-                        <i class="fa fa-shopping-cart"></i>
-                      </a>
+                  <div class="product-description" *ngIf="korisnik !== null">
+                    <div>
+                      <div class="functional-buttons">
+                        <a *ngIf="c.tipCasopisa === 'SA_PRETPLATOM'"  (click)="pretplatiSe(c)" title="Pretplati se na casopis">
+                          <i class="fa fa-shopping-cart"></i>
+                        </a>
+                        <a (click)="uKorpu(c)" title="Dodaj u korpu casopis">
+                          <i class="fa fa-plus"></i>
+                        </a>
+                      </div>
                     </div>
+
                   </div>
                 </div>
                 <div class="banner-bottom text-center">

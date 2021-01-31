@@ -26,115 +26,24 @@
     <div class="tab-content">
       <div class="row tab-pane fade in active" id="home">
         <div class="shop-single-product-area">
-          <div class="col-md-4 col-sm-6">
+          <div class="col-md-4 col-sm-6" *ngFor="let r of radovi">
             <div class="single-banner">
               <div class="product-wrapper">
                 <a href="#" class="single-banner-image-wrapper">
-                  <img alt="" width="200px" height="200px" src="/src/assets/img/avatar-01.jpg">
+                  <img alt="" width="200px" height="200px" src="/src/assets/img/rad.png">
+                  <div class="price"><span>$</span>{{r.cena}}</div>
                 </a>
                 <div class="product-description">
                   <div class="functional-buttons">
-                    <a href="#" title="Add to Cart">
-                      <i class="fa fa-shopping-cart"></i>
+                    <a (click)="uKorpu(r)" title="Dodaj u korpu casopis">
+                      <i class="fa fa-plus"></i>
                     </a>
                   </div>
                 </div>
               </div>
               <div class="banner-bottom text-center">
                 <div class="banner-bottom-title">
-                  <a href="#">East of eden</a>
-                </div>
-              </div>
-            </div>
-          </div>
-          <div class="col-md-4 col-sm-6">
-            <div class="single-banner">
-              <div class="product-wrapper">
-                <a href="#" class="single-banner-image-wrapper">
-                  <img alt="" width="200px" height="200px" src="/src/assets/img/avatar-01.jpg">
-
-                </a>
-                <div class="product-description">
-                  <div class="functional-buttons">
-                    <a href="#" title="Add to Cart">
-                      <i class="fa fa-shopping-cart"></i>
-                    </a>
-                  </div>
-                </div>
-              </div>
-              <div class="banner-bottom text-center">
-                <div class="banner-bottom-title">
-                  <a href="#">People of the book</a>
-                </div>
-              </div>
-            </div>
-          </div>
-          <div class="col-md-4 col-sm-6">
-            <div class="single-banner">
-              <div class="product-wrapper">
-                <a href="#" class="single-banner-image-wrapper">
-                  <img alt="" width="200px" height="200px" src="/src/assets/img/avatar-01.jpg">
-                  <div class="price"><span>$</span>160</div>
-                </a>
-                <div class="product-description">
-                  <div class="functional-buttons">
-                    <a href="#" title="Add to Cart">
-                      <i class="fa fa-shopping-cart"></i>
-                    </a>
-                    <a href="#" title="Add to Wishlist">
-                      <i class="fa fa-heart-o"></i>
-                    </a>
-                    <a href="#" title="Quick view" data-toggle="modal" data-target="#productModal">
-                      <i class="fa fa-compress"></i>
-                    </a>
-                  </div>
-                </div>
-              </div>
-              <div class="banner-bottom text-center">
-                <div class="banner-bottom-title">
-                  <a href="#">The secret letter</a>
-                </div>
-                <div class="rating-icon">
-                  <i class="fa fa-star icolor"></i>
-                  <i class="fa fa-star icolor"></i>
-                  <i class="fa fa-star icolor"></i>
-                  <i class="fa fa-star"></i>
-                  <i class="fa fa-star"></i>
-                </div>
-              </div>
-            </div>
-          </div>
-          <div class="col-md-4 col-sm-6">
-            <div class="single-banner">
-              <div class="product-wrapper">
-                <a href="#" class="single-banner-image-wrapper">
-                  <img alt="" width="200px" height="200px" src="/src/assets/img/avatar-01.jpg">
-                  <div class="price"><span>$</span>160</div>
-                </a>
-                <div class="product-description">
-                  <div class="functional-buttons">
-                    <a href="#" title="Add to Cart">
-                      <i class="fa fa-shopping-cart"></i>
-                    </a>
-                    <a href="#" title="Add to Wishlist">
-                      <i class="fa fa-heart-o"></i>
-                    </a>
-                    <a href="#" title="Quick view" data-toggle="modal" data-target="#productModal">
-                      <i class="fa fa-compress"></i>
-                    </a>
-                  </div>
-                </div>
-              </div>
-              <div class="banner-bottom text-center">
-                <div class="banner-bottom-title">
-                  <a href="#">Lone some dove</a>
-                </div>
-                <div class="rating-icon">
-                  <i class="fa fa-star icolor"></i>
-                  <i class="fa fa-star icolor"></i>
-                  <i class="fa fa-star icolor"></i>
-                  <i class="fa fa-star"></i>
-                  <i class="fa fa-star"></i>
+                  {{r.naslov}}
                 </div>
               </div>
             </div>
@@ -143,45 +52,33 @@
       </div>
       <div id="menu1" class="tab-pane fade">
         <div class="row">
-          <div class="single-shop-product">
+          <div class="single-shop-product" *ngFor="let r of radovi">
             <div class="col-xs-12 col-sm-5 col-md-4">
               <div class="left-item">
-                <a href="single-product.html" title="East of eden">
-                  <img alt="" width="autp" height="auto" src="/src/assets/img/avatar-01.jpg">
+                <a href="single-product.html" title="{{r.naslov}}">
+                  <img alt="" width="autp" height="auto" src="/src/assets/img/rad.png">
                 </a>
               </div>
             </div>
             <div class="col-xs-12 col-sm-7 col-md-8">
               <div class="deal-product-content">
                 <h4>
-                  <a href="single-product.html" title="East of eden">East of eden</a>
+                  <a href="single-product.html" title="{{r.naslov}}">{{r.naslov}}</a>
                 </h4>
-                <p>Faded short sleeves t-shirt with high neckline. Soft and stretchy material for a comfortable fit.
-                  Accessorize with a straw hat and you're ready for summer!</p>
-                <div class="availability">
-                  <span><a href="/">Add to cart</a></span>
-                </div>
-              </div>
-            </div>
-          </div>
-          <div class="single-shop-product">
-            <div class="col-xs-12 col-sm-5 col-md-4">
-              <div class="left-item">
-                <a href="single-product.html" title="People of the book">
-                  <img alt="" width="auto" height="auto" src="/src/assets/img/avatar-01.jpg">
-                </a>
-              </div>
-            </div>
-            <div class="col-xs-12 col-sm-7 col-md-8">
-              <div class="deal-product-content">
-                <h4>
-                  <a href="single-product.html" title="People of the book">People of the book</a>
-                </h4>
-                <p>Faded short sleeves t-shirt with high neckline. Soft and stretchy material for a comfortable fit.
-                  Accessorize with a straw hat and you're ready for summer!</p>
-                <div class="availability">
-                  <span><a href="/">Add to cart</a></span>
-                </div>
+                <h5>Naziv: {{r.naslov}}</h5>
+                  <h5>------------------</h5>
+                  <h5>Koautor: <h6 *ngFor="let k of r.koautor">{{k.ime}}</h6></h5>
+                  <h5>------------------</h5>
+                  <h5>Kljucni pojmovi: {{r.kljucni_pojmovi}}</h5>
+                  <h5>------------------</h5>
+                  <h5>Naziv casopisa: {{r.naucni_casopis.naziv}}</h5>
+                  <h5>------------------</h5>
+                  <h5>Naucna oblast: {{r.oblast_pripadanja.naziv}}</h5>
+                  <h5>------------------</h5>
+                  <h5>Apstrakt: {{r.apstrakt}}</h5>
+                  <h5>------------------</h5>
+                  <h5>Cena: {{r.cena}}$</h5>
+                  <h5>------------------</h5>
               </div>
             </div>
           </div>

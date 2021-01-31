@@ -21,7 +21,7 @@ export class RegistrationService {
 
   constructor(private http: HttpClient, private userService: UserProfileService) { }
 
-  Registracija(target, recenzent, uloga) {
+  Registracija(target, recenzent, uloga, naucne_oblasti) {
     this.ime = target.querySelector('input[name=\'ime\']').value;
     this.prezime = target.querySelector('input[name=\'prezime\']').value;
     this.grad = target.querySelector('input[name=\'grad\']').value;
@@ -33,7 +33,7 @@ export class RegistrationService {
 
    return this.http.post('api/korisnik/registracijaKorisnika', {ime: this.ime, prezime: this.prezime, grad: this.grad,
     drzava: this.drzava, titula: this.titula, email: this.email, korisnicko_ime: this.korisnicko_ime,
-     lozinka: this.lozinka, tipKorisnika: uloga})
+     lozinka: this.lozinka, recenzent: recenzent, tipKorisnika: uloga, naucne_oblasti: naucne_oblasti})
     .subscribe(data => {Swal.fire({
       position: 'top-end',
       icon: 'success',
@@ -45,23 +45,16 @@ export class RegistrationService {
   );
   }
 
-  RegistracijaAdmin(target, recenzent, uloga) {
-    this.ime = target.querySelector('input[name=\'ime\']').value;
-    this.prezime = target.querySelector('input[name=\'prezime\']').value;
-    this.grad = target.querySelector('input[name=\'grad\']').value;
-    this.drzava = target.querySelector('input[name=\'drzava\']').value;
-    this.titula = target.querySelector('input[name=\'titula\']').value;
-    this.email = target.querySelector('input[name=\'email\']').value;
-    this.korisnicko_ime = target.querySelector('input[name=\'korisnicko_ime\']').value;
-    this.lozinka = target.querySelector('input[name=\'lozinka\']').value;
+  RegistracijaAdmin(ime, prezime, grad, drzava, titula, email, korisnicko_ime, lozinka, uloga , naucne_oblasti) {
 
-   return this.http.post('api/korisnik/registracijaKorisnika', {ime: this.ime, prezime: this.prezime, grad: this.grad,
-    drzava: this.drzava, titula: this.titula, email: this.email, korisnicko_ime: this.korisnicko_ime,
-     lozinka: this.lozinka, tipKorisnika: uloga})
-    .subscribe(data => {Swal.fire({
+   return this.http.post('api/korisnik/registracijaKorisnika', {ime: ime, prezime: prezime, grad: grad,
+    drzava: drzava, titula: titula, email: email, korisnicko_ime: korisnicko_ime,
+     lozinka: lozinka, tipKorisnika: uloga, naucne_oblasti: naucne_oblasti})
+    .subscribe(data => {
+      Swal.fire({
       position: 'top-end',
       icon: 'success',
-      title: 'Uspesno ste se registrovali novog korisnika',
+      title: 'Uspesno ste se registrovali UREDNIKA',
       showConfirmButton: false,
       timer: 2500
     });

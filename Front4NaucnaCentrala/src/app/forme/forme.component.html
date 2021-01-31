@@ -1,0 +1,29 @@
+<div class="limiter">
+  <div class="container-login100">
+    <div class="wrap-login100 p-t-85 p-b-20">
+      <form class="login100-form validate-form" (submit)="PopunjeniPodaci($event)" >
+        <span class="login100-form-title p-b-70">
+          {{forma.naziv}}
+        </span>
+
+        <div class="wrap-input100 validate-input m-t-85 m-b-35">
+        <input class="input100" type="text" name="casopisUsername" value="{{naslovCasopisa}}" disabled>
+          <span class="focus-input100">Naziv casopisa</span>
+        </div>
+        <div *ngFor="let filed of forma.fields"   class="wrap-input100 validate-input m-b-50">
+          <input *ngIf="filed.fieldTypeName === 'String'"  class="input100" type="text" name="{{filed.fieldLabel}}">
+          <input *ngIf="filed.fieldTypeName === 'Password'"  class="input100" type="password" name="{{filed.fieldLabel}}">
+          <input *ngIf="filed.fieldTypeName === 'Image'" type="file" name="{{filed.fieldLabel}}">
+          <span  *ngIf="filed.fieldTypeName !== 'Image'" class="focus-input100">{{filed.fieldLabel}}</span>
+        </div>
+
+        <div class="container-login100-form-btn">
+          <button type="submit" class="login100-form-btn">
+            Potvrdi
+          </button>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>
+

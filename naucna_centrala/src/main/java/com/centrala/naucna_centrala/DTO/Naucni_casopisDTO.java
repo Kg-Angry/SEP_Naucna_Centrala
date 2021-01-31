@@ -10,20 +10,21 @@ public class Naucni_casopisDTO {
     private String naziv;
     private int issn;
     private TipCasopisa tipCasopisa;
-    private List<TipPlacanja> tipoviPlacanja = new ArrayList<>();
     private KorisnikDTO glavni_urednik;
     private Set<KorisnikDTO> urednici = new HashSet<>();
     private Set<KorisnikDTO> recenzent = new HashSet<>();
     private Set<Naucna_oblastDTO> naucna_oblast = new HashSet<>();
     private boolean status;
+    private boolean dopuniti;
     private Double cena;
+    private Set<UnosZaTipovePlacanjaDTO> unosTipova = new HashSet<>();
 
     public Naucni_casopisDTO()
     {
 
     }
 
-    public Naucni_casopisDTO(Long id, String naziv, int issn, TipCasopisa tipCasopisa, Korisnik glavni_urednik, Set<Korisnik> urednici, Set<Korisnik> recenzent, Set<Naucna_oblast> naucna_oblast, boolean status, List<TipPlacanja> tipoviPlacanja, double cena) {
+    public Naucni_casopisDTO(Long id, String naziv, int issn, TipCasopisa tipCasopisa, Korisnik glavni_urednik, Set<Korisnik> urednici, Set<Korisnik> recenzent, Set<Naucna_oblast> naucna_oblast, boolean status, double cena,boolean dopuniti, Set<UnosZaTipovePlacanja> unosZaTipovePlacanja) {
         this.id = id;
         this.naziv = naziv;
         this.issn = issn;
@@ -42,17 +43,18 @@ public class Naucni_casopisDTO {
             this.naucna_oblast.add(new Naucna_oblastDTO(n));
         }
 
-        for(TipPlacanja p : tipoviPlacanja) {
-            this.tipoviPlacanja.add(p);
-
-        }
         this.status = status;
+        this.dopuniti=dopuniti;
         this.cena=cena;
+        for(UnosZaTipovePlacanja u : unosZaTipovePlacanja)
+        {
+            this.unosTipova.add(new UnosZaTipovePlacanjaDTO(u));
+        }
     }
 
     public Naucni_casopisDTO(Naucni_casopis nc)
     {
-        this(nc.getId(),nc.getNaziv(),nc.getIssn(),nc.getTipCasopisa(),nc.getGlavni_urednik(),nc.getUrednici(),nc.getRecenzent(),nc.getNaucna_oblast(),nc.isStatus(),nc.getTipoviPlacanja(),nc.getCena());
+        this(nc.getId(),nc.getNaziv(),nc.getIssn(),nc.getTipCasopisa(),nc.getGlavni_urednik(),nc.getUrednici(),nc.getRecenzent(),nc.getNaucna_oblast(),nc.isStatus(),nc.getCena(),nc.isDopuniti(),nc.getUnosTipova());
     }
 
     public Long getId() {
@@ -127,19 +129,27 @@ public class Naucni_casopisDTO {
         this.status = status;
     }
 
-    public List<TipPlacanja> getTipoviPlacanja() {
-        return tipoviPlacanja;
-    }
-
-    public void setTipoviPlacanja(List<TipPlacanja> tipoviPlacanja) {
-        this.tipoviPlacanja = tipoviPlacanja;
-    }
-
     public Double getCena() {
         return cena;
     }
 
     public void setCena(Double cena) {
         this.cena = cena;
+    }
+
+    public boolean isDopuniti() {
+        return dopuniti;
+    }
+
+    public void setDopuniti(boolean dopuniti) {
+        this.dopuniti = dopuniti;
+    }
+
+    public Set<UnosZaTipovePlacanjaDTO> getUnosTipova() {
+        return unosTipova;
+    }
+
+    public void setUnosTipova(Set<UnosZaTipovePlacanjaDTO> unosTipova) {
+        this.unosTipova = unosTipova;
     }
 }
